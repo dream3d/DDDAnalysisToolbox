@@ -164,25 +164,30 @@ void LocalDislocationDensityCalculator::dataCheck()
   if(getErrorCondition() < 0) { return; }
 
   // Next check the existing DataContainer/AttributeMatrix
-DataContainer::Pointer m = getDataContainerArray()->getPrereqDataContainer<AbstractFilter>(this, getEdgeDataContainerName());
+  DataContainer::Pointer m = getDataContainerArray()->getPrereqDataContainer<AbstractFilter>(this, getEdgeDataContainerName());
   if(getErrorCondition() < 0) { return; }
 
+  EdgeGeom::Pointer edges = m->getPrereqGeometry<EdgeGeom, AbstractFilter>(this);
   // We MUST have Vertices defined.
-  if(m->getVertices().get() == NULL)
+  if(edges->getVertices().get() == NULL)
   {
     setErrorCondition(-384);
-    notifyErrorMessage(getHumanLabel(), "Edge DataContainer missing Vertices", getErrorCondition());
+    notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Vertices", getErrorCondition());
   }
   // We MUST have Edges defined also.
-  if(m->getEdges().get() == NULL)
+  if(edges->getEdges().get() == NULL)
   {
     setErrorCondition(-384);
-    notifyErrorMessage(getHumanLabel(), "Edge DataContainer missing Edges", getErrorCondition());
+    notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Edges", getErrorCondition());
   }
 
   // Create a new DataContainer
   DataContainer::Pointer m2 = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getOutputDataContainerName());
   if(getErrorCondition() < 0) { return; }
+
+  //Create the voxel geometry to hold the local densities
+  ImageGeom::Pointer image = ImageGeom::CreateGeometry(DREAM3D::Geometry::ImageGeometry);
+  m->setGeometry(image);
 
   //Create the cell attrMat in the new data container
   QVector<size_t> tDims(3, 0);
@@ -208,12 +213,6 @@ void LocalDislocationDensityCalculator::preflight()
   dataCheck();
   emit preflightExecuted();
   setInPreflight(false);
-
-  /* *** THIS FILTER NEEDS TO BE CHECKED *** */
-  setErrorCondition(0xABABABAB);
-  QString ss = QObject::tr("Filter is NOT updated for IGeometry Redesign. A Programmer needs to check this filter. Please report this to the DREAM3D developers.");
-  notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
-  /* *** THIS FILTER NEEDS TO BE CHECKED *** */
 }
 
 // -----------------------------------------------------------------------------
@@ -229,14 +228,12 @@ void LocalDislocationDensityCalculator::execute()
   DataContainer::Pointer edc = getDataContainerArray()->getDataContainer(getEdgeDataContainerName());
   DataContainer::Pointer vdc = getDataContainerArray()->getDataContainer(getOutputDataContainerName());
   AttributeMatrix::Pointer cellAttrMat = vdc->getAttributeMatrix(getOutputAttributeMatrixName());
+  EdgeGeom::Pointer edgeGeom = edc->getGeometryAs<EdgeGeom>();
 
-  VertexArray::Pointer nodesPtr = edc->getVertices();
-  size_t numNodes = nodesPtr->getNumberOfTuples();
-  VertexArray::Vert_t* nodes = nodesPtr->getPointer(0);
-
-  EdgeArray::Pointer edgesPtr = edc->getEdges();
-  size_t numEdges = edgesPtr->getNumberOfTuples();
-  EdgeArray::Edge_t* edges = edgesPtr->getPointer(0);
+  float* nodes = edgeGeom->getVertexPointer(0);
+  int64_t* edge = edgeGeom->getEdgePointer(0);
+  size_t numNodes = edgeGeom->getNumberOfVertices();
+  size_t numEdges = edgeGeom->getNumberOfEdges();
 
   float xMin = 1000000000.0;
   float yMin = 1000000000.0;
@@ -247,9 +244,9 @@ void LocalDislocationDensityCalculator::execute()
   float x, y, z;
   for(size_t i = 0; i < numNodes; i++)
   {
-    x = nodes[i].pos[0];
-    y = nodes[i].pos[1];
-    z = nodes[i].pos[2];
+    x = nodes[3*i+0];
+    y = nodes[3*i+1];
+    z = nodes[3*i+2];
     if(x < xMin) { xMin = x; }
     if(x > xMax) { xMax = x; }
     if(y < yMin) { yMin = y; }
@@ -267,13 +264,13 @@ void LocalDislocationDensityCalculator::execute()
   quarterCellSize.y = (m_CellSize.y / 4.0);
   quarterCellSize.z = (m_CellSize.z / 4.0);
 
-  /* FIXME: ImageGeom */ vdc->getGeometryAs<ImageGeom>()->setOrigin(xMin, yMin, zMin);
+  vdc->getGeometryAs<ImageGeom>()->setOrigin(xMin, yMin, zMin);
   size_t dcDims[3];
   dcDims[0] = size_t((xMax - xMin) / halfCellSize.x);
   dcDims[1] = size_t((yMax - yMin) / halfCellSize.y);
   dcDims[2] = size_t((zMax - zMin) / halfCellSize.z);
-  /* FIXME: ImageGeom */ vdc->getGeometryAs<ImageGeom>()->setDimensions(dcDims[0], dcDims[1], dcDims[2]);
-  /* FIXME: ImageGeom */ vdc->getGeometryAs<ImageGeom>()->setResolution(m_CellSize.x / 2.0, m_CellSize.y / 2.0, m_CellSize.z / 2.0);
+  vdc->getGeometryAs<ImageGeom>()->setDimensions(dcDims[0], dcDims[1], dcDims[2]);
+  vdc->getGeometryAs<ImageGeom>()->setResolution(m_CellSize.x / 2.0, m_CellSize.y / 2.0, m_CellSize.z / 2.0);
 
   QVector<size_t> tDims(3, 0);
   tDims[0] = dcDims[0];
@@ -282,7 +279,7 @@ void LocalDislocationDensityCalculator::execute()
   cellAttrMat->resizeAttributeArrays(tDims);
   updateCellInstancePointers();
 
-  VertexArray::Vert_t point1, point2, corner1, corner2;
+  float point1[3], point2[3], corner1[3], corner2[3];
   size_t xCellMin, xCellMax;
   size_t yCellMin, yCellMax;
   size_t zCellMin, zCellMax;
@@ -291,14 +288,18 @@ void LocalDislocationDensityCalculator::execute()
   float length;
   for(size_t i = 0; i < numEdges; i++)
   {
-    point1 = nodes[edges[i].verts[0]];
-    point2 = nodes[edges[i].verts[1]];
-    x1 = (point1.pos[0] - xMin);
-    y1 = (point1.pos[1] - yMin);
-    z1 = (point1.pos[2] - zMin);
-    x2 = (point2.pos[0] - xMin);
-    y2 = (point2.pos[1] - yMin);
-    z2 = (point2.pos[2] - zMin);
+	point1[0] = nodes[3 * edge[2 * i + 0] + 0];
+	point1[1] = nodes[3 * edge[2 * i + 0] + 1];
+	point1[2] = nodes[3 * edge[2 * i + 0] + 2];
+	point2[0] = nodes[3 * edge[2 * i + 1] + 0];
+	point2[1] = nodes[3 * edge[2 * i + 1] + 1];
+	point2[2] = nodes[3 * edge[2 * i + 1] + 2];
+	x1 = (point1[0] - xMin);
+    y1 = (point1[1] - yMin);
+    z1 = (point1[2] - zMin);
+    x2 = (point2[0] - xMin);
+    y2 = (point2[1] - yMin);
+    z2 = (point2[2] - zMin);
     if(x1 > x2) { xCellMin = size_t(x2 / quarterCellSize.x), xCellMax = size_t(x1 / quarterCellSize.x); }
     else { xCellMin = size_t(x1 / quarterCellSize.x), xCellMax = size_t(x2 / quarterCellSize.x); }
     if(y1 > y2) { yCellMin = size_t(y2 / quarterCellSize.y), yCellMax = size_t(y1 / quarterCellSize.y); }
@@ -314,17 +315,17 @@ void LocalDislocationDensityCalculator::execute()
     for(size_t j = zCellMin; j <= zCellMax; j++)
     {
       zStride = j * tDims[0] * tDims[1];
-      corner1.pos[2] = (j * halfCellSize.z) - halfCellSize.z + quarterCellSize.z + zMin;
-      corner2.pos[2] = (j * halfCellSize.z) + halfCellSize.z + quarterCellSize.z + zMin;
+      corner1[2] = (j * halfCellSize.z) - halfCellSize.z + quarterCellSize.z + zMin;
+      corner2[2] = (j * halfCellSize.z) + halfCellSize.z + quarterCellSize.z + zMin;
       for(size_t k = yCellMin; k <= yCellMax; k++)
       {
         yStride = k * tDims[0];
-        corner1.pos[1] = (k * halfCellSize.y) - halfCellSize.y + quarterCellSize.y + yMin;
-        corner2.pos[1] = (k * halfCellSize.y) + halfCellSize.y + quarterCellSize.y + yMin;
+        corner1[1] = (k * halfCellSize.y) - halfCellSize.y + quarterCellSize.y + yMin;
+        corner2[1] = (k * halfCellSize.y) + halfCellSize.y + quarterCellSize.y + yMin;
         for(size_t l = xCellMin; l <= xCellMax; l++)
         {
-          corner1.pos[0] = (l * halfCellSize.x) - halfCellSize.x + quarterCellSize.x + xMin;
-          corner2.pos[0] = (l * halfCellSize.x) + halfCellSize.x + quarterCellSize.x + xMin;
+          corner1[0] = (l * halfCellSize.x) - halfCellSize.x + quarterCellSize.x + xMin;
+          corner2[0] = (l * halfCellSize.x) + halfCellSize.x + quarterCellSize.x + xMin;
           length = GeometryMath::LengthOfRayInBox(point1, point2, corner1, corner2);
           m_OutputArray[zStride + yStride + l] += length;
         }

@@ -140,23 +140,24 @@ void IdentifyDislocationSegments::dataCheck()
   setErrorCondition(0);
 
   // Next check the existing DataContainer/AttributeMatrix
-DataContainer::Pointer m = getDataContainerArray()->getPrereqDataContainer<AbstractFilter>(this, getBurgersVectorsArrayPath().getDataContainerName());
+  DataContainer::Pointer m = getDataContainerArray()->getPrereqDataContainer<AbstractFilter>(this, getBurgersVectorsArrayPath().getDataContainerName());
   if(getErrorCondition() < 0) { return; }
   QVector<size_t> tDims(1, 0);
   AttributeMatrix::Pointer edgeFeatureAttrMat = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getEdgeFeatureAttributeMatrixName(), tDims, DREAM3D::AttributeMatrixType::EdgeFeature);
   if(getErrorCondition() < 0) { return; }
 
+  EdgeGeom::Pointer edges = m->getPrereqGeometry<EdgeGeom, AbstractFilter>(this);
   // We MUST have Vertices defined.
-  if(m->getVertices().get() == NULL)
+  if(edges->getVertices().get() == NULL)
   {
     setErrorCondition(-384);
-    notifyErrorMessage(getHumanLabel(), "Edge DataContainer missing Vertices", getErrorCondition());
+    notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Vertices", getErrorCondition());
   }
   // We MUST have Edges defined also.
-  if(m->getEdges().get() == NULL)
+  if(edges->getEdges().get() == NULL)
   {
     setErrorCondition(-384);
-    notifyErrorMessage(getHumanLabel(), "Edge DataContainer missing Edges", getErrorCondition());
+    notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Edges", getErrorCondition());
   }
 
   //Get the name and create the array in the new data attrMat
@@ -189,12 +190,6 @@ void IdentifyDislocationSegments::preflight()
   dataCheck();
   emit preflightExecuted();
   setInPreflight(false);
-
-  /* *** THIS FILTER NEEDS TO BE CHECKED *** */
-  setErrorCondition(0xABABABAB);
-  QString ss = QObject::tr("Filter is NOT updated for IGeometry Redesign. A Programmer needs to check this filter. Please report this to the DREAM3D developers.");
-  notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
-  /* *** THIS FILTER NEEDS TO BE CHECKED *** */
 }
 
 // -----------------------------------------------------------------------------
@@ -207,19 +202,17 @@ void IdentifyDislocationSegments::execute()
   dataCheck();
   if(getErrorCondition() < 0) { return; }
 
-  DataContainer::Pointer edc = getDataContainerArray()->getDataContainer(getBurgersVectorsArrayPath().getDataContainerName());
-  AttributeMatrix::Pointer edgeFeatureAttrMat = edc->getAttributeMatrix(getEdgeFeatureAttributeMatrixName());
+  DataContainer::Pointer m = getDataContainerArray()->getDataContainer(getBurgersVectorsArrayPath().getDataContainerName());
+  AttributeMatrix::Pointer edgeFeatureAttrMat = m->getAttributeMatrix(getEdgeFeatureAttributeMatrixName());
+  EdgeGeom::Pointer edgeGeom = m->getGeometryAs<EdgeGeom>();
 
-  VertexArray::Pointer nodesPtr = edc->getVertices();
-  //size_t numNodes = nodesPtr->getNumberOfTuples();
-  //VertexArray::Vert_t* nodes = nodesPtr->getPointer(0);
+  float* vertex = edgeGeom->getVertexPointer(0);
+  int64_t* edge = edgeGeom->getEdgePointer(0);
+  size_t numEdges = edgeGeom->getNumberOfEdges();
 
-  EdgeArray::Pointer edgesPtr = edc->getEdges();
-  size_t numEdges = edgesPtr->getNumberOfTuples();
-  EdgeArray::Edge_t* edges = edgesPtr->getPointer(0);
+  edgeGeom->findCellsContainingVert();
 
-  edgesPtr->findEdgesContainingVert();
-  Int32DynamicListArray::Pointer edgesContainingVert = edgesPtr->getEdgesContainingVert();
+  DynamicListArray<uint16_t, int64_t>::Pointer edgesContainingVert = edgeGeom->getCellsContainingVert();
 
   int dnum = 0;
   qint32 size = 0;
@@ -255,8 +248,8 @@ void IdentifyDislocationSegments::execute()
         size -= 1;
         for(int iter = 0; iter < 2; iter++)
         {
-          uint16_t eCount = edgesContainingVert->getNumberOfElements(edges[currentEdge].verts[iter]);
-          int32_t* data = edgesContainingVert->getElementListPointer(edges[currentEdge].verts[iter]);
+          uint16_t eCount = edgesContainingVert->getNumberOfElements(edge[2*currentEdge+iter]);
+          int64_t* data = edgesContainingVert->getElementListPointer(edge[2*currentEdge+iter]);
           for(uint16_t j = 0; j < eCount; j++)
           {
             if(m_DislocationIds[data[j]] == 0)

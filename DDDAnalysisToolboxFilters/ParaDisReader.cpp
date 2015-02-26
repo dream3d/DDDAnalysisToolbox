@@ -42,8 +42,6 @@
 
 #include "DREAM3DLib/Math/MatrixMath.h"
 
-#include "IO/IOConstants.h"
-
 
 // -----------------------------------------------------------------------------
 //
@@ -220,8 +218,9 @@ void ParaDisReader::dataCheck()
 
     int error = readHeader();
     //add edges for preflight sake...they will get overwritten when actually reading the file
-    EdgeArray::Pointer edges = EdgeArray::CreateArray(1, DREAM3D::EdgeData::SurfaceMeshEdges, m->getVertices().get());
-    m->setEdges(edges);
+	SharedVertexList::Pointer vertices = EdgeGeom::CreateSharedVertexList(1);
+	EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(1, vertices, DREAM3D::Geometry::EdgeGeometry);
+	m->setGeometry(edgeGeom);
 
     m_InStream.close();
     if (error < 0)
@@ -244,12 +243,6 @@ void ParaDisReader::preflight()
   dataCheck();
   emit preflightExecuted();
   setInPreflight(false);
-
-  /* *** THIS FILTER NEEDS TO BE CHECKED *** */
-  setErrorCondition(0xABABABAB);
-  QString ss = QObject::tr("Filter is NOT updated for IGeometry Redesign. A Programmer needs to check this filter. Please report this to the DREAM3D developers.");
-  notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
-  /* *** THIS FILTER NEEDS TO BE CHECKED *** */
 }
 
 // -----------------------------------------------------------------------------
@@ -343,9 +336,9 @@ int ParaDisReader::readHeader()
       keepgoing = 0;
     }
   }
-
-  VertexArray::Pointer vertices = VertexArray::CreateArray(numVerts, DREAM3D::VertexData::SurfaceMeshNodes);
-  m->setVertices(vertices);
+  
+  EdgeGeom::Pointer edgeGeom = m->getGeometryAs<EdgeGeom>();
+  edgeGeom->resizeVertexList(numVerts);
 
   QVector<size_t> tDims(1, numVerts);
   vertexAttrMat->resizeAttributeArrays(tDims);
@@ -366,9 +359,11 @@ int ParaDisReader::readFile()
   QList<QByteArray> tokens; /* vector to store the split data */
   QList<QByteArray> subTokens; /* vector to store the split data */
 
-  VertexArray::Pointer verticesPtr = m->getVertices();
-  VertexArray::Vert_t* vertex = verticesPtr.get()->getPointer(0);
-  numVerts = verticesPtr->getNumberOfTuples();
+  EdgeGeom::Pointer edgeGeom = m->getGeometryAs<EdgeGeom>();
+  edgeGeom->resizeVertexList(numVerts);
+
+  float* vertex = edgeGeom->getVertexPointer(0);
+  numVerts = edgeGeom->getNumberOfVertices();
 
   bool ok = false;
 
@@ -413,9 +408,9 @@ int ParaDisReader::readFile()
     if(nodeNum == -1)
     {
       nodeNum = nodeCounter;
-      vertex[nodeNum].pos[0] = tokens[1].toFloat(&ok) * m_BurgersVector;
-      vertex[nodeNum].pos[1] = tokens[2].toFloat(&ok) * m_BurgersVector;
-      vertex[nodeNum].pos[2] = tokens[3].toFloat(&ok) * m_BurgersVector;
+      vertex[3*nodeNum+0] = tokens[1].toFloat(&ok) * m_BurgersVector;
+      vertex[3*nodeNum+1] = tokens[2].toFloat(&ok) * m_BurgersVector;
+      vertex[3*nodeNum+2] = tokens[3].toFloat(&ok) * m_BurgersVector;
       m_NumberOfArms[nodeNum] = tokens[4].toInt(&ok, 10);
       m_NodeConstraints[nodeNum] = tokens[5].toInt(&ok, 10);
       vertNumbers.insert(*ptr64, nodeNum);
@@ -423,9 +418,9 @@ int ParaDisReader::readFile()
     }
     else
     {
-      vertex[nodeNum].pos[0] = tokens[1].toFloat(&ok) * m_BurgersVector;
-      vertex[nodeNum].pos[1] = tokens[2].toFloat(&ok) * m_BurgersVector;
-      vertex[nodeNum].pos[2] = tokens[3].toFloat(&ok) * m_BurgersVector;
+      vertex[3*nodeNum+0] = tokens[1].toFloat(&ok) * m_BurgersVector;
+      vertex[3*nodeNum+1] = tokens[2].toFloat(&ok) * m_BurgersVector;
+      vertex[3*nodeNum+2] = tokens[3].toFloat(&ok) * m_BurgersVector;
       m_NumberOfArms[nodeNum] = tokens[4].toInt(&ok, 10);
       m_NodeConstraints[nodeNum] = tokens[5].toInt(&ok, 10);
     }
@@ -479,9 +474,8 @@ int ParaDisReader::readFile()
     }
   }
 
-  EdgeArray::Pointer edges = EdgeArray::CreateArray(numEdges, DREAM3D::EdgeData::SurfaceMeshEdges, verticesPtr.get());
-  m->setEdges(edges);
-  EdgeArray::Edge_t* edge = edges.get()->getPointer(0);
+  edgeGeom->resizeEdgeList(numEdges);
+  int64_t* edge = edgeGeom->getEdgePointer(0);
 
   // Resize the edge attribute matrix to the number of vertices
   QVector<size_t> tDims (1, numEdges);
@@ -490,8 +484,8 @@ int ParaDisReader::readFile()
 
   for(int i = 0; i < numEdges; i++)
   {
-    edge[i].verts[0] = firstNodes[i];
-    edge[i].verts[1] = secondNodes[i];
+    edge[2*i+0] = firstNodes[i];
+    edge[2*i+1] = secondNodes[i];
     m_BurgersVectors[3 * i + 0] = burgerXs[i];
     m_BurgersVectors[3 * i + 1] = burgerYs[i];
     m_BurgersVectors[3 * i + 2] = burgerZs[i];
@@ -525,7 +519,7 @@ AbstractFilter::Pointer ParaDisReader::newFilterInstance(bool copyFilterParamete
 //
 // -----------------------------------------------------------------------------
 const QString ParaDisReader::getCompiledLibraryName()
-{ return IO::IOBaseName; }
+{ return DDDAnalysisToolbox::DDDAnalysisToolboxBaseName; }
 
 
 // -----------------------------------------------------------------------------
