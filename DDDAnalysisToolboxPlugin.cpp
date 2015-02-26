@@ -15,8 +15,6 @@
 
 #include "DDDAnalysisToolbox/moc_DDDAnalysisToolboxPlugin.cpp"
 
-
-
 namespace Detail
 {
   const QString DDDAnalysisToolboxPluginFile("DDDAnalysisToolboxPlugin");
@@ -28,14 +26,15 @@ namespace Detail
 //
 // -----------------------------------------------------------------------------
 DDDAnalysisToolboxPlugin::DDDAnalysisToolboxPlugin() :
-m_Version(DREAM3DLib::Version::Package()),
-m_CompatibilityVersion(DREAM3DLib::Version::Package()),
-m_Vendor(DREAM3D::BlueQuartz::VendorName),
-m_URL(DREAM3D::BlueQuartz::URL),
-m_Location(""),
-m_Copyright(DREAM3D::BlueQuartz::Copyright),
-m_Filters(QList<QString>()),
-  m_DidLoad(false)
+m_Version("Version Number"),                            // Initialize DDDAnalysisToolbox's Version Number Here
+m_CompatibilityVersion("Compatibility Version Number"), // Initialize DDDAnalysisToolbox's Compatibility Version Number Here
+m_Vendor("Vendor Name"),                                // Initialize DDDAnalysisToolbox's Vendor Name Here
+m_URL("URL"),                                           // Initialize Company URL Here
+m_Location("Location"),                                 // Initialize Company Location Here
+m_Description("Description"),                           // Initialize DDDAnalysisToolbox's Description Here
+m_Copyright("Copyright"),                               // Initialize DDDAnalysisToolbox's Copyright Here
+m_Filters(QList<QString>()),                        // Initialize DDDAnalysisToolbox's List of Dependencies Here
+m_DidLoad(false)
 {
 
 }
@@ -100,6 +99,9 @@ QString DDDAnalysisToolboxPlugin::getLocation()
 // -----------------------------------------------------------------------------
 QString DDDAnalysisToolboxPlugin::getDescription()
 {
+  /* PLEASE UPDATE YOUR PLUGIN'S DESCRIPTION FILE.
+  It is located at DDDAnalysisToolbox/Resources/DDDAnalysisToolbox/DDDAnalysisToolboxDescription.txt */
+
   QFile licenseFile(":/DDDAnalysisToolbox/DDDAnalysisToolboxDescription.txt");
   QFileInfo licenseFileInfo(licenseFile);
   QString text = "<<--Description was not read-->>";
@@ -128,7 +130,10 @@ QString DDDAnalysisToolboxPlugin::getCopyright()
 // -----------------------------------------------------------------------------
 QString DDDAnalysisToolboxPlugin::getLicense()
 {
-  QFile licenseFile(":/DREAM3D/DREAM3DLicense.txt");
+  /* PLEASE UPDATE YOUR PLUGIN'S LICENSE FILE.
+  It is located at DDDAnalysisToolbox/Resources/DDDAnalysisToolbox/DDDAnalysisToolboxLicense.txt */
+
+  QFile licenseFile(":/DDDAnalysisToolbox/DDDAnalysisToolboxLicense.txt");
   QFileInfo licenseFileInfo(licenseFile);
   QString text = "<<--License was not read-->>";
 
@@ -141,14 +146,6 @@ QString DDDAnalysisToolboxPlugin::getLicense()
     }
   }
   return text;
-}
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-QList<QString> DDDAnalysisToolboxPlugin::getFilters()
-{
-  return m_Filters;
 }
 
 // -----------------------------------------------------------------------------
@@ -223,5 +220,5 @@ void DDDAnalysisToolboxPlugin::readSettings(QSettings& prefs)
 
 #include "DDDAnalysisToolboxFilters/RegisterKnownFilters.cpp"
 
-#include "DDDAnalysisToolbox/FilterParameterWidgets/RegisterKnownFilterParameterWidgets.cpp"
+#include "FilterParameterWidgets/RegisterKnownFilterParameterWidgets.cpp"
 

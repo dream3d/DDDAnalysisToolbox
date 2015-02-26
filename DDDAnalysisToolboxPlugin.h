@@ -22,8 +22,7 @@ class DDDAnalysisToolboxPlugin : public QObject, public IDREAM3DPlugin
 {
     Q_OBJECT
     Q_INTERFACES(IDREAM3DPlugin)
-    Q_PLUGIN_METADATA(IID "net.bluequartz.dream3d.DDDAnalysisToolboxPlugin")
-
+    Q_PLUGIN_METADATA(IID "com.your.domain.DDDAnalysisToolboxPlugin")
 
   public:
     DDDAnalysisToolboxPlugin();
@@ -33,7 +32,7 @@ class DDDAnalysisToolboxPlugin : public QObject, public IDREAM3DPlugin
      */
     virtual QString getPluginName();
 
-     /**
+    /**
      * @brief Returns the version
      */
     virtual QString getVersion();
@@ -60,6 +59,8 @@ class DDDAnalysisToolboxPlugin : public QObject, public IDREAM3DPlugin
 
     /**
      * @brief Returns the description of the plugin
+     * PLEASE UPDATE YOUR PLUGIN'S DESCRIPTION FILE.
+     * It is located at DDDAnalysisToolbox/Resources/DDDAnalysisToolbox/DDDAnalysisToolboxDescription.txt
      */
     virtual QString getDescription();
 
@@ -70,6 +71,8 @@ class DDDAnalysisToolboxPlugin : public QObject, public IDREAM3DPlugin
 
     /**
      * @brief Returns the license of the plugin
+     * PLEASE UPDATE YOUR PLUGIN'S LICENSE FILE.
+     * It is located at DDDAnalysisToolbox/Resources/DDDAnalysisToolbox/DDDAnalysisToolboxLicense.txt
      */
     virtual QString getLicense();
 
@@ -131,6 +134,7 @@ class DDDAnalysisToolboxPlugin : public QObject, public IDREAM3DPlugin
     QString             m_Vendor;
     QString             m_URL;
     QString             m_Location;
+    QString             m_Description;
     QString             m_Copyright;
     QList<QString>      m_Filters;
     bool                m_DidLoad;

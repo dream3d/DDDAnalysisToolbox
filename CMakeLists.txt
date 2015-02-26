@@ -13,6 +13,7 @@ if(NOT Qt5Core_FOUND)
 endif()
 
 
+
 set(${PLUGIN_NAME}_Project_SRCS "")
 
 include(${DREAM3DProj_SOURCE_DIR}/Source/DREAM3DLib/DREAM3DLibMacros.cmake)
@@ -28,6 +29,7 @@ file(WRITE ${RegisterKnownFiltersFile} "/* This file was AUTO GENERATED During t
 file(APPEND ${RegisterKnownFiltersFile} "/* The CMake code that generates this file is located in ${CMAKE_CURRENT_LIST_FILE}*/\n")
 file(APPEND ${RegisterKnownFiltersFile} "/* This file will be directly included in another source file. */\n")
 file(APPEND ${RegisterKnownFiltersFile} "#include \"${PLUGIN_NAME}Filters.h\"\n\n")
+file(APPEND ${RegisterKnownFiltersFile} "\n//----------------------------------------------------------\n")
 file(APPEND ${RegisterKnownFiltersFile} "\nvoid ${PLUGIN_NAME}Plugin::registerFilters(FilterManager* fm)\n{\n")
 
 # --------------------------------------------------------------------
@@ -54,10 +56,11 @@ set(${PLUGIN_NAME}_Project_SRCS ${Project_SRCS})
 #-----------------------------------------------------
 # Close up all the files that we just generated
 file(APPEND ${AllFiltersHeaderFile} "\n#endif\n")
-file(APPEND ${RegisterKnownFiltersFile} "\n }\n")
+file(APPEND ${RegisterKnownFiltersFile} "\n}\n")
 
 #-----------------------------------------------------
 # Add function to return all filter names in a list
+file(APPEND ${RegisterKnownFiltersFile} "\n//----------------------------------------------------------\n")
 file(APPEND ${RegisterKnownFiltersFile} "\nQList<QString> ${PLUGIN_NAME}Plugin::getFilters()\n{\n")
 ADD_FILTER_LIST()
 file(APPEND ${RegisterKnownFiltersFile} "\n}\n\n")
@@ -195,7 +198,6 @@ target_link_libraries(${PLUGIN_NAME}
                     DREAM3DWidgetsLib
                     )
 SET_TARGET_PROPERTIES(${PLUGIN_NAME} PROPERTIES FOLDER ${PLUGIN_NAME}Plugin)
-qt5_use_modules(${PROJECT_NAME} Core Gui Widgets)
 
 # --------------------------------------------------------------------
 # Set some additional properties of the plugin like its output name
