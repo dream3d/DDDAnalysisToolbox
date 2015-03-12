@@ -209,9 +209,9 @@ void IdentifyDislocationSegments::execute()
   int64_t* edge = edgeGeom->getEdgePointer(0);
   size_t numEdges = edgeGeom->getNumberOfEdges();
 
-  edgeGeom->findCellsContainingVert();
+  edgeGeom->findElementsContainingVert();
 
-  DynamicListArray<uint16_t, int64_t>::Pointer edgesContainingVert = edgeGeom->getCellsContainingVert();
+  DynamicListArray<uint16_t, int64_t>::Pointer edgesContainingVert = edgeGeom->getElementsContainingVert();
 
   int dnum = 0;
   qint32 size = 0;
