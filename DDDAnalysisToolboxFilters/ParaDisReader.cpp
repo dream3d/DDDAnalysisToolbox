@@ -216,19 +216,19 @@ void ParaDisReader::dataCheck()
       return;
     }
 
-    int error = readHeader();
+    //int error = readHeader();
     //add edges for preflight sake...they will get overwritten when actually reading the file
-	SharedVertexList::Pointer vertices = EdgeGeom::CreateSharedVertexList(1);
-	EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(1, vertices, DREAM3D::Geometry::EdgeGeometry);
+	SharedVertexList::Pointer vertices = EdgeGeom::CreateSharedVertexList(0);
+	EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(0, vertices, DREAM3D::Geometry::EdgeGeometry);
 	m->setGeometry(edgeGeom);
 
-    m_InStream.close();
-    if (error < 0)
-    {
-      setErrorCondition(error);
-      QString ss = QObject::tr("Error occurred trying to parse the dimensions from the input file. Is the input file a Dx file?");
-      notifyErrorMessage(getHumanLabel(), ss, -11000);
-    }
+    //m_InStream.close();
+    //if (error < 0)
+    //{
+    //  setErrorCondition(error);
+    //  QString ss = QObject::tr("Error occurred trying to parse the dimensions from the input file. Is the input file a Dx file?");
+    //  notifyErrorMessage(getHumanLabel(), ss, -11000);
+    //}
   }
 }
 

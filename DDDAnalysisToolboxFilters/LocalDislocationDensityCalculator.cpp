@@ -186,7 +186,7 @@ void LocalDislocationDensityCalculator::dataCheck()
 
   //Create the voxel geometry to hold the local densities
   ImageGeom::Pointer image = ImageGeom::CreateGeometry(DREAM3D::Geometry::ImageGeometry);
-  m->setGeometry(image);
+  m2->setGeometry(image);
 
   //Create the cell attrMat in the new data container
   QVector<size_t> tDims(3, 0);
@@ -311,7 +311,10 @@ void LocalDislocationDensityCalculator::execute()
     xCellMax = ((xCellMax - 1) / 2) + 1;
     yCellMax = ((yCellMax - 1) / 2) + 1;
     zCellMax = ((zCellMax - 1) / 2) + 1;
-    for(size_t j = zCellMin; j <= zCellMax; j++)
+	if (xCellMax >= tDims[0]) xCellMax = tDims[0] - 1;
+	if (yCellMax >= tDims[1]) yCellMax = tDims[1] - 1;
+	if (zCellMax >= tDims[2]) zCellMax = tDims[2] - 1;
+	for (size_t j = zCellMin; j <= zCellMax; j++)
     {
       zStride = j * tDims[0] * tDims[1];
       corner1[2] = (j * halfCellSize.z) - halfCellSize.z + quarterCellSize.z + zMin;
