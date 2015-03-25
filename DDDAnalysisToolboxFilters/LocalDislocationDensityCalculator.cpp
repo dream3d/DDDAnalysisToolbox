@@ -287,13 +287,13 @@ void LocalDislocationDensityCalculator::execute()
   float length;
   for(size_t i = 0; i < numEdges; i++)
   {
-	point1[0] = nodes[3 * edge[2 * i + 0] + 0];
-	point1[1] = nodes[3 * edge[2 * i + 0] + 1];
-	point1[2] = nodes[3 * edge[2 * i + 0] + 2];
-	point2[0] = nodes[3 * edge[2 * i + 1] + 0];
-	point2[1] = nodes[3 * edge[2 * i + 1] + 1];
-	point2[2] = nodes[3 * edge[2 * i + 1] + 2];
-	x1 = (point1[0] - xMin);
+  point1[0] = nodes[3 * edge[2 * i + 0] + 0];
+  point1[1] = nodes[3 * edge[2 * i + 0] + 1];
+  point1[2] = nodes[3 * edge[2 * i + 0] + 2];
+  point2[0] = nodes[3 * edge[2 * i + 1] + 0];
+  point2[1] = nodes[3 * edge[2 * i + 1] + 1];
+  point2[2] = nodes[3 * edge[2 * i + 1] + 2];
+  x1 = (point1[0] - xMin);
     y1 = (point1[1] - yMin);
     z1 = (point1[2] - zMin);
     x2 = (point2[0] - xMin);
@@ -311,10 +311,10 @@ void LocalDislocationDensityCalculator::execute()
     xCellMax = ((xCellMax - 1) / 2) + 1;
     yCellMax = ((yCellMax - 1) / 2) + 1;
     zCellMax = ((zCellMax - 1) / 2) + 1;
-	if (xCellMax >= tDims[0]) xCellMax = tDims[0] - 1;
-	if (yCellMax >= tDims[1]) yCellMax = tDims[1] - 1;
-	if (zCellMax >= tDims[2]) zCellMax = tDims[2] - 1;
-	for (size_t j = zCellMin; j <= zCellMax; j++)
+  if (xCellMax >= tDims[0]) xCellMax = tDims[0] - 1;
+  if (yCellMax >= tDims[1]) yCellMax = tDims[1] - 1;
+  if (zCellMax >= tDims[2]) zCellMax = tDims[2] - 1;
+  for (size_t j = zCellMin; j <= zCellMax; j++)
     {
       zStride = j * tDims[0] * tDims[1];
       corner1[2] = (j * halfCellSize.z) - halfCellSize.z + quarterCellSize.z + zMin;
@@ -378,7 +378,7 @@ const QString LocalDislocationDensityCalculator::getCompiledLibraryName()
 //
 // -----------------------------------------------------------------------------
 const QString LocalDislocationDensityCalculator::getGroupName()
-{ return DREAM3D::FilterGroups::DDDAnalysisFilters; }
+{ return "DDDAnalysisToolbox"; }
 
 
 // -----------------------------------------------------------------------------

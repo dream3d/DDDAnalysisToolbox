@@ -351,7 +351,7 @@ const QString IdentifyDislocationSegments::getCompiledLibraryName()
 //
 // -----------------------------------------------------------------------------
 const QString IdentifyDislocationSegments::getGroupName()
-{ return DREAM3D::FilterGroups::DDDAnalysisFilters; }
+{ return "DDDAnalysisToolbox"; }
 
 
 // -----------------------------------------------------------------------------
