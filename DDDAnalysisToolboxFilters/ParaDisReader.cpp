@@ -41,7 +41,8 @@
 #include <QtCore/QFileInfo>
 
 #include "DREAM3DLib/Math/MatrixMath.h"
-
+#include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
+#include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
 
 // -----------------------------------------------------------------------------
 //
@@ -218,9 +219,9 @@ void ParaDisReader::dataCheck()
 
     //int error = readHeader();
     //add edges for preflight sake...they will get overwritten when actually reading the file
-	SharedVertexList::Pointer vertices = EdgeGeom::CreateSharedVertexList(0);
-	EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(0, vertices, DREAM3D::Geometry::EdgeGeometry);
-	m->setGeometry(edgeGeom);
+  SharedVertexList::Pointer vertices = EdgeGeom::CreateSharedVertexList(0);
+  EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(0, vertices, DREAM3D::Geometry::EdgeGeometry);
+  m->setGeometry(edgeGeom);
 
     //m_InStream.close();
     //if (error < 0)
@@ -336,7 +337,7 @@ int ParaDisReader::readHeader()
       keepgoing = 0;
     }
   }
-  
+
   EdgeGeom::Pointer edgeGeom = m->getGeometryAs<EdgeGeom>();
   edgeGeom->resizeVertexList(numVerts);
 
