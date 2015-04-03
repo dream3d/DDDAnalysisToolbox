@@ -353,7 +353,7 @@ const QString IdentifyDislocationSegments::getCompiledLibraryName()
 //
 // -----------------------------------------------------------------------------
 const QString IdentifyDislocationSegments::getGroupName()
-{ return "DDDAnalysisToolbox"; }
+{ return "DDD Analytics"; }
 
 
 // -----------------------------------------------------------------------------

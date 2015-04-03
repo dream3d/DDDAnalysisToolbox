@@ -451,10 +451,13 @@ int ParaDisReader::readFile()
         numEdges++;
         firstNodes.push_back(nodeNum);
         secondNodes.push_back(neighborNode);
-        burgVec[0] = tokens[1].toFloat(&ok) * m_BurgersVector;
-        burgVec[1] = tokens[2].toFloat(&ok) * m_BurgersVector;
-        burgVec[2] = tokens[3].toFloat(&ok) * m_BurgersVector;
-        burgerXs.push_back(burgVec[0]);
+		burgVec[0] = tokens[1].toFloat(&ok);
+		burgVec[1] = tokens[2].toFloat(&ok);
+		burgVec[2] = tokens[3].toFloat(&ok);
+		//burgVec[0] = tokens[1].toFloat(&ok) * m_BurgersVector;
+		//burgVec[1] = tokens[2].toFloat(&ok) * m_BurgersVector;
+		//burgVec[2] = tokens[3].toFloat(&ok) * m_BurgersVector;
+		burgerXs.push_back(burgVec[0]);
         burgerYs.push_back(burgVec[1]);
         burgerZs.push_back(burgVec[2]);
       }

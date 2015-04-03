@@ -34,30 +34,20 @@
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-#include "LocalDislocationDensityCalculator.h"
+#include "DiscretizeDDDomain.h"
 
 #include "DREAM3DLib/Common/Constants.h"
 #include "DREAM3DLib/Math/GeometryMath.h"
-#include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
-#include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "DREAM3DLib/Math/DREAM3DMath.h"
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-LocalDislocationDensityCalculator::LocalDislocationDensityCalculator() :
+DiscretizeDDDomain::DiscretizeDDDomain() :
   AbstractFilter(),
   m_EdgeDataContainerName(DREAM3D::Defaults::DataContainerName),
   m_OutputDataContainerName(DREAM3D::Defaults::NewDataContainerName),
   m_OutputAttributeMatrixName(DREAM3D::Defaults::CellAttributeMatrixName),
-  m_BurgersVectorsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::BurgersVectors),
-  m_SlipPlaneNormalsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::SlipPlaneNormals),
-  m_BurgersVectorsArrayName(DREAM3D::EdgeData::BurgersVectors),
-  m_BurgersVectors(NULL),
-  m_SlipPlaneNormalsArrayName(DREAM3D::EdgeData::SlipPlaneNormals),
-  m_SlipPlaneNormals(NULL),
-  m_DominantSystemArrayName("DominantSystem"),
-  m_DominantSystemArray(NULL),
   m_OutputArrayName("DislocationLineDensity"),
   m_OutputArray(NULL)
 {
@@ -71,14 +61,14 @@ LocalDislocationDensityCalculator::LocalDislocationDensityCalculator() :
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-LocalDislocationDensityCalculator::~LocalDislocationDensityCalculator()
+DiscretizeDDDomain::~DiscretizeDDDomain()
 {
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void LocalDislocationDensityCalculator::setupFilterParameters()
+void DiscretizeDDDomain::setupFilterParameters()
 {
   FilterParameterVector parameters;
   {
@@ -92,29 +82,23 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
 
   parameters.push_back(FilterParameter::New("Required Information", "", FilterParameterWidgetType::SeparatorWidget, "QString", true));
   parameters.push_back(FilterParameter::New("Edge Data Container", "EdgeDataContainerName", FilterParameterWidgetType::DataContainerSelectionWidget, getEdgeDataContainerName(), true, ""));
-  parameters.push_back(FilterParameter::New("BurgersVectors", "BurgersVectorsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getBurgersVectorsArrayPath(), true, ""));
-  parameters.push_back(FilterParameter::New("SlipPlaneNormals", "SlipPlaneNormalsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getSlipPlaneNormalsArrayPath(), true, ""));
   parameters.push_back(FilterParameter::New("Created Information", "", FilterParameterWidgetType::SeparatorWidget, "QString", true));
   parameters.push_back(FilterParameter::New("Volume Data Container", "OutputDataContainerName", FilterParameterWidgetType::StringWidget, getOutputDataContainerName(), true, ""));
   parameters.push_back(FilterParameter::New("Cell Attribute Matrix", "OutputAttributeMatrixName", FilterParameterWidgetType::StringWidget, getOutputAttributeMatrixName(), true, ""));
   parameters.push_back(FilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", FilterParameterWidgetType::StringWidget, getOutputArrayName(), true, ""));
-  parameters.push_back(FilterParameter::New("Dominant System Array Name", "DominantSystemArrayName", FilterParameterWidgetType::StringWidget, getDominantSystemArrayName(), true, ""));
   setFilterParameters(parameters);
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void LocalDislocationDensityCalculator::readFilterParameters(AbstractFilterParametersReader* reader, int index)
+void DiscretizeDDDomain::readFilterParameters(AbstractFilterParametersReader* reader, int index)
 {
   reader->openFilterGroup(this, index);
   setEdgeDataContainerName( reader->readString( "EdgeDataContainerName", getEdgeDataContainerName() ) );
-  setSlipPlaneNormalsArrayPath(reader->readDataArrayPath("SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath()));
-  setBurgersVectorsArrayPath(reader->readDataArrayPath("BurgersVectorsArrayPath", getBurgersVectorsArrayPath()));
   setOutputDataContainerName(reader->readString("OutputDataContainerName", getOutputDataContainerName()));
   setOutputAttributeMatrixName( reader->readString( "OutputAttributeMatrixName", getOutputAttributeMatrixName() ) );
   setOutputArrayName(reader->readString("OutputArrayName", getOutputArrayName()));
-  setDominantSystemArrayName(reader->readString("DominantSystemArrayName", getDominantSystemArrayName()));
   setCellSize(reader->readFloatVec3("CellSize", getCellSize()));
   reader->closeFilterGroup();
 }
@@ -122,16 +106,13 @@ void LocalDislocationDensityCalculator::readFilterParameters(AbstractFilterParam
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-int LocalDislocationDensityCalculator::writeFilterParameters(AbstractFilterParametersWriter* writer, int index)
+int DiscretizeDDDomain::writeFilterParameters(AbstractFilterParametersWriter* writer, int index)
 {
   writer->openFilterGroup(this, index);
   DREAM3D_FILTER_WRITE_PARAMETER(EdgeDataContainerName)
   DREAM3D_FILTER_WRITE_PARAMETER(OutputDataContainerName)
   DREAM3D_FILTER_WRITE_PARAMETER(OutputAttributeMatrixName)
   DREAM3D_FILTER_WRITE_PARAMETER(OutputArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(DominantSystemArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayPath)
-  DREAM3D_FILTER_WRITE_PARAMETER(BurgersVectorsArrayPath)
   DREAM3D_FILTER_WRITE_PARAMETER(CellSize)
   writer->closeFilterGroup();
   return ++index; // we want to return the next index that was just written to
@@ -140,24 +121,7 @@ int LocalDislocationDensityCalculator::writeFilterParameters(AbstractFilterParam
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void LocalDislocationDensityCalculator::updateCellInstancePointers()
-{
-  setErrorCondition(0);
-
-  if (NULL != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
-  {
-	  m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);
-  } /* Now assign the raw pointer to data from the DataArray<T> object */
-  if (NULL != m_DominantSystemArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
-  {
-	  m_DominantSystemArray = m_DominantSystemArrayPtr.lock()->getPointer(0);
-  } /* Now assign the raw pointer to data from the DataArray<T> object */
-}
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-void LocalDislocationDensityCalculator::dataCheck()
+void DiscretizeDDDomain::dataCheck()
 {
   DataArrayPath tempPath;
   setErrorCondition(0);
@@ -220,29 +184,17 @@ void LocalDislocationDensityCalculator::dataCheck()
   if(getErrorCondition() < 0) { return; }
 
   //Get the name and create the array in the new data attrMat
-  QVector<size_t> dims(1, 3);
-  m_BurgersVectorsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, getBurgersVectorsArrayPath(), dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (NULL != m_BurgersVectorsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
-  {m_BurgersVectors = m_BurgersVectorsPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
-  m_SlipPlaneNormalsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, getSlipPlaneNormalsArrayPath(), dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (NULL != m_SlipPlaneNormalsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
-  {m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
-  dims[0] = 14;
+  QVector<size_t> dims(1, 1);
   tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
-  m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
   if (NULL != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
   {m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
-  dims[0] = 1;
-  tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getDominantSystemArrayName());
-  m_DominantSystemArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (NULL != m_DominantSystemArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
-  {m_DominantSystemArray = m_DominantSystemArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void LocalDislocationDensityCalculator::preflight()
+void DiscretizeDDDomain::preflight()
 {
   setInPreflight(true);
   emit preflightAboutToExecute();
@@ -255,7 +207,7 @@ void LocalDislocationDensityCalculator::preflight()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void LocalDislocationDensityCalculator::execute()
+void DiscretizeDDDomain::execute()
 {
   QString ss;
   setErrorCondition(0);
@@ -314,7 +266,6 @@ void LocalDislocationDensityCalculator::execute()
   tDims[1] = dcDims[1];
   tDims[2] = dcDims[2];
   cellAttrMat->resizeAttributeArrays(tDims);
-  updateCellInstancePointers();
 
   float point1[3], point2[3], corner1[3], corner2[3];
   size_t xCellMin, xCellMax;
@@ -326,13 +277,13 @@ void LocalDislocationDensityCalculator::execute()
   float length;
   for(size_t i = 0; i < numEdges; i++)
   {
-  point1[0] = nodes[3 * edge[2 * i + 0] + 0];
-  point1[1] = nodes[3 * edge[2 * i + 0] + 1];
-  point1[2] = nodes[3 * edge[2 * i + 0] + 2];
-  point2[0] = nodes[3 * edge[2 * i + 1] + 0];
-  point2[1] = nodes[3 * edge[2 * i + 1] + 1];
-  point2[2] = nodes[3 * edge[2 * i + 1] + 2];
-  x1 = (point1[0] - xMin);
+	point1[0] = nodes[3 * edge[2 * i + 0] + 0];
+	point1[1] = nodes[3 * edge[2 * i + 0] + 1];
+	point1[2] = nodes[3 * edge[2 * i + 0] + 2];
+	point2[0] = nodes[3 * edge[2 * i + 1] + 0];
+	point2[1] = nodes[3 * edge[2 * i + 1] + 1];
+	point2[2] = nodes[3 * edge[2 * i + 1] + 2];
+	x1 = (point1[0] - xMin);
     y1 = (point1[1] - yMin);
     z1 = (point1[2] - zMin);
     x2 = (point2[0] - xMin);
@@ -350,10 +301,10 @@ void LocalDislocationDensityCalculator::execute()
     xCellMax = ((xCellMax - 1) / 2) + 1;
     yCellMax = ((yCellMax - 1) / 2) + 1;
     zCellMax = ((zCellMax - 1) / 2) + 1;
-  if (xCellMax >= tDims[0]) xCellMax = tDims[0] - 1;
-  if (yCellMax >= tDims[1]) yCellMax = tDims[1] - 1;
-  if (zCellMax >= tDims[2]) zCellMax = tDims[2] - 1;
-  for (size_t j = zCellMin; j <= zCellMax; j++)
+	if (xCellMax >= tDims[0]) xCellMax = tDims[0] - 1;
+	if (yCellMax >= tDims[1]) yCellMax = tDims[1] - 1;
+	if (zCellMax >= tDims[2]) zCellMax = tDims[2] - 1;
+	for (size_t j = zCellMin; j <= zCellMax; j++)
     {
       zStride = j * tDims[0] * tDims[1];
       corner1[2] = (j * halfCellSize.z) - halfCellSize.z + quarterCellSize.z + zMin;
@@ -370,7 +321,6 @@ void LocalDislocationDensityCalculator::execute()
           length = GeometryMath::LengthOfRayInBox(point1, point2, corner1, corner2);
 		  point = (zStride + yStride + l);
 		  m_OutputArray[14 * point + 0] += length;
-		  system = determine_slip_system(i);
 		  m_OutputArray[14 * point + system] += length;
         }
       }
@@ -398,11 +348,6 @@ void LocalDislocationDensityCalculator::execute()
 		  m_OutputArray[14 * point + iter] /= cellVolume;
 		  //convert to m/mm^3 from um/um^3
 		  m_OutputArray[14 * point + iter] *= 1.0E12f;
-		  if (m_OutputArray[14 * point + iter] > max)
-		  {
-			m_DominantSystemArray[point] = iter;
-			max = m_OutputArray[14 * point + iter];
-		  }
 		}
       }
     }
@@ -414,57 +359,9 @@ void LocalDislocationDensityCalculator::execute()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-int LocalDislocationDensityCalculator::determine_slip_system(int edgeNum)
+AbstractFilter::Pointer DiscretizeDDDomain::newFilterInstance(bool copyFilterParameters)
 {
-	float planeFam1, planeFam2, planeFam3, planeFam4;
-	float slipDir1, slipDir2, slipDir3, slipDir4, slipDir5, slipDir6;
-
-	float tol = 0.000001;
-
-	int system = 13;
-	planeFam1 = m_SlipPlaneNormals[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot3;
-	planeFam2 = m_SlipPlaneNormals[3 * edgeNum + 0] * -DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot3;
-	planeFam3 = m_SlipPlaneNormals[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * -DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot3;
-	planeFam4 = m_SlipPlaneNormals[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * -DREAM3D::Constants::k_1OverRoot3;
-	slipDir1 = m_BurgersVectors[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * 0.0;
-	slipDir2 = m_BurgersVectors[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * 0.0 + m_BurgersVectors[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot2;
-	slipDir3 = m_BurgersVectors[3 * edgeNum + 0] * 0.0 + m_BurgersVectors[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot2;
-	slipDir4 = m_BurgersVectors[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * -DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * 0.0;
-	slipDir5 = m_BurgersVectors[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * 0.0 + m_BurgersVectors[3 * edgeNum + 2] * -DREAM3D::Constants::k_1OverRoot2;
-	slipDir6 = m_BurgersVectors[3 * edgeNum + 0] * 0.0 + m_BurgersVectors[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * -DREAM3D::Constants::k_1OverRoot2;
-	if (abs(abs(planeFam1) - 1.0) < tol)
-	{
-		if (abs(abs(slipDir4) - 1.0) < tol) system = 1;
-		if (abs(abs(slipDir5) - 1.0) < tol) system = 2;
-		if (abs(abs(slipDir6) - 1.0) < tol) system = 3;
-	}
-	if (abs(abs(planeFam2) - 1.0) < tol)
-	{
-		if (abs(abs(slipDir1) - 1.0) < tol) system = 4;
-		if (abs(abs(slipDir2) - 1.0) < tol) system = 5;
-		if (abs(abs(slipDir6) - 1.0) < tol) system = 6;
-	}
-	if (abs(abs(planeFam3) - 1.0) < tol)
-	{
-		if (abs(abs(slipDir1) - 1.0) < tol) system = 7;
-		if (abs(abs(slipDir3) - 1.0) < tol) system = 8;
-		if (abs(abs(slipDir5) - 1.0) < tol) system = 9;
-	}
-	if (abs(abs(planeFam4) - 1.0) < tol)
-	{
-		if (abs(abs(slipDir2) - 1.0) < tol) system = 10;
-		if (abs(abs(slipDir3) - 1.0) < tol) system = 11;
-		if (abs(abs(slipDir4) - 1.0) < tol) system = 12;
-	}
-	return system;
-}
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-AbstractFilter::Pointer LocalDislocationDensityCalculator::newFilterInstance(bool copyFilterParameters)
-{
-  LocalDislocationDensityCalculator::Pointer filter = LocalDislocationDensityCalculator::New();
+  DiscretizeDDDomain::Pointer filter = DiscretizeDDDomain::New();
   if(true == copyFilterParameters)
   {
     copyFilterParameterInstanceVariables(filter.get());
@@ -475,27 +372,26 @@ AbstractFilter::Pointer LocalDislocationDensityCalculator::newFilterInstance(boo
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString LocalDislocationDensityCalculator::getCompiledLibraryName()
+const QString DiscretizeDDDomain::getCompiledLibraryName()
 { return DDDAnalysisToolbox::DDDAnalysisToolboxBaseName; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString LocalDislocationDensityCalculator::getGroupName()
+const QString DiscretizeDDDomain::getGroupName()
 { return "DDD Analytics"; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString LocalDislocationDensityCalculator::getSubGroupName()
-{ return DREAM3D::FilterSubGroups::StatisticsFilters; }
-
+const QString DiscretizeDDDomain::getSubGroupName()
+{ return DREAM3D::FilterSubGroups::MiscFilters; }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString LocalDislocationDensityCalculator::getHumanLabel()
-{ return "Calculate Local Dislocation Densities"; }
+const QString DiscretizeDDDomain::getHumanLabel()
+{ return "Discretize DDD Domain"; }
 

@@ -34,8 +34,8 @@
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-#ifndef _LocalDislocationDensityCalculator_H_
-#define _LocalDislocationDensityCalculator_H_
+#ifndef _DiscretizeDDDomain_H_
+#define _DiscretizeDDDomain_H_
 
 #include <QtCore/QString>
 #include <set>
@@ -51,29 +51,23 @@
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 
 /**
- * @class LocalDislocationDensityCalculator LocalDislocationDensityCalculator.h /FilterCategoryFilters/LocalDislocationDensityCalculator.h
+ * @class DiscretizeDDDomain DiscretizeDDDomain.h /FilterCategoryFilters/DiscretizeDDDomain.h
  * @brief
  * @author
  * @date
  * @version 1.0
  */
-class LocalDislocationDensityCalculator : public AbstractFilter
+class DiscretizeDDDomain : public AbstractFilter
 {
     Q_OBJECT /* Need this for Qt's signals and slots mechanism to work */
   public:
-    DREAM3D_SHARED_POINTERS(LocalDislocationDensityCalculator)
-    DREAM3D_STATIC_NEW_MACRO(LocalDislocationDensityCalculator)
-    DREAM3D_TYPE_MACRO_SUPER(LocalDislocationDensityCalculator, AbstractFilter)
+    DREAM3D_SHARED_POINTERS(DiscretizeDDDomain)
+    DREAM3D_STATIC_NEW_MACRO(DiscretizeDDDomain)
+    DREAM3D_TYPE_MACRO_SUPER(DiscretizeDDDomain, AbstractFilter)
 
-    virtual ~LocalDislocationDensityCalculator();
+    virtual ~DiscretizeDDDomain();
     DREAM3D_FILTER_PARAMETER(QString, EdgeDataContainerName)
     Q_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
-
-	DREAM3D_FILTER_PARAMETER(DataArrayPath, BurgersVectorsArrayPath)
-	Q_PROPERTY(DataArrayPath BurgersVectorsArrayPath READ getBurgersVectorsArrayPath WRITE setBurgersVectorsArrayPath)
-
-	DREAM3D_FILTER_PARAMETER(DataArrayPath, SlipPlaneNormalsArrayPath)
-	Q_PROPERTY(DataArrayPath SlipPlaneNormalsArrayPath READ getSlipPlaneNormalsArrayPath WRITE setSlipPlaneNormalsArrayPath)
 
     DREAM3D_FILTER_PARAMETER(FloatVec3_t, CellSize)
     Q_PROPERTY(FloatVec3_t CellSize READ getCellSize WRITE setCellSize)
@@ -84,12 +78,10 @@ class LocalDislocationDensityCalculator : public AbstractFilter
     // Name the new AttributeMatrix that will get created
     DREAM3D_FILTER_PARAMETER(QString, OutputAttributeMatrixName)
     Q_PROPERTY(QString OutputAttributeMatrixName READ getOutputAttributeMatrixName WRITE setOutputAttributeMatrixName)
-    // Give the created data array a name
+
+	// Give the created data array a name
 	DREAM3D_FILTER_PARAMETER(QString, OutputArrayName)
 	Q_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
-
-	DREAM3D_FILTER_PARAMETER(QString, DominantSystemArrayName)
-	Q_PROPERTY(QString DominantSystemArrayName READ getDominantSystemArrayName WRITE setDominantSystemArrayName)
 
     /**
     * @brief This returns the group that the filter belonds to. You can select
@@ -143,7 +135,7 @@ class LocalDislocationDensityCalculator : public AbstractFilter
     void preflightExecuted();
 
   protected:
-    LocalDislocationDensityCalculator();
+    DiscretizeDDDomain();
 
     /**
     * @brief Checks for the appropriate parameter values and availability of
@@ -154,21 +146,15 @@ class LocalDislocationDensityCalculator : public AbstractFilter
     * @param ensembles The number of ensembles
     */
     void dataCheck();
-    void updateCellInstancePointers();
-
-	int determine_slip_system(int edgeNum);
 
   private:
-	DEFINE_CREATED_DATAARRAY_VARIABLE(float, OutputArray)
-	DEFINE_CREATED_DATAARRAY_VARIABLE(float, DominantSystemArray)
-	DEFINE_REQUIRED_DATAARRAY_VARIABLE(float, BurgersVectors)
-	DEFINE_REQUIRED_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
+	DEFINE_CREATED_DATAARRAY_VARIABLE(int32_t, OutputArray)
 
-    LocalDislocationDensityCalculator(const LocalDislocationDensityCalculator&); // Copy Constructor Not Implemented
-    void operator=(const LocalDislocationDensityCalculator&); // Operator '=' Not Implemented
+    DiscretizeDDDomain(const DiscretizeDDDomain&); // Copy Constructor Not Implemented
+    void operator=(const DiscretizeDDDomain&); // Operator '=' Not Implemented
 };
 
-#endif /* LocalDislocationDensityCalculator_H_ */
+#endif /* DiscretizeDDDomain_H_ */
 
 
 
