@@ -26,13 +26,13 @@ namespace Detail
 //
 // -----------------------------------------------------------------------------
 DDDAnalysisToolboxPlugin::DDDAnalysisToolboxPlugin() :
-m_Version("Version Number"),                            // Initialize DDDAnalysisToolbox's Version Number Here
-m_CompatibilityVersion("Compatibility Version Number"), // Initialize DDDAnalysisToolbox's Compatibility Version Number Here
-m_Vendor("Vendor Name"),                                // Initialize DDDAnalysisToolbox's Vendor Name Here
-m_URL("URL"),                                           // Initialize Company URL Here
-m_Location("Location"),                                 // Initialize Company Location Here
+m_Version(DREAM3DLib::Version::Package()),                            // Initialize DDDAnalysisToolbox's Version Number Here
+m_CompatibilityVersion(DREAM3DLib::Version::Package()), // Initialize DDDAnalysisToolbox's Compatibility Version Number Here
+m_Vendor(""),                                // Initialize DDDAnalysisToolbox's Vendor Name Here
+m_URL(""),                                           // Initialize Company URL Here
+m_Location(""),                                 // Initialize Company Location Here
 m_Description("Description"),                           // Initialize DDDAnalysisToolbox's Description Here
-m_Copyright("Copyright"),                               // Initialize DDDAnalysisToolbox's Copyright Here
+m_Copyright(""),                               // Initialize DDDAnalysisToolbox's Copyright Here
 m_Filters(QList<QString>()),                        // Initialize DDDAnalysisToolbox's List of Dependencies Here
 m_DidLoad(false)
 {
