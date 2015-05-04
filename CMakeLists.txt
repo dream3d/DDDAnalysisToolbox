@@ -194,7 +194,7 @@ target_link_libraries(${PLUGIN_NAME}
                     Qt5::Core
                     DREAM3DLib
                     Qt5::Gui Qt5::Widgets
-                    QtSupport
+                    QtSupportLib
                     DREAM3DWidgetsLib
                     )
 SET_TARGET_PROPERTIES(${PLUGIN_NAME} PROPERTIES FOLDER ${PLUGIN_NAME}Plugin)

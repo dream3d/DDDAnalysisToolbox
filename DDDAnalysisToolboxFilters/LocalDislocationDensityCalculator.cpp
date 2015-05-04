@@ -419,7 +419,7 @@ int LocalDislocationDensityCalculator::determine_slip_system(int edgeNum)
 	float planeFam1, planeFam2, planeFam3, planeFam4;
 	float slipDir1, slipDir2, slipDir3, slipDir4, slipDir5, slipDir6;
 
-	float tol = 0.000001;
+	float tol = 0.000001f;
 
 	int system = 13;
 	planeFam1 = m_SlipPlaneNormals[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot3;
