@@ -69,11 +69,11 @@ class LocalDislocationDensityCalculator : public AbstractFilter
     DREAM3D_FILTER_PARAMETER(QString, EdgeDataContainerName)
     Q_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
 
-	DREAM3D_FILTER_PARAMETER(DataArrayPath, BurgersVectorsArrayPath)
-	Q_PROPERTY(DataArrayPath BurgersVectorsArrayPath READ getBurgersVectorsArrayPath WRITE setBurgersVectorsArrayPath)
+    DREAM3D_FILTER_PARAMETER(DataArrayPath, BurgersVectorsArrayPath)
+    Q_PROPERTY(DataArrayPath BurgersVectorsArrayPath READ getBurgersVectorsArrayPath WRITE setBurgersVectorsArrayPath)
 
-	DREAM3D_FILTER_PARAMETER(DataArrayPath, SlipPlaneNormalsArrayPath)
-	Q_PROPERTY(DataArrayPath SlipPlaneNormalsArrayPath READ getSlipPlaneNormalsArrayPath WRITE setSlipPlaneNormalsArrayPath)
+    DREAM3D_FILTER_PARAMETER(DataArrayPath, SlipPlaneNormalsArrayPath)
+    Q_PROPERTY(DataArrayPath SlipPlaneNormalsArrayPath READ getSlipPlaneNormalsArrayPath WRITE setSlipPlaneNormalsArrayPath)
 
     DREAM3D_FILTER_PARAMETER(FloatVec3_t, CellSize)
     Q_PROPERTY(FloatVec3_t CellSize READ getCellSize WRITE setCellSize)
@@ -84,12 +84,13 @@ class LocalDislocationDensityCalculator : public AbstractFilter
     // Name the new AttributeMatrix that will get created
     DREAM3D_FILTER_PARAMETER(QString, OutputAttributeMatrixName)
     Q_PROPERTY(QString OutputAttributeMatrixName READ getOutputAttributeMatrixName WRITE setOutputAttributeMatrixName)
-    // Give the created data array a name
-	DREAM3D_FILTER_PARAMETER(QString, OutputArrayName)
-	Q_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
 
-	DREAM3D_FILTER_PARAMETER(QString, DominantSystemArrayName)
-	Q_PROPERTY(QString DominantSystemArrayName READ getDominantSystemArrayName WRITE setDominantSystemArrayName)
+    // Give the created data array a name
+    DREAM3D_FILTER_PARAMETER(QString, OutputArrayName)
+    Q_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
+
+    DREAM3D_FILTER_PARAMETER(QString, DominantSystemArrayName)
+    Q_PROPERTY(QString DominantSystemArrayName READ getDominantSystemArrayName WRITE setDominantSystemArrayName)
 
     /**
     * @brief This returns the group that the filter belonds to. You can select
@@ -156,13 +157,13 @@ class LocalDislocationDensityCalculator : public AbstractFilter
     void dataCheck();
     void updateCellInstancePointers();
 
-	int determine_slip_system(int edgeNum);
+  int determine_slip_system(int edgeNum);
 
   private:
-	DEFINE_CREATED_DATAARRAY_VARIABLE(float, OutputArray)
-	DEFINE_CREATED_DATAARRAY_VARIABLE(float, DominantSystemArray)
-	DEFINE_REQUIRED_DATAARRAY_VARIABLE(float, BurgersVectors)
-	DEFINE_REQUIRED_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
+    DEFINE_CREATED_DATAARRAY_VARIABLE(float, OutputArray)
+    DEFINE_CREATED_DATAARRAY_VARIABLE(float, DominantSystemArray)
+    DEFINE_REQUIRED_DATAARRAY_VARIABLE(float, BurgersVectors)
+    DEFINE_REQUIRED_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
 
     LocalDislocationDensityCalculator(const LocalDislocationDensityCalculator&); // Copy Constructor Not Implemented
     void operator=(const LocalDislocationDensityCalculator&); // Operator '=' Not Implemented

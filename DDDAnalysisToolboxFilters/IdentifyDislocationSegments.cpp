@@ -207,7 +207,7 @@ void IdentifyDislocationSegments::execute()
   AttributeMatrix::Pointer edgeFeatureAttrMat = m->getAttributeMatrix(getEdgeFeatureAttributeMatrixName());
   EdgeGeom::Pointer edgeGeom = m->getGeometryAs<EdgeGeom>();
 
-  float* vertex = edgeGeom->getVertexPointer(0);
+  //float* vertex = edgeGeom->getVertexPointer(0);
   int64_t* edge = edgeGeom->getEdgePointer(0);
   size_t numEdges = edgeGeom->getNumberOfEdges();
 
