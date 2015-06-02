@@ -39,18 +39,11 @@ Volume
 | Feature | ParentIds | List of grouped microtexture region **Features**. |  |
 | Cell | ParentIds | List of grouped microtexture region **Cells**.  |  |
 
-## Authors ##
-
-**Copyright:** 2014 Joseph C. Tucker (UES), 2012 Michael A. Groeber (AFRL),2012 Michael A. Jackson (BlueQuartz Software)
-
-**Contact Info:** dream3d@bluequartz.net
-
-**Version:** 5.0.0
-
-**License:**  See the License.txt file that came with DREAM3D.
 
 
+## License & Copyright ##
 
+Please see the description file distributed with this plugin.
 
 ## DREAM3D Mailing Lists ##
 

@@ -13,7 +13,7 @@
 #include "DREAM3DLib/Common/FilterFactory.hpp"
 
 
-#include "DDDAnalysisToolbox/moc_DDDAnalysisToolboxPlugin.cpp"
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 
 namespace Detail
 {
@@ -26,15 +26,15 @@ namespace Detail
 //
 // -----------------------------------------------------------------------------
 DDDAnalysisToolboxPlugin::DDDAnalysisToolboxPlugin() :
-m_Version(DREAM3DLib::Version::Package()),                            // Initialize DDDAnalysisToolbox's Version Number Here
-m_CompatibilityVersion(DREAM3DLib::Version::Package()), // Initialize DDDAnalysisToolbox's Compatibility Version Number Here
-m_Vendor(""),                                // Initialize DDDAnalysisToolbox's Vendor Name Here
-m_URL(""),                                           // Initialize Company URL Here
-m_Location(""),                                 // Initialize Company Location Here
-m_Description("Description"),                           // Initialize DDDAnalysisToolbox's Description Here
-m_Copyright(""),                               // Initialize DDDAnalysisToolbox's Copyright Here
-m_Filters(QList<QString>()),                        // Initialize DDDAnalysisToolbox's List of Dependencies Here
-m_DidLoad(false)
+  m_Version(DDDAnalysisToolbox::Version::Package()),                            // Initialize DDDAnalysisToolbox's Version Number Here
+  m_CompatibilityVersion(DDDAnalysisToolbox::Version::Package()), // Initialize DDDAnalysisToolbox's Compatibility Version Number Here
+  m_Vendor("Open-Source"),
+  m_URL("http://www.github.com/dream3d/DDDAnalysisToolbox"),
+  m_Location(""),                                 // Initialize Company Location Here
+  m_Description("Description"),                           // Initialize DDDAnalysisToolbox's Description Here
+  m_Copyright(""),                               // Initialize DDDAnalysisToolbox's Copyright Here
+  m_Filters(QList<QString>()),                        // Initialize DDDAnalysisToolbox's List of Dependencies Here
+  m_DidLoad(false)
 {
 
 }
