@@ -52,9 +52,8 @@ LocalDislocationDensityCalculator::LocalDislocationDensityCalculator() :
   m_OutputAttributeMatrixName(DREAM3D::Defaults::CellAttributeMatrixName),
   m_BurgersVectorsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::BurgersVectors),
   m_SlipPlaneNormalsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::SlipPlaneNormals),
-  m_BurgersVectorsArrayName(DREAM3D::EdgeData::BurgersVectors),
+  m_DomainBounds(NULL),
   m_BurgersVectors(NULL),
-  m_SlipPlaneNormalsArrayName(DREAM3D::EdgeData::SlipPlaneNormals),
   m_SlipPlaneNormals(NULL),
   m_DominantSystemArrayName("DominantSystem"),
   m_DominantSystemArray(NULL),
@@ -161,6 +160,7 @@ void LocalDislocationDensityCalculator::dataCheck()
 {
   DataArrayPath tempPath;
   setErrorCondition(0);
+  int err = 0;
 
   // First sanity check the inputs and output names. All must be filled in
 
@@ -205,6 +205,12 @@ void LocalDislocationDensityCalculator::dataCheck()
     setErrorCondition(-384);
     notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Edges", getErrorCondition());
   }
+  //We MUST also have the domain bounds of the edge data container
+  QVector<size_t> dims(1, 6);
+  tempPath.update(getEdgeDataContainerName(), "_MetaData", "DomainBounds");
+  m_DomainBoundsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, tempPath, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  if (NULL != m_DomainBoundsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
+  { m_DomainBounds = m_DomainBoundsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 
   // Create a new DataContainer
   DataContainer::Pointer m2 = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getOutputDataContainerName());
@@ -220,14 +226,14 @@ void LocalDislocationDensityCalculator::dataCheck()
   if(getErrorCondition() < 0) { return; }
 
   //Get the name and create the array in the new data attrMat
-  QVector<size_t> dims(1, 3);
+  dims[0] = 3;
   m_BurgersVectorsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, getBurgersVectorsArrayPath(), dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
   if (NULL != m_BurgersVectorsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
   {m_BurgersVectors = m_BurgersVectorsPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   m_SlipPlaneNormalsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, getSlipPlaneNormalsArrayPath(), dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
   if (NULL != m_SlipPlaneNormalsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
   {m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
-  dims[0] = 14;
+  dims[0] = 1;
   tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
   m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
   if (NULL != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
@@ -272,25 +278,12 @@ void LocalDislocationDensityCalculator::execute()
   size_t numNodes = edgeGeom->getNumberOfVertices();
   size_t numEdges = edgeGeom->getNumberOfEdges();
 
-  float xMin = 1000000000.0;
-  float yMin = 1000000000.0;
-  float zMin = 1000000000.0;
-  float xMax = 0.0;
-  float yMax = 0.0;
-  float zMax = 0.0;
-  float x, y, z;
-  for(size_t i = 0; i < numNodes; i++)
-  {
-    x = nodes[3*i+0];
-    y = nodes[3*i+1];
-    z = nodes[3*i+2];
-    if(x < xMin) { xMin = x; }
-    if(x > xMax) { xMax = x; }
-    if(y < yMin) { yMin = y; }
-    if(y > yMax) { yMax = y; }
-    if(z < zMin) { zMin = z; }
-    if(z > zMax) { zMax = z; }
-  }
+  float xMin = m_DomainBounds[0];
+  float yMin = m_DomainBounds[1];
+  float zMin = m_DomainBounds[2];
+  float xMax = m_DomainBounds[3];
+  float yMax = m_DomainBounds[4];
+  float zMax = m_DomainBounds[5];
 
   FloatVec3_t halfCellSize;
   halfCellSize.x = (m_CellSize.x / 2.0);
@@ -369,9 +362,10 @@ void LocalDislocationDensityCalculator::execute()
           corner2[0] = (l * halfCellSize.x) + halfCellSize.x + quarterCellSize.x + xMin;
           length = GeometryMath::LengthOfRayInBox(point1, point2, corner1, corner2);
 		  point = (zStride + yStride + l);
-		  m_OutputArray[14 * point + 0] += length;
-		  system = determine_slip_system(i);
-		  m_OutputArray[14 * point + system] += length;
+		  m_OutputArray[point] += length;
+		  //m_OutputArray[14 * point + 0] += length;
+		  //system = determine_slip_system(i);
+		  //m_OutputArray[14 * point + system] += length;
         }
       }
     }
@@ -389,21 +383,23 @@ void LocalDislocationDensityCalculator::execute()
       {
 		point = (zStride + yStride + l);
 		//take care of total density first before looping over all systems
-		m_OutputArray[14 * point] /= cellVolume;
+		m_OutputArray[point] /= cellVolume;
+		//m_OutputArray[14 * point] /= cellVolume;
 		//convert to m/mm^3 from um/um^3
-		m_OutputArray[14 * point] *= 1.0E12f;
-		max = 0.0;
-		for (int iter = 1; iter < 14; iter++)
-		{
-		  m_OutputArray[14 * point + iter] /= cellVolume;
-		  //convert to m/mm^3 from um/um^3
-		  m_OutputArray[14 * point + iter] *= 1.0E12f;
-		  if (m_OutputArray[14 * point + iter] > max)
-		  {
-			m_DominantSystemArray[point] = iter;
-			max = m_OutputArray[14 * point + iter];
-		  }
-		}
+		m_OutputArray[point] *= 1.0E12f;
+		//m_OutputArray[14 * point] *= 1.0E12f;
+		//max = 0.0;
+		//for (int iter = 1; iter < 14; iter++)
+		//{
+		//  m_OutputArray[14 * point + iter] /= cellVolume;
+		//  //convert to m/mm^3 from um/um^3
+		//  m_OutputArray[14 * point + iter] *= 1.0E12f;
+		//  if (m_OutputArray[14 * point + iter] > max)
+		//  {
+		//	m_DominantSystemArray[point] = iter;
+		//	max = m_OutputArray[14 * point + iter];
+		//  }
+		//}
       }
     }
   }

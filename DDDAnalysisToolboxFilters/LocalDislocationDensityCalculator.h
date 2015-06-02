@@ -161,6 +161,7 @@ class LocalDislocationDensityCalculator : public AbstractFilter
   private:
 	DEFINE_CREATED_DATAARRAY_VARIABLE(float, OutputArray)
 	DEFINE_CREATED_DATAARRAY_VARIABLE(float, DominantSystemArray)
+	DEFINE_REQUIRED_DATAARRAY_VARIABLE(float, DomainBounds)
 	DEFINE_REQUIRED_DATAARRAY_VARIABLE(float, BurgersVectors)
 	DEFINE_REQUIRED_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
 

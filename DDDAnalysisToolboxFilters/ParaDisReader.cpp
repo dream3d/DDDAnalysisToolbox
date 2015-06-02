@@ -58,10 +58,12 @@ ParaDisReader::ParaDisReader() :
   m_NodeConstraintsArrayName(DREAM3D::VertexData::NodeConstraints),
   m_BurgersVectorsArrayName(DREAM3D::EdgeData::BurgersVectors),
   m_SlipPlaneNormalsArrayName(DREAM3D::EdgeData::SlipPlaneNormals),
+  m_DomainBoundsArrayName("DomainBounds"),
   m_NumberOfArms(NULL),
   m_NodeConstraints(NULL),
   m_BurgersVectors(NULL),
-  m_SlipPlaneNormals(NULL)
+  m_SlipPlaneNormals(NULL),
+  m_BurgersVector(2.5)
 {
   setupFilterParameters();
 }
@@ -166,7 +168,10 @@ void ParaDisReader::dataCheck()
   AttributeMatrix::Pointer amV = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getVertexAttributeMatrixName(), tDims, DREAM3D::AttributeMatrixType::Vertex);
   if(getErrorCondition() < 0) { return; }
   AttributeMatrix::Pointer amE = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getEdgeAttributeMatrixName(), tDims, DREAM3D::AttributeMatrixType::Edge);
-  if(getErrorCondition() < 0) { return; }
+  if (getErrorCondition() < 0) { return; }
+  tDims[0] = 1;
+  AttributeMatrix::Pointer amMeta = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, "_MetaData", tDims, DREAM3D::AttributeMatrixType::MetaData);
+  if (getErrorCondition() < 0) { return; }
 
   QFileInfo fi(getInputFile());
 
@@ -200,6 +205,12 @@ void ParaDisReader::dataCheck()
   m_SlipPlaneNormalsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this,  tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
   if( NULL != m_SlipPlaneNormalsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
   { m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
+  dims[0] = 6;
+  tempPath.update(getEdgeDataContainerName(), "_MetaData", getDomainBoundsArrayName());
+  m_DomainBoundsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  if (NULL != m_DomainBoundsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
+  { m_DomainBounds = m_DomainBoundsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
+
 
   if (m_InStream.isOpen() == true)
   {
@@ -291,6 +302,9 @@ int ParaDisReader::readHeader()
   DataContainer::Pointer m = getDataContainerArray()->getDataContainer(getEdgeDataContainerName());
   AttributeMatrix::Pointer vertexAttrMat = m->getAttributeMatrix(getVertexAttributeMatrixName());
 
+  //convert user input Burgers Vector to microns from angstroms
+  float burgersVec = m_BurgersVector / 10000.0f;
+
   int error = 0;
 
   QByteArray buf;
@@ -307,19 +321,63 @@ int ParaDisReader::readHeader()
   fileVersion = tokens[2].toInt(&ok, 10);
 
   int keepgoing = 1;
-  //read until get to nodeCount line
-  while(keepgoing == 1)
+  //read until get to minCoordinates line
+  while (keepgoing == 1)
   {
-    buf = m_InStream.readLine();
-    buf = buf.trimmed();
-    buf = buf.simplified();
-    tokens = buf.split(' ');
-    QString word(tokens.at(0));
-    if(word.compare("nodeCount") == 0)
-    {
-      numVerts = tokens[2].toInt(&ok, 10);
-      keepgoing = 0;
-    }
+	  buf = m_InStream.readLine();
+	  buf = buf.trimmed();
+	  buf = buf.simplified();
+	  tokens = buf.split(' ');
+	  QString word(tokens.at(0));
+	  if (word.compare("minCoordinates") == 0)
+	  {
+		  for (int32_t i = 0; i < 3; i++)
+		  {
+			  buf = m_InStream.readLine();
+			  buf = buf.trimmed();
+			  buf = buf.simplified();
+			  tokens = buf.split(' ');
+			  m_DomainBounds[i] = tokens[0].toFloat(&ok) * burgersVec;
+		  }
+		  keepgoing = 0;
+	  }
+  }
+  keepgoing = 1;
+  //read until get to maxCoordinates line
+  while (keepgoing == 1)
+  {
+	  buf = m_InStream.readLine();
+	  buf = buf.trimmed();
+	  buf = buf.simplified();
+	  tokens = buf.split(' ');
+	  QString word(tokens.at(0));
+	  if (word.compare("maxCoordinates") == 0)
+	  {
+		  for (int32_t i = 3; i < 6; i++)
+		  {
+			  buf = m_InStream.readLine();
+			  buf = buf.trimmed();
+			  buf = buf.simplified();
+			  tokens = buf.split(' ');
+			  m_DomainBounds[i] = tokens[0].toFloat(&ok) * burgersVec;
+		  }
+		  keepgoing = 0;
+	  }
+  }
+  keepgoing = 1;
+  //read until get to nodeCount line
+  while (keepgoing == 1)
+  {
+	  buf = m_InStream.readLine();
+	  buf = buf.trimmed();
+	  buf = buf.simplified();
+	  tokens = buf.split(' ');
+	  QString word(tokens.at(0));
+	  if (word.compare("nodeCount") == 0)
+	  {
+		  numVerts = tokens[2].toInt(&ok, 10);
+		  keepgoing = 0;
+	  }
   }
   keepgoing = 1;
   //read until get to nodalData line
@@ -393,8 +451,8 @@ int ParaDisReader::readFile()
   QVector<float> spnZs;
   float spNorm[3];
 
-  //turn burgers vector into microns from angstroms
-  m_BurgersVector = m_BurgersVector / 10000;
+  //convert user input Burgers Vector to microns from angstroms
+  float burgersVec = m_BurgersVector / 10000.0f;
 
   for(int j = 0; j < numVerts; j++)
   {
@@ -410,9 +468,9 @@ int ParaDisReader::readFile()
     if(nodeNum == -1)
     {
       nodeNum = nodeCounter;
-      vertex[3*nodeNum+0] = tokens[1].toFloat(&ok) * m_BurgersVector;
-      vertex[3*nodeNum+1] = tokens[2].toFloat(&ok) * m_BurgersVector;
-      vertex[3*nodeNum+2] = tokens[3].toFloat(&ok) * m_BurgersVector;
+	  vertex[3 * nodeNum + 0] = tokens[1].toFloat(&ok) * burgersVec;
+	  vertex[3 * nodeNum + 1] = tokens[2].toFloat(&ok) * burgersVec;
+	  vertex[3 * nodeNum + 2] = tokens[3].toFloat(&ok) * burgersVec;
       m_NumberOfArms[nodeNum] = tokens[4].toInt(&ok, 10);
       m_NodeConstraints[nodeNum] = tokens[5].toInt(&ok, 10);
       vertNumbers.insert(*ptr64, nodeNum);
@@ -420,9 +478,9 @@ int ParaDisReader::readFile()
     }
     else
     {
-      vertex[3*nodeNum+0] = tokens[1].toFloat(&ok) * m_BurgersVector;
-      vertex[3*nodeNum+1] = tokens[2].toFloat(&ok) * m_BurgersVector;
-      vertex[3*nodeNum+2] = tokens[3].toFloat(&ok) * m_BurgersVector;
+	  vertex[3 * nodeNum + 0] = tokens[1].toFloat(&ok) * burgersVec;
+	  vertex[3 * nodeNum + 1] = tokens[2].toFloat(&ok) * burgersVec;
+	  vertex[3 * nodeNum + 2] = tokens[3].toFloat(&ok) * burgersVec;
       m_NumberOfArms[nodeNum] = tokens[4].toInt(&ok, 10);
       m_NodeConstraints[nodeNum] = tokens[5].toInt(&ok, 10);
     }
@@ -455,9 +513,9 @@ int ParaDisReader::readFile()
 		burgVec[0] = tokens[1].toFloat(&ok);
 		burgVec[1] = tokens[2].toFloat(&ok);
 		burgVec[2] = tokens[3].toFloat(&ok);
-		//burgVec[0] = tokens[1].toFloat(&ok) * m_BurgersVector;
-		//burgVec[1] = tokens[2].toFloat(&ok) * m_BurgersVector;
-		//burgVec[2] = tokens[3].toFloat(&ok) * m_BurgersVector;
+		//burgVec[0] = tokens[1].toFloat(&ok) * burgersVec;
+		//burgVec[1] = tokens[2].toFloat(&ok) * burgersVec;
+		//burgVec[2] = tokens[3].toFloat(&ok) * burgersVec;
 		burgerXs.push_back(burgVec[0]);
         burgerYs.push_back(burgVec[1]);
         burgerZs.push_back(burgVec[2]);
