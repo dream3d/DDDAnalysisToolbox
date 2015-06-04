@@ -309,6 +309,10 @@ void LocalDislocationDensityCalculator::execute()
   cellAttrMat->resizeAttributeArrays(tDims);
   updateCellInstancePointers();
 
+  //Create a temporary array to hold the individual slip system lengths in order to determine dominant system
+  FloatArrayType::Pointer m_IndividualSystemLengthsPtr = FloatArrayType::CreateArray(12 * m_OutputArrayPtr.lock()->getNumberOfTuples(), "INDIVIDUAL_SYSTEM_LENGTHS_INTERNAL_USE_ONLY");
+  float* m_IndividualSystemLengths = m_IndividualSystemLengthsPtr->getPointer(0);
+
   float point1[3], point2[3], corner1[3], corner2[3];
   size_t xCellMin, xCellMax;
   size_t yCellMin, yCellMax;
@@ -363,9 +367,8 @@ void LocalDislocationDensityCalculator::execute()
           length = GeometryMath::LengthOfRayInBox(point1, point2, corner1, corner2);
 		  point = (zStride + yStride + l);
 		  m_OutputArray[point] += length;
-		  //m_OutputArray[14 * point + 0] += length;
-		  //system = determine_slip_system(i);
-		  //m_OutputArray[14 * point + system] += length;
+		  system = determine_slip_system(i);
+		  m_IndividualSystemLengths[12 * point + system] += length;
         }
       }
     }
@@ -384,22 +387,20 @@ void LocalDislocationDensityCalculator::execute()
 		point = (zStride + yStride + l);
 		//take care of total density first before looping over all systems
 		m_OutputArray[point] /= cellVolume;
-		//m_OutputArray[14 * point] /= cellVolume;
 		//convert to m/mm^3 from um/um^3
 		m_OutputArray[point] *= 1.0E12f;
-		//m_OutputArray[14 * point] *= 1.0E12f;
-		//max = 0.0;
-		//for (int iter = 1; iter < 14; iter++)
-		//{
-		//  m_OutputArray[14 * point + iter] /= cellVolume;
-		//  //convert to m/mm^3 from um/um^3
-		//  m_OutputArray[14 * point + iter] *= 1.0E12f;
-		//  if (m_OutputArray[14 * point + iter] > max)
-		//  {
-		//	m_DominantSystemArray[point] = iter;
-		//	max = m_OutputArray[14 * point + iter];
-		//  }
-		//}
+		max = 0.0;
+		for (int iter = 0; iter < 12; iter++)
+		{
+		  m_IndividualSystemLengths[12 * point + iter] /= cellVolume;
+		  //convert to m/mm^3 from um/um^3
+		  m_IndividualSystemLengths[12 * point + iter] *= 1.0E12f;
+		  if (m_IndividualSystemLengths[12 * point + iter] > max)
+		  {
+			m_DominantSystemArray[point] = iter;
+			max = m_IndividualSystemLengths[12 * point + iter];
+		  }
+		}
       }
     }
   }
@@ -417,7 +418,7 @@ int LocalDislocationDensityCalculator::determine_slip_system(int edgeNum)
 
   float tol = 0.000001f;
 
-  int system = 13;
+  int system = 12;
   planeFam1 = m_SlipPlaneNormals[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot3;
   planeFam2 = m_SlipPlaneNormals[3 * edgeNum + 0] * -DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot3;
   planeFam3 = m_SlipPlaneNormals[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * -DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot3;
@@ -430,27 +431,27 @@ int LocalDislocationDensityCalculator::determine_slip_system(int edgeNum)
   slipDir6 = m_BurgersVectors[3 * edgeNum + 0] * 0.0 + m_BurgersVectors[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * -DREAM3D::Constants::k_1OverRoot2;
   if (abs(abs(planeFam1) - 1.0) < tol)
   {
-    if (abs(abs(slipDir4) - 1.0) < tol) system = 1;
-    if (abs(abs(slipDir5) - 1.0) < tol) system = 2;
-    if (abs(abs(slipDir6) - 1.0) < tol) system = 3;
+    if (abs(abs(slipDir4) - 1.0) < tol) system = 0;
+    if (abs(abs(slipDir5) - 1.0) < tol) system = 1;
+    if (abs(abs(slipDir6) - 1.0) < tol) system = 2;
   }
   if (abs(abs(planeFam2) - 1.0) < tol)
   {
-    if (abs(abs(slipDir1) - 1.0) < tol) system = 4;
-    if (abs(abs(slipDir2) - 1.0) < tol) system = 5;
-    if (abs(abs(slipDir6) - 1.0) < tol) system = 6;
+    if (abs(abs(slipDir1) - 1.0) < tol) system = 3;
+    if (abs(abs(slipDir2) - 1.0) < tol) system = 4;
+    if (abs(abs(slipDir6) - 1.0) < tol) system = 5;
   }
   if (abs(abs(planeFam3) - 1.0) < tol)
   {
-    if (abs(abs(slipDir1) - 1.0) < tol) system = 7;
-    if (abs(abs(slipDir3) - 1.0) < tol) system = 8;
-    if (abs(abs(slipDir5) - 1.0) < tol) system = 9;
+    if (abs(abs(slipDir1) - 1.0) < tol) system = 6;
+    if (abs(abs(slipDir3) - 1.0) < tol) system = 7;
+    if (abs(abs(slipDir5) - 1.0) < tol) system = 8;
   }
   if (abs(abs(planeFam4) - 1.0) < tol)
   {
-    if (abs(abs(slipDir2) - 1.0) < tol) system = 10;
-    if (abs(abs(slipDir3) - 1.0) < tol) system = 11;
-    if (abs(abs(slipDir4) - 1.0) < tol) system = 12;
+    if (abs(abs(slipDir2) - 1.0) < tol) system = 9;
+    if (abs(abs(slipDir3) - 1.0) < tol) system = 10;
+    if (abs(abs(slipDir4) - 1.0) < tol) system = 11;
   }
   return system;
 }
