@@ -92,7 +92,7 @@ class  ParaDisReader : public FileReader
     DREAM3D_FILTER_PARAMETER(QString, SlipPlaneNormalsArrayName)
     Q_PROPERTY(QString SlipPlaneNormalsArrayName READ getSlipPlaneNormalsArrayName WRITE setSlipPlaneNormalsArrayName)
 
-	DREAM3D_FILTER_PARAMETER(QString, DomainBoundsArrayName)
+    DREAM3D_FILTER_PARAMETER(QString, DomainBoundsArrayName)
 
     virtual const QString getCompiledLibraryName();
     virtual AbstractFilter::Pointer newFilterInstance(bool copyFilterParameters);
@@ -136,9 +136,9 @@ class  ParaDisReader : public FileReader
     DEFINE_CREATED_DATAARRAY_VARIABLE(int32_t, NumberOfArms)
     DEFINE_CREATED_DATAARRAY_VARIABLE(int32_t, NodeConstraints)
     DEFINE_CREATED_DATAARRAY_VARIABLE(float, BurgersVectors)
-	DEFINE_CREATED_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
-	DEFINE_CREATED_DATAARRAY_VARIABLE(float, DomainBounds)
-	QFile  m_InStream;
+    DEFINE_CREATED_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
+    DEFINE_CREATED_DATAARRAY_VARIABLE(float, DomainBounds)
+    QFile  m_InStream;
 
     int numVerts;
     int numEdges;

@@ -54,6 +54,7 @@ ParaDisReader::ParaDisReader() :
   m_VertexAttributeMatrixName(DREAM3D::Defaults::VertexAttributeMatrixName),
   m_EdgeAttributeMatrixName(DREAM3D::Defaults::EdgeAttributeMatrixName),
   m_InputFile(""),
+  m_BurgersVector(2.5),
   m_NumberOfArmsArrayName(DREAM3D::VertexData::NumberOfArms),
   m_NodeConstraintsArrayName(DREAM3D::VertexData::NodeConstraints),
   m_BurgersVectorsArrayName(DREAM3D::EdgeData::BurgersVectors),
@@ -62,8 +63,7 @@ ParaDisReader::ParaDisReader() :
   m_NumberOfArms(NULL),
   m_NodeConstraints(NULL),
   m_BurgersVectors(NULL),
-  m_SlipPlaneNormals(NULL),
-  m_BurgersVector(2.5)
+  m_SlipPlaneNormals(NULL)
 {
   setupFilterParameters();
 }
@@ -324,60 +324,60 @@ int ParaDisReader::readHeader()
   //read until get to minCoordinates line
   while (keepgoing == 1)
   {
-	  buf = m_InStream.readLine();
-	  buf = buf.trimmed();
-	  buf = buf.simplified();
-	  tokens = buf.split(' ');
-	  QString word(tokens.at(0));
-	  if (word.compare("minCoordinates") == 0)
-	  {
-		  for (int32_t i = 0; i < 3; i++)
-		  {
-			  buf = m_InStream.readLine();
-			  buf = buf.trimmed();
-			  buf = buf.simplified();
-			  tokens = buf.split(' ');
-			  m_DomainBounds[i] = tokens[0].toFloat(&ok) * burgersVec;
-		  }
-		  keepgoing = 0;
-	  }
+    buf = m_InStream.readLine();
+    buf = buf.trimmed();
+    buf = buf.simplified();
+    tokens = buf.split(' ');
+    QString word(tokens.at(0));
+    if (word.compare("minCoordinates") == 0)
+    {
+      for (int32_t i = 0; i < 3; i++)
+      {
+        buf = m_InStream.readLine();
+        buf = buf.trimmed();
+        buf = buf.simplified();
+        tokens = buf.split(' ');
+        m_DomainBounds[i] = tokens[0].toFloat(&ok) * burgersVec;
+      }
+      keepgoing = 0;
+    }
   }
   keepgoing = 1;
   //read until get to maxCoordinates line
   while (keepgoing == 1)
   {
-	  buf = m_InStream.readLine();
-	  buf = buf.trimmed();
-	  buf = buf.simplified();
-	  tokens = buf.split(' ');
-	  QString word(tokens.at(0));
-	  if (word.compare("maxCoordinates") == 0)
-	  {
-		  for (int32_t i = 3; i < 6; i++)
-		  {
-			  buf = m_InStream.readLine();
-			  buf = buf.trimmed();
-			  buf = buf.simplified();
-			  tokens = buf.split(' ');
-			  m_DomainBounds[i] = tokens[0].toFloat(&ok) * burgersVec;
-		  }
-		  keepgoing = 0;
-	  }
+    buf = m_InStream.readLine();
+    buf = buf.trimmed();
+    buf = buf.simplified();
+    tokens = buf.split(' ');
+    QString word(tokens.at(0));
+    if (word.compare("maxCoordinates") == 0)
+    {
+      for (int32_t i = 3; i < 6; i++)
+      {
+        buf = m_InStream.readLine();
+        buf = buf.trimmed();
+        buf = buf.simplified();
+        tokens = buf.split(' ');
+        m_DomainBounds[i] = tokens[0].toFloat(&ok) * burgersVec;
+      }
+      keepgoing = 0;
+    }
   }
   keepgoing = 1;
   //read until get to nodeCount line
   while (keepgoing == 1)
   {
-	  buf = m_InStream.readLine();
-	  buf = buf.trimmed();
-	  buf = buf.simplified();
-	  tokens = buf.split(' ');
-	  QString word(tokens.at(0));
-	  if (word.compare("nodeCount") == 0)
-	  {
-		  numVerts = tokens[2].toInt(&ok, 10);
-		  keepgoing = 0;
-	  }
+    buf = m_InStream.readLine();
+    buf = buf.trimmed();
+    buf = buf.simplified();
+    tokens = buf.split(' ');
+    QString word(tokens.at(0));
+    if (word.compare("nodeCount") == 0)
+    {
+      numVerts = tokens[2].toInt(&ok, 10);
+      keepgoing = 0;
+    }
   }
   keepgoing = 1;
   //read until get to nodalData line
@@ -468,9 +468,9 @@ int ParaDisReader::readFile()
     if(nodeNum == -1)
     {
       nodeNum = nodeCounter;
-	  vertex[3 * nodeNum + 0] = tokens[1].toFloat(&ok) * burgersVec;
-	  vertex[3 * nodeNum + 1] = tokens[2].toFloat(&ok) * burgersVec;
-	  vertex[3 * nodeNum + 2] = tokens[3].toFloat(&ok) * burgersVec;
+    vertex[3 * nodeNum + 0] = tokens[1].toFloat(&ok) * burgersVec;
+    vertex[3 * nodeNum + 1] = tokens[2].toFloat(&ok) * burgersVec;
+    vertex[3 * nodeNum + 2] = tokens[3].toFloat(&ok) * burgersVec;
       m_NumberOfArms[nodeNum] = tokens[4].toInt(&ok, 10);
       m_NodeConstraints[nodeNum] = tokens[5].toInt(&ok, 10);
       vertNumbers.insert(*ptr64, nodeNum);
@@ -478,9 +478,9 @@ int ParaDisReader::readFile()
     }
     else
     {
-	  vertex[3 * nodeNum + 0] = tokens[1].toFloat(&ok) * burgersVec;
-	  vertex[3 * nodeNum + 1] = tokens[2].toFloat(&ok) * burgersVec;
-	  vertex[3 * nodeNum + 2] = tokens[3].toFloat(&ok) * burgersVec;
+    vertex[3 * nodeNum + 0] = tokens[1].toFloat(&ok) * burgersVec;
+    vertex[3 * nodeNum + 1] = tokens[2].toFloat(&ok) * burgersVec;
+    vertex[3 * nodeNum + 2] = tokens[3].toFloat(&ok) * burgersVec;
       m_NumberOfArms[nodeNum] = tokens[4].toInt(&ok, 10);
       m_NodeConstraints[nodeNum] = tokens[5].toInt(&ok, 10);
     }
@@ -510,13 +510,13 @@ int ParaDisReader::readFile()
         numEdges++;
         firstNodes.push_back(nodeNum);
         secondNodes.push_back(neighborNode);
-		burgVec[0] = tokens[1].toFloat(&ok);
-		burgVec[1] = tokens[2].toFloat(&ok);
-		burgVec[2] = tokens[3].toFloat(&ok);
-		//burgVec[0] = tokens[1].toFloat(&ok) * burgersVec;
-		//burgVec[1] = tokens[2].toFloat(&ok) * burgersVec;
-		//burgVec[2] = tokens[3].toFloat(&ok) * burgersVec;
-		burgerXs.push_back(burgVec[0]);
+    burgVec[0] = tokens[1].toFloat(&ok);
+    burgVec[1] = tokens[2].toFloat(&ok);
+    burgVec[2] = tokens[3].toFloat(&ok);
+    //burgVec[0] = tokens[1].toFloat(&ok) * burgersVec;
+    //burgVec[1] = tokens[2].toFloat(&ok) * burgersVec;
+    //burgVec[2] = tokens[3].toFloat(&ok) * burgersVec;
+    burgerXs.push_back(burgVec[0]);
         burgerYs.push_back(burgVec[1]);
         burgerZs.push_back(burgVec[2]);
       }
