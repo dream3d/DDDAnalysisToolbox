@@ -50,15 +50,15 @@ LocalDislocationDensityCalculator::LocalDislocationDensityCalculator() :
   m_EdgeDataContainerName(DREAM3D::Defaults::DataContainerName),
   m_BurgersVectorsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::BurgersVectors),
   m_SlipPlaneNormalsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::SlipPlaneNormals),
+  m_OutputDataContainerName(DREAM3D::Defaults::NewDataContainerName),
+  m_OutputAttributeMatrixName(DREAM3D::Defaults::CellAttributeMatrixName),
+  m_OutputArrayName("DislocationLineDensity"),
+  m_DominantSystemArrayName("DominantSystem"),
+  m_OutputArray(NULL),
+  m_DominantSystemArray(NULL),
   m_DomainBounds(NULL),
   m_BurgersVectors(NULL),
-  m_SlipPlaneNormals(NULL),
-  m_DominantSystemArrayName("DominantSystem"),
-  m_DominantSystemArray(NULL),
-  m_OutputArrayName("DislocationLineDensity"),
-  m_OutputArray(NULL),
-  m_OutputDataContainerName(DREAM3D::Defaults::NewDataContainerName),
-  m_OutputAttributeMatrixName(DREAM3D::Defaults::CellAttributeMatrixName)
+  m_SlipPlaneNormals(NULL)
 {
   m_CellSize.x = 2.0;
   m_CellSize.y = 2.0;
@@ -160,7 +160,6 @@ void LocalDislocationDensityCalculator::dataCheck()
 {
   DataArrayPath tempPath;
   setErrorCondition(0);
-  int err = 0;
 
   // First sanity check the inputs and output names. All must be filled in
 
@@ -275,7 +274,6 @@ void LocalDislocationDensityCalculator::execute()
 
   float* nodes = edgeGeom->getVertexPointer(0);
   int64_t* edge = edgeGeom->getEdgePointer(0);
-  size_t numNodes = edgeGeom->getNumberOfVertices();
   size_t numEdges = edgeGeom->getNumberOfEdges();
 
   float xMin = m_DomainBounds[0];
@@ -319,8 +317,8 @@ void LocalDislocationDensityCalculator::execute()
   size_t zCellMin, zCellMax;
   float x1, y1, z1, x2, y2, z2;
   size_t zStride, yStride, point;
-  int system = 0;
   float length;
+  int32_t system = 0;
   for(size_t i = 0; i < numEdges; i++)
   {
   point1[0] = nodes[3 * edge[2 * i + 0] + 0];
@@ -365,16 +363,15 @@ void LocalDislocationDensityCalculator::execute()
           corner1[0] = (l * halfCellSize.x) - halfCellSize.x + quarterCellSize.x + xMin;
           corner2[0] = (l * halfCellSize.x) + halfCellSize.x + quarterCellSize.x + xMin;
           length = GeometryMath::LengthOfRayInBox(point1, point2, corner1, corner2);
-		  point = (zStride + yStride + l);
-		  m_OutputArray[point] += length;
-		  system = determine_slip_system(i);
-		  m_IndividualSystemLengths[12 * point + system] += length;
+      point = (zStride + yStride + l);
+      m_OutputArray[point] += length;
+      system = determine_slip_system(i);
+      m_IndividualSystemLengths[12 * point + system] += length;
         }
       }
     }
   }
 
-  float max = 0.0;
   float cellVolume = m_CellSize.x * m_CellSize.y * m_CellSize.z;
   for(size_t j = 0; j < tDims[2]; j++)
   {
@@ -384,23 +381,23 @@ void LocalDislocationDensityCalculator::execute()
       yStride = k * tDims[0];
       for(size_t l = 0; l < tDims[0]; l++)
       {
-		point = (zStride + yStride + l);
-		//take care of total density first before looping over all systems
-		m_OutputArray[point] /= cellVolume;
-		//convert to m/mm^3 from um/um^3
-		m_OutputArray[point] *= 1.0E12f;
-		max = 0.0;
-		for (int iter = 0; iter < 12; iter++)
-		{
-		  m_IndividualSystemLengths[12 * point + iter] /= cellVolume;
-		  //convert to m/mm^3 from um/um^3
-		  m_IndividualSystemLengths[12 * point + iter] *= 1.0E12f;
-		  if (m_IndividualSystemLengths[12 * point + iter] > max)
-		  {
-			m_DominantSystemArray[point] = iter;
-			max = m_IndividualSystemLengths[12 * point + iter];
-		  }
-		}
+    point = (zStride + yStride + l);
+    //take care of total density first before looping over all systems
+    m_OutputArray[point] /= cellVolume;
+    //convert to m/mm^3 from um/um^3
+    m_OutputArray[point] *= 1.0E12f;
+    float max = 0.0f;
+    for (int iter = 0; iter < 12; iter++)
+    {
+      m_IndividualSystemLengths[12 * point + iter] /= cellVolume;
+      //convert to m/mm^3 from um/um^3
+      m_IndividualSystemLengths[12 * point + iter] *= 1.0E12f;
+      if (m_IndividualSystemLengths[12 * point + iter] > max)
+      {
+      m_DominantSystemArray[point] = iter;
+      max = m_IndividualSystemLengths[12 * point + iter];
+      }
+    }
       }
     }
   }
