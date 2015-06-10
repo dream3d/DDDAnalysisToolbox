@@ -81,13 +81,13 @@ void IdentifyDislocationSegments::setupFilterParameters()
 {
   FilterParameterVector parameters;
 
-  parameters.push_back(SeparatorFilterParameter::New("Required Information", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("BurgersVectors", "BurgersVectorsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getBurgersVectorsArrayPath(), FilterParameter::Uncategorized, ""));
-  parameters.push_back(FilterParameter::New("SlipPlaneNormals", "SlipPlaneNormalsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getSlipPlaneNormalsArrayPath(), FilterParameter::Uncategorized, ""));
-  parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("Edge Feature Attribute Matrix Name", "EdgeFeatureAttributeMatrixName", FilterParameterWidgetType::StringWidget, getEdgeFeatureAttributeMatrixName(), FilterParameter::Uncategorized, ""));
-  parameters.push_back(FilterParameter::New("DislocationIds", "DislocationIdsArrayName", FilterParameterWidgetType::StringWidget, getDislocationIdsArrayName(), FilterParameter::Uncategorized, ""));
-  parameters.push_back(FilterParameter::New("Active", "ActiveArrayName", FilterParameterWidgetType::StringWidget, getActiveArrayName(), FilterParameter::Uncategorized, ""));
+  //parameters.push_back(SeparatorFilterParameter::New("Required Information", FilterParameter::Uncategorized));
+  parameters.push_back(FilterParameter::New("BurgersVectors", "BurgersVectorsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, ""));
+  parameters.push_back(FilterParameter::New("SlipPlaneNormals", "SlipPlaneNormalsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, ""));
+  //parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
+  parameters.push_back(FilterParameter::New("Edge Feature AttributeMatrix Name", "EdgeFeatureAttributeMatrixName", FilterParameterWidgetType::StringWidget, getEdgeFeatureAttributeMatrixName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("DislocationIds", "DislocationIdsArrayName", FilterParameterWidgetType::StringWidget, getDislocationIdsArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Active Array", "ActiveArrayName", FilterParameterWidgetType::StringWidget, getActiveArrayName(), FilterParameter::CreatedArray, ""));
   setFilterParameters(parameters);
 }
 

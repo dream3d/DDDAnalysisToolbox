@@ -82,16 +82,16 @@ ParaDisReader::~ParaDisReader()
 void ParaDisReader::setupFilterParameters()
 {
   FilterParameterVector parameters;
-  parameters.push_back(FileSystemFilterParameter::New("Input File", "InputFile", FilterParameterWidgetType::InputFileWidget, getInputFile(), FilterParameter::Uncategorized, "", "*"));
-  parameters.push_back(FilterParameter::New("Burgers Vector Length", "BurgersVector", FilterParameterWidgetType::DoubleWidget, getBurgersVector(), FilterParameter::Uncategorized, "Angstroms"));
-  parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("Edge Data Container", "EdgeDataContainerName", FilterParameterWidgetType::StringWidget, getEdgeDataContainerName(), FilterParameter::Uncategorized, ""));
-  parameters.push_back(FilterParameter::New("Vertex Attribute Matrix", "VertexAttributeMatrixName", FilterParameterWidgetType::StringWidget, getVertexAttributeMatrixName(), FilterParameter::Uncategorized, ""));
-  parameters.push_back(FilterParameter::New("Edge Attribute Matrix", "EdgeAttributeMatrixName", FilterParameterWidgetType::StringWidget, getEdgeAttributeMatrixName(), FilterParameter::Uncategorized, ""));
-  parameters.push_back(FilterParameter::New("NumberOfArms", "NumberOfArmsArrayName", FilterParameterWidgetType::StringWidget, getNumberOfArmsArrayName(), FilterParameter::Uncategorized, ""));
-  parameters.push_back(FilterParameter::New("NodeConstraints", "NodeConstraintsArrayName", FilterParameterWidgetType::StringWidget, getNodeConstraintsArrayName(), FilterParameter::Uncategorized, ""));
-  parameters.push_back(FilterParameter::New("BurgersVectors", "BurgersVectorsArrayName", FilterParameterWidgetType::StringWidget, getBurgersVectorsArrayName(), FilterParameter::Uncategorized, ""));
-  parameters.push_back(FilterParameter::New("SlipPlaneNormals", "SlipPlaneNormalsArrayName", FilterParameterWidgetType::StringWidget, getSlipPlaneNormalsArrayName(), FilterParameter::Uncategorized, ""));
+  parameters.push_back(FileSystemFilterParameter::New("Input File", "InputFile", FilterParameterWidgetType::InputFileWidget, getInputFile(), FilterParameter::Parameter, "", "*"));
+  parameters.push_back(FilterParameter::New("Burgers Vector Length", "BurgersVector", FilterParameterWidgetType::DoubleWidget, getBurgersVector(), FilterParameter::Parameter, "Angstroms"));
+ // parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
+  parameters.push_back(FilterParameter::New("Edge DataContainer Name", "EdgeDataContainerName", FilterParameterWidgetType::StringWidget, getEdgeDataContainerName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Vertex AttributeMatrix Name", "VertexAttributeMatrixName", FilterParameterWidgetType::StringWidget, getVertexAttributeMatrixName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Edge AttributeMatrix Name", "EdgeAttributeMatrixName", FilterParameterWidgetType::StringWidget, getEdgeAttributeMatrixName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Number Of Arms Array Name", "NumberOfArmsArrayName", FilterParameterWidgetType::StringWidget, getNumberOfArmsArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Node Constraints Array Name", "NodeConstraintsArrayName", FilterParameterWidgetType::StringWidget, getNodeConstraintsArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Burgers Vectors Array Name", "BurgersVectorsArrayName", FilterParameterWidgetType::StringWidget, getBurgersVectorsArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Slip Plane Normals Array Name", "SlipPlaneNormalsArrayName", FilterParameterWidgetType::StringWidget, getSlipPlaneNormalsArrayName(), FilterParameter::CreatedArray, ""));
   setFilterParameters(parameters);
 }
 
