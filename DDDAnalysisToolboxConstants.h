@@ -9,10 +9,16 @@
 /**
 * @brief This namespace is used to define some Constants for the plugin itself.
 */
-namespace DDDAnalysisToolbox {
+namespace DDDAnalysisToolboxConstants
+{
   const QString DDDAnalysisToolboxPluginFile("DDDAnalysisToolboxPlugin");
   const QString DDDAnalysisToolboxPluginDisplayName("DDDAnalysisToolboxPlugin");
   const QString DDDAnalysisToolboxBaseName("DDDAnalysisToolboxPlugin");
+
+  namespace FilterGroups
+  {
+    const QString DDDAnalyticsToolboxFilters("DDD Analytics");
+  }
 }
 
 /**

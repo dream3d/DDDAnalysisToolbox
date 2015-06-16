@@ -370,14 +370,14 @@ AbstractFilter::Pointer DiscretizeDDDomain::newFilterInstance(bool copyFilterPar
 //
 // -----------------------------------------------------------------------------
 const QString DiscretizeDDDomain::getCompiledLibraryName()
-{ return DDDAnalysisToolbox::DDDAnalysisToolboxBaseName; }
+{ return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 const QString DiscretizeDDDomain::getGroupName()
-{ return "DDD Analytics"; }
+{ return DDDAnalysisToolboxConstants::FilterGroups::DDDAnalyticsToolboxFilters; }
 
 
 // -----------------------------------------------------------------------------

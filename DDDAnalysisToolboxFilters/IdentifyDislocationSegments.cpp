@@ -347,14 +347,14 @@ AbstractFilter::Pointer IdentifyDislocationSegments::newFilterInstance(bool copy
 //
 // -----------------------------------------------------------------------------
 const QString IdentifyDislocationSegments::getCompiledLibraryName()
-{ return DDDAnalysisToolbox::DDDAnalysisToolboxBaseName; }
+{ return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 const QString IdentifyDislocationSegments::getGroupName()
-{ return "DDD Analytics"; }
+{ return DDDAnalysisToolboxConstants::FilterGroups::DDDAnalyticsToolboxFilters; }
 
 
 // -----------------------------------------------------------------------------

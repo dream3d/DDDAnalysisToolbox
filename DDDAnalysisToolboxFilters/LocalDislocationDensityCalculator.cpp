@@ -464,14 +464,14 @@ AbstractFilter::Pointer LocalDislocationDensityCalculator::newFilterInstance(boo
 //
 // -----------------------------------------------------------------------------
 const QString LocalDislocationDensityCalculator::getCompiledLibraryName()
-{ return DDDAnalysisToolbox::DDDAnalysisToolboxBaseName; }
+{ return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 const QString LocalDislocationDensityCalculator::getGroupName()
-{ return "DDD Analytics"; }
+{ return DDDAnalysisToolboxConstants::FilterGroups::DDDAnalyticsToolboxFilters; }
 
 
 // -----------------------------------------------------------------------------

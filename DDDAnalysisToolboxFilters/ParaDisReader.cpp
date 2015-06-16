@@ -583,7 +583,7 @@ AbstractFilter::Pointer ParaDisReader::newFilterInstance(bool copyFilterParamete
 //
 // -----------------------------------------------------------------------------
 const QString ParaDisReader::getCompiledLibraryName()
-{ return DDDAnalysisToolbox::DDDAnalysisToolboxBaseName; }
+{ return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName; }
 
 
 // -----------------------------------------------------------------------------

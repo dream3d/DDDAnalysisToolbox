@@ -12,15 +12,8 @@
 #include "DREAM3DLib/Common/IFilterFactory.hpp"
 #include "DREAM3DLib/Common/FilterFactory.hpp"
 
-
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
-
-namespace Detail
-{
-  const QString DDDAnalysisToolboxPluginFile("DDDAnalysisToolboxPlugin");
-  const QString DDDAnalysisToolboxPluginDisplayName("DDDAnalysisToolbox");
-  const QString DDDAnalysisToolboxPluginBaseName("DDDAnalysisToolboxPlugin");
-}
 
 // -----------------------------------------------------------------------------
 //
@@ -51,7 +44,7 @@ DDDAnalysisToolboxPlugin::~DDDAnalysisToolboxPlugin()
 // -----------------------------------------------------------------------------
 QString DDDAnalysisToolboxPlugin::getPluginName()
 {
-  return (Detail::DDDAnalysisToolboxPluginDisplayName);
+  return (DDDAnalysisToolboxConstants::DDDAnalysisToolboxPluginDisplayName);
 }
 
 // -----------------------------------------------------------------------------
