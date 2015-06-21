@@ -133,11 +133,11 @@ class  ParaDisReader : public FileReader
     void updateEdgeInstancePointers();
 
   private:
-    DEFINE_CREATED_DATAARRAY_VARIABLE(int32_t, NumberOfArms)
-    DEFINE_CREATED_DATAARRAY_VARIABLE(int32_t, NodeConstraints)
-    DEFINE_CREATED_DATAARRAY_VARIABLE(float, BurgersVectors)
-    DEFINE_CREATED_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
-    DEFINE_CREATED_DATAARRAY_VARIABLE(float, DomainBounds)
+    DEFINE_DATAARRAY_VARIABLE(int32_t, NumberOfArms)
+    DEFINE_DATAARRAY_VARIABLE(int32_t, NodeConstraints)
+    DEFINE_DATAARRAY_VARIABLE(float, BurgersVectors)
+    DEFINE_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
+    DEFINE_DATAARRAY_VARIABLE(float, DomainBounds)
     QFile  m_InStream;
 
     int numVerts;

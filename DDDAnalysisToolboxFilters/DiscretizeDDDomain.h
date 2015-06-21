@@ -148,7 +148,7 @@ class DiscretizeDDDomain : public AbstractFilter
     void dataCheck();
 
   private:
-	DEFINE_CREATED_DATAARRAY_VARIABLE(int32_t, OutputArray)
+	DEFINE_DATAARRAY_VARIABLE(int32_t, OutputArray)
 
     DiscretizeDDDomain(const DiscretizeDDDomain&); // Copy Constructor Not Implemented
     void operator=(const DiscretizeDDDomain&); // Operator '=' Not Implemented

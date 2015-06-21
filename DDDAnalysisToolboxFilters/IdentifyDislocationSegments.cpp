@@ -57,9 +57,7 @@ IdentifyDislocationSegments::IdentifyDislocationSegments() :
   m_SlipPlaneNormalsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::SlipPlaneNormals),
   m_DislocationIdsArrayName(DREAM3D::EdgeData::DislocationIds),
   m_ActiveArrayName(DREAM3D::FeatureData::Active),
-  m_BurgersVectorsArrayName(DREAM3D::EdgeData::BurgersVectors),
   m_BurgersVectors(NULL),
-  m_SlipPlaneNormalsArrayName(DREAM3D::EdgeData::SlipPlaneNormals),
   m_SlipPlaneNormals(NULL),
   m_DislocationIds(NULL),
   m_Active(NULL)
