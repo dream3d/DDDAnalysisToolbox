@@ -80,12 +80,17 @@ void IdentifyDislocationSegments::setupFilterParameters()
   FilterParameterVector parameters;
 
   //parameters.push_back(SeparatorFilterParameter::New("Required Information", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("BurgersVectors", "BurgersVectorsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, ""));
-  parameters.push_back(FilterParameter::New("SlipPlaneNormals", "SlipPlaneNormalsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, ""));
+  parameters.push_back(DataArraySelectionFilterParameter::New("BurgersVectors", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray));
+@@@@INCLUDE #include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
+  parameters.push_back(DataArraySelectionFilterParameter::New("SlipPlaneNormals", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray));
+@@@@INCLUDE #include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
   //parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("Edge Feature AttributeMatrix Name", "EdgeFeatureAttributeMatrixName", FilterParameterWidgetType::StringWidget, getEdgeFeatureAttributeMatrixName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("DislocationIds", "DislocationIdsArrayName", FilterParameterWidgetType::StringWidget, getDislocationIdsArrayName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Active Array", "ActiveArrayName", FilterParameterWidgetType::StringWidget, getActiveArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(StringFilterParameter::New("Edge Feature AttributeMatrix Name", "EdgeFeatureAttributeMatrixName", getEdgeFeatureAttributeMatrixName(), FilterParameter::CreatedArray));
+@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
+  parameters.push_back(StringFilterParameter::New("DislocationIds", "DislocationIdsArrayName", getDislocationIdsArrayName(), FilterParameter::CreatedArray));
+@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
+  parameters.push_back(StringFilterParameter::New("Active Array", "ActiveArrayName", getActiveArrayName(), FilterParameter::CreatedArray));
+@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   setFilterParameters(parameters);
 }
 

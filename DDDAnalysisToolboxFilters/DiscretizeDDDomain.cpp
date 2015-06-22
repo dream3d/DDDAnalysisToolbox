@@ -76,13 +76,18 @@ void DiscretizeDDDomain::setupFilterParameters()
 {
   FilterParameterVector parameters;
 
-  parameters.push_back(FilterParameter::New("Cell Size", "CellSize", FilterParameterWidgetType::FloatVec3Widget, getCellSize(), FilterParameter::Parameter, "Microns"));
+  parameters.push_back(FloatVec3FilterParameter::New("Cell Size", "CellSize", getCellSize(), FilterParameter::Parameter, Microns));
+@@@@INCLUDE #include "DREAM3DLib/FilterParameters/FloatVec3FilterParameter.h"
  // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Parameter));
-  parameters.push_back(FilterParameter::New("Edge Data Container", "EdgeDataContainerName", FilterParameterWidgetType::DataContainerSelectionWidget, getEdgeDataContainerName(), FilterParameter::RequiredArray, ""));
+  parameters.push_back(DataContainerSelectionFilterParameter::New("Edge Data Container", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray));
+@@@@INCLUDE #include "DREAM3DLib/FilterParameters/DataContainerSelectionFilterParameter.h"
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("Volume Data Container", "OutputDataContainerName", FilterParameterWidgetType::StringWidget, getOutputDataContainerName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Cell Attribute Matrix", "OutputAttributeMatrixName", FilterParameterWidgetType::StringWidget, getOutputAttributeMatrixName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", FilterParameterWidgetType::StringWidget, getOutputArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray));
+@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
+  parameters.push_back(StringFilterParameter::New("Cell Attribute Matrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray));
+@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
+  parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray));
+@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   setFilterParameters(parameters);
 }
 
