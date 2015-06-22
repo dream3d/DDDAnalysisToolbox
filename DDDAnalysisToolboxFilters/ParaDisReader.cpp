@@ -42,6 +42,10 @@
 
 #include "DREAM3DLib/Math/MatrixMath.h"
 #include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
+
+#include "DREAM3DLib/FilterParameters/InputFileFilterParameter.h"
+#include "DREAM3DLib/FilterParameters/DoubleFilterParameter.h"
+#include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
 #include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
 
 #include "DREAM3DLib/FilterParameters/SeparatorFilterParameter.h"
@@ -83,24 +87,15 @@ void ParaDisReader::setupFilterParameters()
 {
   FilterParameterVector parameters;
   parameters.push_back(InputFileFilterParameter::New("Input File", "InputFile", getInputFile(), FilterParameter::Parameter, "", "*"));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/InputFileFilterParameter.h"
   parameters.push_back(DoubleFilterParameter::New("Burgers Vector Length", "BurgersVector", getBurgersVector(), FilterParameter::Parameter, Angstroms));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/DoubleFilterParameter.h"
  // parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
   parameters.push_back(StringFilterParameter::New("Edge DataContainer Name", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("Vertex AttributeMatrix Name", "VertexAttributeMatrixName", getVertexAttributeMatrixName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("Edge AttributeMatrix Name", "EdgeAttributeMatrixName", getEdgeAttributeMatrixName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("Number Of Arms Array Name", "NumberOfArmsArrayName", getNumberOfArmsArrayName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("Node Constraints Array Name", "NodeConstraintsArrayName", getNodeConstraintsArrayName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("Burgers Vectors Array Name", "BurgersVectorsArrayName", getBurgersVectorsArrayName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("Slip Plane Normals Array Name", "SlipPlaneNormalsArrayName", getSlipPlaneNormalsArrayName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   setFilterParameters(parameters);
 }
 

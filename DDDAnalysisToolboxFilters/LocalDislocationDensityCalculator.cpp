@@ -39,6 +39,11 @@
 #include "DREAM3DLib/Common/Constants.h"
 #include "DREAM3DLib/Math/GeometryMath.h"
 #include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
+
+#include "DREAM3DLib/FilterParameters/FloatVec3FilterParameter.h"
+#include "DREAM3DLib/FilterParameters/DataContainerSelectionFilterParameter.h"
+#include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
+#include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
 #include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "DREAM3DLib/FilterParameters/SeparatorFilterParameter.h"
 #include "DREAM3DLib/Math/DREAM3DMath.h"
@@ -83,23 +88,15 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
   FilterParameterVector parameters;
 
   parameters.push_back(FloatVec3FilterParameter::New("Cell Size", "CellSize", getCellSize(), FilterParameter::Parameter, Microns));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/FloatVec3FilterParameter.h"
  // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
   parameters.push_back(DataContainerSelectionFilterParameter::New("Edge DataContainer", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/DataContainerSelectionFilterParameter.h"
   parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors Array", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
   parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals Array", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
 //  parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
   parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("Cell AttributeMatrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("Dominant System Array Name", "DominantSystemArrayName", getDominantSystemArrayName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   setFilterParameters(parameters);
 }
 

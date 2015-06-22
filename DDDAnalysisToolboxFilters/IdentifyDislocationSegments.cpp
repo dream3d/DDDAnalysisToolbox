@@ -44,6 +44,9 @@
 #include "DREAM3DLib/Math/GeometryMath.h"
 #include "DREAM3DLib/Utilities/DREAM3DRandom.h"
 #include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
+
+#include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
+#include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
 #include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "DREAM3DLib/FilterParameters/SeparatorFilterParameter.h"
 
@@ -81,16 +84,11 @@ void IdentifyDislocationSegments::setupFilterParameters()
 
   //parameters.push_back(SeparatorFilterParameter::New("Required Information", FilterParameter::Uncategorized));
   parameters.push_back(DataArraySelectionFilterParameter::New("BurgersVectors", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
   parameters.push_back(DataArraySelectionFilterParameter::New("SlipPlaneNormals", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
   //parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
   parameters.push_back(StringFilterParameter::New("Edge Feature AttributeMatrix Name", "EdgeFeatureAttributeMatrixName", getEdgeFeatureAttributeMatrixName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("DislocationIds", "DislocationIdsArrayName", getDislocationIdsArrayName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   parameters.push_back(StringFilterParameter::New("Active Array", "ActiveArrayName", getActiveArrayName(), FilterParameter::CreatedArray));
-@@@@INCLUDE #include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
   setFilterParameters(parameters);
 }
 
