@@ -49,8 +49,8 @@
 // -----------------------------------------------------------------------------
 DiscretizeDDDomain::DiscretizeDDDomain() :
   AbstractFilter(),
-  m_EdgeDataContainerName(DREAM3D::Defaults::DataContainerName),
-  m_OutputDataContainerName(DREAM3D::Defaults::NewDataContainerName),
+  m_EdgeDataContainerName(DREAM3D::Defaults::EdgeDataContainerName),
+  m_OutputDataContainerName(DREAM3D::Defaults::NewImageDataContainerName),
   m_OutputAttributeMatrixName(DREAM3D::Defaults::CellAttributeMatrixName),
   m_OutputArrayName("DislocationLineDensity"),
   m_OutputArray(NULL)
@@ -78,11 +78,12 @@ void DiscretizeDDDomain::setupFilterParameters()
 
   parameters.push_back(FilterParameter::New("Cell Size", "CellSize", FilterParameterWidgetType::FloatVec3Widget, getCellSize(), FilterParameter::Parameter, "Microns"));
  // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Parameter));
-  parameters.push_back(FilterParameter::New("Edge Data Container", "EdgeDataContainerName", FilterParameterWidgetType::DataContainerSelectionWidget, getEdgeDataContainerName(), FilterParameter::RequiredArray, ""));
+  parameters.push_back(FilterParameter::New("Edge Geometry Container", "EdgeDataContainerName", FilterParameterWidgetType::DataContainerSelectionWidget, getEdgeDataContainerName(), FilterParameter::RequiredArray, ""));
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("Volume Data Container", "OutputDataContainerName", FilterParameterWidgetType::StringWidget, getOutputDataContainerName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Image Geometry Data Container", "OutputDataContainerName", FilterParameterWidgetType::StringWidget, getOutputDataContainerName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(SeparatorFilterParameter::New("Cell Data", FilterParameter::CreatedArray));
   parameters.push_back(FilterParameter::New("Cell Attribute Matrix", "OutputAttributeMatrixName", FilterParameterWidgetType::StringWidget, getOutputAttributeMatrixName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", FilterParameterWidgetType::StringWidget, getOutputArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Dislocation Line Density", "OutputArrayName", FilterParameterWidgetType::StringWidget, getOutputArrayName(), FilterParameter::CreatedArray, ""));
   setFilterParameters(parameters);
 }
 
