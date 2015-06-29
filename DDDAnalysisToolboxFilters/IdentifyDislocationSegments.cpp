@@ -249,8 +249,8 @@ void IdentifyDislocationSegments::execute()
         size -= 1;
         for(int iter = 0; iter < 2; iter++)
         {
-          uint16_t eCount = edgesContainingVert->getNumberOfElements(edge[2*currentEdge+iter]);
-          int64_t* data = edgesContainingVert->getElementListPointer(edge[2*currentEdge+iter]);
+          uint16_t eCount = edgesContainingVert->getNumberOfElements(edge[2 * currentEdge + iter]);
+          int64_t* data = edgesContainingVert->getElementListPointer(edge[2 * currentEdge + iter]);
           for(uint16_t j = 0; j < eCount; j++)
           {
             if(m_DislocationIds[data[j]] == 0)
@@ -353,7 +353,7 @@ const QString IdentifyDislocationSegments::getCompiledLibraryName()
 //
 // -----------------------------------------------------------------------------
 const QString IdentifyDislocationSegments::getGroupName()
-{ return DDDAnalysisToolboxConstants::FilterGroups::DDDAnalyticsToolboxFilters; }
+{ return DREAM3D::FilterGroups::Unsupported; }
 
 
 // -----------------------------------------------------------------------------

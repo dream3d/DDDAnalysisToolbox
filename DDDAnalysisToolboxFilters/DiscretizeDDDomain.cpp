@@ -49,8 +49,8 @@
 // -----------------------------------------------------------------------------
 DiscretizeDDDomain::DiscretizeDDDomain() :
   AbstractFilter(),
-  m_EdgeDataContainerName(DREAM3D::Defaults::EdgeDataContainerName),
-  m_OutputDataContainerName(DREAM3D::Defaults::NewImageDataContainerName),
+  m_EdgeDataContainerName(DREAM3D::Defaults::DataContainerName),
+  m_OutputDataContainerName(DREAM3D::Defaults::NewDataContainerName),
   m_OutputAttributeMatrixName(DREAM3D::Defaults::CellAttributeMatrixName),
   m_OutputArrayName("DislocationLineDensity"),
   m_OutputArray(NULL)
@@ -77,13 +77,12 @@ void DiscretizeDDDomain::setupFilterParameters()
   FilterParameterVector parameters;
 
   parameters.push_back(FilterParameter::New("Cell Size", "CellSize", FilterParameterWidgetType::FloatVec3Widget, getCellSize(), FilterParameter::Parameter, "Microns"));
- // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Parameter));
-  parameters.push_back(FilterParameter::New("Edge Geometry Container", "EdgeDataContainerName", FilterParameterWidgetType::DataContainerSelectionWidget, getEdgeDataContainerName(), FilterParameter::RequiredArray, ""));
+// parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Parameter));
+  parameters.push_back(FilterParameter::New("Edge Data Container", "EdgeDataContainerName", FilterParameterWidgetType::DataContainerSelectionWidget, getEdgeDataContainerName(), FilterParameter::RequiredArray, ""));
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("Image Geometry Data Container", "OutputDataContainerName", FilterParameterWidgetType::StringWidget, getOutputDataContainerName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(SeparatorFilterParameter::New("Cell Data", FilterParameter::CreatedArray));
+  parameters.push_back(FilterParameter::New("Volume Data Container", "OutputDataContainerName", FilterParameterWidgetType::StringWidget, getOutputDataContainerName(), FilterParameter::CreatedArray, ""));
   parameters.push_back(FilterParameter::New("Cell Attribute Matrix", "OutputAttributeMatrixName", FilterParameterWidgetType::StringWidget, getOutputAttributeMatrixName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Dislocation Line Density", "OutputArrayName", FilterParameterWidgetType::StringWidget, getOutputArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", FilterParameterWidgetType::StringWidget, getOutputArrayName(), FilterParameter::CreatedArray, ""));
   setFilterParameters(parameters);
 }
 
@@ -231,9 +230,9 @@ void DiscretizeDDDomain::execute()
   float x, y, z;
   for(size_t i = 0; i < numNodes; i++)
   {
-    x = nodes[3*i+0];
-    y = nodes[3*i+1];
-    z = nodes[3*i+2];
+    x = nodes[3 * i + 0];
+    y = nodes[3 * i + 1];
+    z = nodes[3 * i + 2];
     if(x < xMin) { xMin = x; }
     if(x > xMax) { xMax = x; }
     if(y < yMin) { yMin = y; }
@@ -275,13 +274,13 @@ void DiscretizeDDDomain::execute()
   float length;
   for(size_t i = 0; i < numEdges; i++)
   {
-  point1[0] = nodes[3 * edge[2 * i + 0] + 0];
-  point1[1] = nodes[3 * edge[2 * i + 0] + 1];
-  point1[2] = nodes[3 * edge[2 * i + 0] + 2];
-  point2[0] = nodes[3 * edge[2 * i + 1] + 0];
-  point2[1] = nodes[3 * edge[2 * i + 1] + 1];
-  point2[2] = nodes[3 * edge[2 * i + 1] + 2];
-  x1 = (point1[0] - xMin);
+    point1[0] = nodes[3 * edge[2 * i + 0] + 0];
+    point1[1] = nodes[3 * edge[2 * i + 0] + 1];
+    point1[2] = nodes[3 * edge[2 * i + 0] + 2];
+    point2[0] = nodes[3 * edge[2 * i + 1] + 0];
+    point2[1] = nodes[3 * edge[2 * i + 1] + 1];
+    point2[2] = nodes[3 * edge[2 * i + 1] + 2];
+    x1 = (point1[0] - xMin);
     y1 = (point1[1] - yMin);
     z1 = (point1[2] - zMin);
     x2 = (point2[0] - xMin);
@@ -299,10 +298,10 @@ void DiscretizeDDDomain::execute()
     xCellMax = ((xCellMax - 1) / 2) + 1;
     yCellMax = ((yCellMax - 1) / 2) + 1;
     zCellMax = ((zCellMax - 1) / 2) + 1;
-  if (xCellMax >= tDims[0]) xCellMax = tDims[0] - 1;
-  if (yCellMax >= tDims[1]) yCellMax = tDims[1] - 1;
-  if (zCellMax >= tDims[2]) zCellMax = tDims[2] - 1;
-  for (size_t j = zCellMin; j <= zCellMax; j++)
+    if (xCellMax >= tDims[0]) { xCellMax = tDims[0] - 1; }
+    if (yCellMax >= tDims[1]) { yCellMax = tDims[1] - 1; }
+    if (zCellMax >= tDims[2]) { zCellMax = tDims[2] - 1; }
+    for (size_t j = zCellMin; j <= zCellMax; j++)
     {
       zStride = j * tDims[0] * tDims[1];
       corner1[2] = (j * halfCellSize.z) - halfCellSize.z + quarterCellSize.z + zMin;
@@ -317,9 +316,9 @@ void DiscretizeDDDomain::execute()
           corner1[0] = (l * halfCellSize.x) - halfCellSize.x + quarterCellSize.x + xMin;
           corner2[0] = (l * halfCellSize.x) + halfCellSize.x + quarterCellSize.x + xMin;
           length = GeometryMath::LengthOfRayInBox(point1, point2, corner1, corner2);
-      point = (zStride + yStride + l);
-      m_OutputArray[14 * point + 0] += length;
-      m_OutputArray[14 * point + system] += length;
+          point = (zStride + yStride + l);
+          m_OutputArray[14 * point + 0] += length;
+          m_OutputArray[14 * point + system] += length;
         }
       }
     }
@@ -335,18 +334,18 @@ void DiscretizeDDDomain::execute()
       yStride = k * tDims[0];
       for(size_t l = 0; l < tDims[0]; l++)
       {
-    point = (zStride + yStride + l);
-    //take care of total density first before looping over all systems
-    m_OutputArray[14 * point] /= cellVolume;
-    //convert to m/mm^3 from um/um^3
-    m_OutputArray[14 * point] *= 1.0E12f;
-    max = 0.0;
-    for (int iter = 1; iter < 14; iter++)
-    {
-      m_OutputArray[14 * point + iter] /= cellVolume;
-      //convert to m/mm^3 from um/um^3
-      m_OutputArray[14 * point + iter] *= 1.0E12f;
-    }
+        point = (zStride + yStride + l);
+        //take care of total density first before looping over all systems
+        m_OutputArray[14 * point] /= cellVolume;
+        //convert to m/mm^3 from um/um^3
+        m_OutputArray[14 * point] *= 1.0E12f;
+        max = 0.0;
+        for (int iter = 1; iter < 14; iter++)
+        {
+          m_OutputArray[14 * point + iter] /= cellVolume;
+          //convert to m/mm^3 from um/um^3
+          m_OutputArray[14 * point + iter] *= 1.0E12f;
+        }
       }
     }
   }
@@ -378,7 +377,7 @@ const QString DiscretizeDDDomain::getCompiledLibraryName()
 //
 // -----------------------------------------------------------------------------
 const QString DiscretizeDDDomain::getGroupName()
-{ return DDDAnalysisToolboxConstants::FilterGroups::DDDAnalyticsToolboxFilters; }
+{ return DREAM3D::FilterGroups::Unsupported; }
 
 
 // -----------------------------------------------------------------------------

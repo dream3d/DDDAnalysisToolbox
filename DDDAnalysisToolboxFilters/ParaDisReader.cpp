@@ -51,7 +51,7 @@
 // -----------------------------------------------------------------------------
 ParaDisReader::ParaDisReader() :
   FileReader(),
-  m_EdgeDataContainerName(DREAM3D::Defaults::EdgeDataContainerName),
+  m_EdgeDataContainerName(DREAM3D::Defaults::DataContainerName),
   m_VertexAttributeMatrixName(DREAM3D::Defaults::VertexAttributeMatrixName),
   m_EdgeAttributeMatrixName(DREAM3D::Defaults::EdgeAttributeMatrixName),
   m_InputFile(""),
@@ -84,17 +84,14 @@ void ParaDisReader::setupFilterParameters()
   FilterParameterVector parameters;
   parameters.push_back(FileSystemFilterParameter::New("Input File", "InputFile", FilterParameterWidgetType::InputFileWidget, getInputFile(), FilterParameter::Parameter, "", "*"));
   parameters.push_back(FilterParameter::New("Burgers Vector Length", "BurgersVector", FilterParameterWidgetType::DoubleWidget, getBurgersVector(), FilterParameter::Parameter, "Angstroms"));
- // parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("Edge Geometry Data Container", "EdgeDataContainerName", FilterParameterWidgetType::StringWidget, getEdgeDataContainerName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(SeparatorFilterParameter::New("Vertex Data", FilterParameter::CreatedArray));
-  parameters.push_back(FilterParameter::New("Vertex Attribute Matrix", "VertexAttributeMatrixName", FilterParameterWidgetType::StringWidget, getVertexAttributeMatrixName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Number Of Arms", "NumberOfArmsArrayName", FilterParameterWidgetType::StringWidget, getNumberOfArmsArrayName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Node Constraints", "NodeConstraintsArrayName", FilterParameterWidgetType::StringWidget, getNodeConstraintsArrayName(), FilterParameter::CreatedArray, ""));
-
-  parameters.push_back(SeparatorFilterParameter::New("Edge Data", FilterParameter::CreatedArray));
-  parameters.push_back(FilterParameter::New("Edge Attribute Matrix", "EdgeAttributeMatrixName", FilterParameterWidgetType::StringWidget, getEdgeAttributeMatrixName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Burgers Vectors", "BurgersVectorsArrayName", FilterParameterWidgetType::StringWidget, getBurgersVectorsArrayName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Slip Plane Normals", "SlipPlaneNormalsArrayName", FilterParameterWidgetType::StringWidget, getSlipPlaneNormalsArrayName(), FilterParameter::CreatedArray, ""));
+// parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
+  parameters.push_back(FilterParameter::New("Edge DataContainer Name", "EdgeDataContainerName", FilterParameterWidgetType::StringWidget, getEdgeDataContainerName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Vertex AttributeMatrix Name", "VertexAttributeMatrixName", FilterParameterWidgetType::StringWidget, getVertexAttributeMatrixName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Edge AttributeMatrix Name", "EdgeAttributeMatrixName", FilterParameterWidgetType::StringWidget, getEdgeAttributeMatrixName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Number Of Arms Array Name", "NumberOfArmsArrayName", FilterParameterWidgetType::StringWidget, getNumberOfArmsArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Node Constraints Array Name", "NodeConstraintsArrayName", FilterParameterWidgetType::StringWidget, getNodeConstraintsArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Burgers Vectors Array Name", "BurgersVectorsArrayName", FilterParameterWidgetType::StringWidget, getBurgersVectorsArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Slip Plane Normals Array Name", "SlipPlaneNormalsArrayName", FilterParameterWidgetType::StringWidget, getSlipPlaneNormalsArrayName(), FilterParameter::CreatedArray, ""));
   setFilterParameters(parameters);
 }
 
@@ -235,9 +232,9 @@ void ParaDisReader::dataCheck()
 
     //int error = readHeader();
     //add edges for preflight sake...they will get overwritten when actually reading the file
-  SharedVertexList::Pointer vertices = EdgeGeom::CreateSharedVertexList(0);
-  EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(0, vertices, DREAM3D::Geometry::EdgeGeometry);
-  m->setGeometry(edgeGeom);
+    SharedVertexList::Pointer vertices = EdgeGeom::CreateSharedVertexList(0);
+    EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(0, vertices, DREAM3D::Geometry::EdgeGeometry);
+    m->setGeometry(edgeGeom);
 
     //m_InStream.close();
     //if (error < 0)
@@ -472,9 +469,9 @@ int ParaDisReader::readFile()
     if(nodeNum == -1)
     {
       nodeNum = nodeCounter;
-    vertex[3 * nodeNum + 0] = tokens[1].toFloat(&ok) * burgersVec;
-    vertex[3 * nodeNum + 1] = tokens[2].toFloat(&ok) * burgersVec;
-    vertex[3 * nodeNum + 2] = tokens[3].toFloat(&ok) * burgersVec;
+      vertex[3 * nodeNum + 0] = tokens[1].toFloat(&ok) * burgersVec;
+      vertex[3 * nodeNum + 1] = tokens[2].toFloat(&ok) * burgersVec;
+      vertex[3 * nodeNum + 2] = tokens[3].toFloat(&ok) * burgersVec;
       m_NumberOfArms[nodeNum] = tokens[4].toInt(&ok, 10);
       m_NodeConstraints[nodeNum] = tokens[5].toInt(&ok, 10);
       vertNumbers.insert(*ptr64, nodeNum);
@@ -482,9 +479,9 @@ int ParaDisReader::readFile()
     }
     else
     {
-    vertex[3 * nodeNum + 0] = tokens[1].toFloat(&ok) * burgersVec;
-    vertex[3 * nodeNum + 1] = tokens[2].toFloat(&ok) * burgersVec;
-    vertex[3 * nodeNum + 2] = tokens[3].toFloat(&ok) * burgersVec;
+      vertex[3 * nodeNum + 0] = tokens[1].toFloat(&ok) * burgersVec;
+      vertex[3 * nodeNum + 1] = tokens[2].toFloat(&ok) * burgersVec;
+      vertex[3 * nodeNum + 2] = tokens[3].toFloat(&ok) * burgersVec;
       m_NumberOfArms[nodeNum] = tokens[4].toInt(&ok, 10);
       m_NodeConstraints[nodeNum] = tokens[5].toInt(&ok, 10);
     }
@@ -514,13 +511,13 @@ int ParaDisReader::readFile()
         numEdges++;
         firstNodes.push_back(nodeNum);
         secondNodes.push_back(neighborNode);
-    burgVec[0] = tokens[1].toFloat(&ok);
-    burgVec[1] = tokens[2].toFloat(&ok);
-    burgVec[2] = tokens[3].toFloat(&ok);
-    //burgVec[0] = tokens[1].toFloat(&ok) * burgersVec;
-    //burgVec[1] = tokens[2].toFloat(&ok) * burgersVec;
-    //burgVec[2] = tokens[3].toFloat(&ok) * burgersVec;
-    burgerXs.push_back(burgVec[0]);
+        burgVec[0] = tokens[1].toFloat(&ok);
+        burgVec[1] = tokens[2].toFloat(&ok);
+        burgVec[2] = tokens[3].toFloat(&ok);
+        //burgVec[0] = tokens[1].toFloat(&ok) * burgersVec;
+        //burgVec[1] = tokens[2].toFloat(&ok) * burgersVec;
+        //burgVec[2] = tokens[3].toFloat(&ok) * burgersVec;
+        burgerXs.push_back(burgVec[0]);
         burgerYs.push_back(burgVec[1]);
         burgerZs.push_back(burgVec[2]);
       }
@@ -551,8 +548,8 @@ int ParaDisReader::readFile()
 
   for(int i = 0; i < numEdges; i++)
   {
-    edge[2*i+0] = firstNodes[i];
-    edge[2*i+1] = secondNodes[i];
+    edge[2 * i + 0] = firstNodes[i];
+    edge[2 * i + 1] = secondNodes[i];
     m_BurgersVectors[3 * i + 0] = burgerXs[i];
     m_BurgersVectors[3 * i + 1] = burgerYs[i];
     m_BurgersVectors[3 * i + 2] = burgerZs[i];
@@ -593,7 +590,7 @@ const QString ParaDisReader::getCompiledLibraryName()
 //
 // -----------------------------------------------------------------------------
 const QString ParaDisReader::getGroupName()
-{ return DREAM3D::FilterGroups::IOFilters; }
+{ return DREAM3D::FilterGroups::Unsupported; }
 
 
 // -----------------------------------------------------------------------------

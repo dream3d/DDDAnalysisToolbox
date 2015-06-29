@@ -48,10 +48,10 @@
 // -----------------------------------------------------------------------------
 LocalDislocationDensityCalculator::LocalDislocationDensityCalculator() :
   AbstractFilter(),
-  m_EdgeDataContainerName(DREAM3D::Defaults::EdgeDataContainerName),
-  m_BurgersVectorsArrayPath(DREAM3D::Defaults::EdgeDataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::BurgersVectors),
-  m_SlipPlaneNormalsArrayPath(DREAM3D::Defaults::EdgeDataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::SlipPlaneNormals),
-  m_OutputDataContainerName(DREAM3D::Defaults::NewImageDataContainerName),
+  m_EdgeDataContainerName(DREAM3D::Defaults::DataContainerName),
+  m_BurgersVectorsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::BurgersVectors),
+  m_SlipPlaneNormalsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::SlipPlaneNormals),
+  m_OutputDataContainerName(DREAM3D::Defaults::NewDataContainerName),
   m_OutputAttributeMatrixName(DREAM3D::Defaults::CellAttributeMatrixName),
   m_OutputArrayName("DislocationLineDensity"),
   m_DominantSystemArrayName("DominantSystem"),
@@ -83,17 +83,15 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
   FilterParameterVector parameters;
 
   parameters.push_back(FilterParameter::New("Cell Size", "CellSize", FilterParameterWidgetType::FloatVec3Widget, getCellSize(), FilterParameter::Parameter, "Microns"));
-  parameters.push_back(FilterParameter::New("Edge Geometry Data Container", "EdgeDataContainerName", FilterParameterWidgetType::DataContainerSelectionWidget, getEdgeDataContainerName(), FilterParameter::RequiredArray, ""));
-  parameters.push_back(SeparatorFilterParameter::New("Edge Data", FilterParameter::RequiredArray));
-  parameters.push_back(FilterParameter::New("Burgers Vectors", "BurgersVectorsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, ""));
-  parameters.push_back(FilterParameter::New("Slip Plane Normals", "SlipPlaneNormalsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, ""));
-
-
-  parameters.push_back(FilterParameter::New("Image Geometry Data Container", "OutputDataContainerName", FilterParameterWidgetType::StringWidget, getOutputDataContainerName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(SeparatorFilterParameter::New("Cell Data", FilterParameter::CreatedArray));
-  parameters.push_back(FilterParameter::New("Cell Attribute Matrix", "OutputAttributeMatrixName", FilterParameterWidgetType::StringWidget, getOutputAttributeMatrixName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Dislocation Line Density", "OutputArrayName", FilterParameterWidgetType::StringWidget, getOutputArrayName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Dominant System", "DominantSystemArrayName", FilterParameterWidgetType::StringWidget, getDominantSystemArrayName(), FilterParameter::CreatedArray, ""));
+// parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
+  parameters.push_back(FilterParameter::New("Edge DataContainer", "EdgeDataContainerName", FilterParameterWidgetType::DataContainerSelectionWidget, getEdgeDataContainerName(), FilterParameter::RequiredArray, ""));
+  parameters.push_back(FilterParameter::New("Burgers Vectors Array", "BurgersVectorsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, ""));
+  parameters.push_back(FilterParameter::New("Slip Plane Normals Array", "SlipPlaneNormalsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, ""));
+//  parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
+  parameters.push_back(FilterParameter::New("Volume Data Container", "OutputDataContainerName", FilterParameterWidgetType::StringWidget, getOutputDataContainerName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Cell AttributeMatrix", "OutputAttributeMatrixName", FilterParameterWidgetType::StringWidget, getOutputAttributeMatrixName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", FilterParameterWidgetType::StringWidget, getOutputArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(FilterParameter::New("Dominant System Array Name", "DominantSystemArrayName", FilterParameterWidgetType::StringWidget, getDominantSystemArrayName(), FilterParameter::CreatedArray, ""));
   setFilterParameters(parameters);
 }
 
@@ -317,13 +315,13 @@ void LocalDislocationDensityCalculator::execute()
   int32_t system = 0;
   for(size_t i = 0; i < numEdges; i++)
   {
-  point1[0] = nodes[3 * edge[2 * i + 0] + 0];
-  point1[1] = nodes[3 * edge[2 * i + 0] + 1];
-  point1[2] = nodes[3 * edge[2 * i + 0] + 2];
-  point2[0] = nodes[3 * edge[2 * i + 1] + 0];
-  point2[1] = nodes[3 * edge[2 * i + 1] + 1];
-  point2[2] = nodes[3 * edge[2 * i + 1] + 2];
-  x1 = (point1[0] - xMin);
+    point1[0] = nodes[3 * edge[2 * i + 0] + 0];
+    point1[1] = nodes[3 * edge[2 * i + 0] + 1];
+    point1[2] = nodes[3 * edge[2 * i + 0] + 2];
+    point2[0] = nodes[3 * edge[2 * i + 1] + 0];
+    point2[1] = nodes[3 * edge[2 * i + 1] + 1];
+    point2[2] = nodes[3 * edge[2 * i + 1] + 2];
+    x1 = (point1[0] - xMin);
     y1 = (point1[1] - yMin);
     z1 = (point1[2] - zMin);
     x2 = (point2[0] - xMin);
@@ -341,10 +339,10 @@ void LocalDislocationDensityCalculator::execute()
     xCellMax = ((xCellMax - 1) / 2) + 1;
     yCellMax = ((yCellMax - 1) / 2) + 1;
     zCellMax = ((zCellMax - 1) / 2) + 1;
-  if (xCellMax >= tDims[0]) xCellMax = tDims[0] - 1;
-  if (yCellMax >= tDims[1]) yCellMax = tDims[1] - 1;
-  if (zCellMax >= tDims[2]) zCellMax = tDims[2] - 1;
-  for (size_t j = zCellMin; j <= zCellMax; j++)
+    if (xCellMax >= tDims[0]) { xCellMax = tDims[0] - 1; }
+    if (yCellMax >= tDims[1]) { yCellMax = tDims[1] - 1; }
+    if (zCellMax >= tDims[2]) { zCellMax = tDims[2] - 1; }
+    for (size_t j = zCellMin; j <= zCellMax; j++)
     {
       zStride = j * tDims[0] * tDims[1];
       corner1[2] = (j * halfCellSize.z) - halfCellSize.z + quarterCellSize.z + zMin;
@@ -359,10 +357,10 @@ void LocalDislocationDensityCalculator::execute()
           corner1[0] = (l * halfCellSize.x) - halfCellSize.x + quarterCellSize.x + xMin;
           corner2[0] = (l * halfCellSize.x) + halfCellSize.x + quarterCellSize.x + xMin;
           length = GeometryMath::LengthOfRayInBox(point1, point2, corner1, corner2);
-      point = (zStride + yStride + l);
-      m_OutputArray[point] += length;
-      system = determine_slip_system(i);
-      m_IndividualSystemLengths[12 * point + system] += length;
+          point = (zStride + yStride + l);
+          m_OutputArray[point] += length;
+          system = determine_slip_system(i);
+          m_IndividualSystemLengths[12 * point + system] += length;
         }
       }
     }
@@ -377,23 +375,23 @@ void LocalDislocationDensityCalculator::execute()
       yStride = k * tDims[0];
       for(size_t l = 0; l < tDims[0]; l++)
       {
-    point = (zStride + yStride + l);
-    //take care of total density first before looping over all systems
-    m_OutputArray[point] /= cellVolume;
-    //convert to m/mm^3 from um/um^3
-    m_OutputArray[point] *= 1.0E12f;
-    float max = 0.0f;
-    for (int iter = 0; iter < 12; iter++)
-    {
-      m_IndividualSystemLengths[12 * point + iter] /= cellVolume;
-      //convert to m/mm^3 from um/um^3
-      m_IndividualSystemLengths[12 * point + iter] *= 1.0E12f;
-      if (m_IndividualSystemLengths[12 * point + iter] > max)
-      {
-      m_DominantSystemArray[point] = iter;
-      max = m_IndividualSystemLengths[12 * point + iter];
-      }
-    }
+        point = (zStride + yStride + l);
+        //take care of total density first before looping over all systems
+        m_OutputArray[point] /= cellVolume;
+        //convert to m/mm^3 from um/um^3
+        m_OutputArray[point] *= 1.0E12f;
+        float max = 0.0f;
+        for (int iter = 0; iter < 12; iter++)
+        {
+          m_IndividualSystemLengths[12 * point + iter] /= cellVolume;
+          //convert to m/mm^3 from um/um^3
+          m_IndividualSystemLengths[12 * point + iter] *= 1.0E12f;
+          if (m_IndividualSystemLengths[12 * point + iter] > max)
+          {
+            m_DominantSystemArray[point] = iter;
+            max = m_IndividualSystemLengths[12 * point + iter];
+          }
+        }
       }
     }
   }
@@ -424,27 +422,27 @@ int LocalDislocationDensityCalculator::determine_slip_system(int edgeNum)
   slipDir6 = m_BurgersVectors[3 * edgeNum + 0] * 0.0 + m_BurgersVectors[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * -DREAM3D::Constants::k_1OverRoot2;
   if (abs(abs(planeFam1) - 1.0) < tol)
   {
-    if (abs(abs(slipDir4) - 1.0) < tol) system = 0;
-    if (abs(abs(slipDir5) - 1.0) < tol) system = 1;
-    if (abs(abs(slipDir6) - 1.0) < tol) system = 2;
+    if (abs(abs(slipDir4) - 1.0) < tol) { system = 0; }
+    if (abs(abs(slipDir5) - 1.0) < tol) { system = 1; }
+    if (abs(abs(slipDir6) - 1.0) < tol) { system = 2; }
   }
   if (abs(abs(planeFam2) - 1.0) < tol)
   {
-    if (abs(abs(slipDir1) - 1.0) < tol) system = 3;
-    if (abs(abs(slipDir2) - 1.0) < tol) system = 4;
-    if (abs(abs(slipDir6) - 1.0) < tol) system = 5;
+    if (abs(abs(slipDir1) - 1.0) < tol) { system = 3; }
+    if (abs(abs(slipDir2) - 1.0) < tol) { system = 4; }
+    if (abs(abs(slipDir6) - 1.0) < tol) { system = 5; }
   }
   if (abs(abs(planeFam3) - 1.0) < tol)
   {
-    if (abs(abs(slipDir1) - 1.0) < tol) system = 6;
-    if (abs(abs(slipDir3) - 1.0) < tol) system = 7;
-    if (abs(abs(slipDir5) - 1.0) < tol) system = 8;
+    if (abs(abs(slipDir1) - 1.0) < tol) { system = 6; }
+    if (abs(abs(slipDir3) - 1.0) < tol) { system = 7; }
+    if (abs(abs(slipDir5) - 1.0) < tol) { system = 8; }
   }
   if (abs(abs(planeFam4) - 1.0) < tol)
   {
-    if (abs(abs(slipDir2) - 1.0) < tol) system = 9;
-    if (abs(abs(slipDir3) - 1.0) < tol) system = 10;
-    if (abs(abs(slipDir4) - 1.0) < tol) system = 11;
+    if (abs(abs(slipDir2) - 1.0) < tol) { system = 9; }
+    if (abs(abs(slipDir3) - 1.0) < tol) { system = 10; }
+    if (abs(abs(slipDir4) - 1.0) < tol) { system = 11; }
   }
   return system;
 }
@@ -473,7 +471,7 @@ const QString LocalDislocationDensityCalculator::getCompiledLibraryName()
 //
 // -----------------------------------------------------------------------------
 const QString LocalDislocationDensityCalculator::getGroupName()
-{ return DDDAnalysisToolboxConstants::FilterGroups::DDDAnalyticsToolboxFilters; }
+{ return DREAM3D::FilterGroups::Unsupported; }
 
 
 // -----------------------------------------------------------------------------
