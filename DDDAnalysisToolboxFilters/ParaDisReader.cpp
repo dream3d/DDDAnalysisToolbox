@@ -42,8 +42,12 @@
 
 #include "DREAM3DLib/Math/MatrixMath.h"
 #include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
+
+#include "DREAM3DLib/FilterParameters/InputFileFilterParameter.h"
+#include "DREAM3DLib/FilterParameters/DoubleFilterParameter.h"
+#include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
 #include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
-#include "DREAM3DLib/FilterParameters/FileSystemFilterParameter.h"
+
 #include "DREAM3DLib/FilterParameters/SeparatorFilterParameter.h"
 
 // -----------------------------------------------------------------------------
@@ -82,16 +86,16 @@ ParaDisReader::~ParaDisReader()
 void ParaDisReader::setupFilterParameters()
 {
   FilterParameterVector parameters;
-  parameters.push_back(FileSystemFilterParameter::New("Input File", "InputFile", FilterParameterWidgetType::InputFileWidget, getInputFile(), FilterParameter::Parameter, "", "*"));
-  parameters.push_back(FilterParameter::New("Burgers Vector Length", "BurgersVector", FilterParameterWidgetType::DoubleWidget, getBurgersVector(), FilterParameter::Parameter, "Angstroms"));
+  parameters.push_back(InputFileFilterParameter::New("Input File", "InputFile", getInputFile(), FilterParameter::Parameter, "*"));
+  parameters.push_back(DoubleFilterParameter::New("Burgers Vector Length (Angstroms)", "BurgersVector", getBurgersVector(), FilterParameter::Parameter));
 // parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("Edge DataContainer Name", "EdgeDataContainerName", FilterParameterWidgetType::StringWidget, getEdgeDataContainerName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Vertex AttributeMatrix Name", "VertexAttributeMatrixName", FilterParameterWidgetType::StringWidget, getVertexAttributeMatrixName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Edge AttributeMatrix Name", "EdgeAttributeMatrixName", FilterParameterWidgetType::StringWidget, getEdgeAttributeMatrixName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Number Of Arms Array Name", "NumberOfArmsArrayName", FilterParameterWidgetType::StringWidget, getNumberOfArmsArrayName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Node Constraints Array Name", "NodeConstraintsArrayName", FilterParameterWidgetType::StringWidget, getNodeConstraintsArrayName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Burgers Vectors Array Name", "BurgersVectorsArrayName", FilterParameterWidgetType::StringWidget, getBurgersVectorsArrayName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Slip Plane Normals Array Name", "SlipPlaneNormalsArrayName", FilterParameterWidgetType::StringWidget, getSlipPlaneNormalsArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(StringFilterParameter::New("Edge DataContainer Name", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Vertex AttributeMatrix Name", "VertexAttributeMatrixName", getVertexAttributeMatrixName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Edge AttributeMatrix Name", "EdgeAttributeMatrixName", getEdgeAttributeMatrixName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Number Of Arms Array Name", "NumberOfArmsArrayName", getNumberOfArmsArrayName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Node Constraints Array Name", "NodeConstraintsArrayName", getNodeConstraintsArrayName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Burgers Vectors Array Name", "BurgersVectorsArrayName", getBurgersVectorsArrayName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Slip Plane Normals Array Name", "SlipPlaneNormalsArrayName", getSlipPlaneNormalsArrayName(), FilterParameter::CreatedArray));
   setFilterParameters(parameters);
 }
 

@@ -39,6 +39,11 @@
 #include "DREAM3DLib/Common/Constants.h"
 #include "DREAM3DLib/Math/GeometryMath.h"
 #include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
+
+#include "DREAM3DLib/FilterParameters/FloatVec3FilterParameter.h"
+#include "DREAM3DLib/FilterParameters/DataContainerSelectionFilterParameter.h"
+#include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
+#include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
 #include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "DREAM3DLib/FilterParameters/SeparatorFilterParameter.h"
 #include "DREAM3DLib/Math/DREAM3DMath.h"
@@ -82,16 +87,16 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
 {
   FilterParameterVector parameters;
 
-  parameters.push_back(FilterParameter::New("Cell Size", "CellSize", FilterParameterWidgetType::FloatVec3Widget, getCellSize(), FilterParameter::Parameter, "Microns"));
+  parameters.push_back(FloatVec3FilterParameter::New("Cell Size (Microns)", "CellSize", getCellSize(), FilterParameter::Parameter));
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("Edge DataContainer", "EdgeDataContainerName", FilterParameterWidgetType::DataContainerSelectionWidget, getEdgeDataContainerName(), FilterParameter::RequiredArray, ""));
-  parameters.push_back(FilterParameter::New("Burgers Vectors Array", "BurgersVectorsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, ""));
-  parameters.push_back(FilterParameter::New("Slip Plane Normals Array", "SlipPlaneNormalsArrayPath", FilterParameterWidgetType::DataArraySelectionWidget, getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, ""));
+  parameters.push_back(DataContainerSelectionFilterParameter::New("Edge DataContainer", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray));
+  parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors Array", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray));
+  parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals Array", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray));
 //  parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(FilterParameter::New("Volume Data Container", "OutputDataContainerName", FilterParameterWidgetType::StringWidget, getOutputDataContainerName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Cell AttributeMatrix", "OutputAttributeMatrixName", FilterParameterWidgetType::StringWidget, getOutputAttributeMatrixName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", FilterParameterWidgetType::StringWidget, getOutputArrayName(), FilterParameter::CreatedArray, ""));
-  parameters.push_back(FilterParameter::New("Dominant System Array Name", "DominantSystemArrayName", FilterParameterWidgetType::StringWidget, getDominantSystemArrayName(), FilterParameter::CreatedArray, ""));
+  parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Cell AttributeMatrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Dominant System Array Name", "DominantSystemArrayName", getDominantSystemArrayName(), FilterParameter::CreatedArray));
   setFilterParameters(parameters);
 }
 
