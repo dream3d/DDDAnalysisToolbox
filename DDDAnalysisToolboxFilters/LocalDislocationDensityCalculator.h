@@ -47,6 +47,7 @@
 #include "DREAM3DLib/Geometry/MeshStructs.h"
 #include "DREAM3DLib/Common/Constants.h"
 #include "DREAM3DLib/Common/AbstractFilter.h"
+#include "DREAM3DLib/FilterParameters/FloatVec3FilterParameter.h"
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 
@@ -160,11 +161,11 @@ class LocalDislocationDensityCalculator : public AbstractFilter
   int determine_slip_system(int edgeNum);
 
   private:
-	DEFINE_DATAARRAY_VARIABLE(float, OutputArray)
-	DEFINE_DATAARRAY_VARIABLE(float, DominantSystemArray)
-	DEFINE_DATAARRAY_VARIABLE(float, DomainBounds)
-	DEFINE_DATAARRAY_VARIABLE(float, BurgersVectors)
-	DEFINE_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
+  DEFINE_DATAARRAY_VARIABLE(float, OutputArray)
+  DEFINE_DATAARRAY_VARIABLE(float, DominantSystemArray)
+  DEFINE_DATAARRAY_VARIABLE(float, DomainBounds)
+  DEFINE_DATAARRAY_VARIABLE(float, BurgersVectors)
+  DEFINE_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
 
     LocalDislocationDensityCalculator(const LocalDislocationDensityCalculator&); // Copy Constructor Not Implemented
     void operator=(const LocalDislocationDensityCalculator&); // Operator '=' Not Implemented

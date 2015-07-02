@@ -47,6 +47,7 @@
 #include "DREAM3DLib/Geometry/MeshStructs.h"
 #include "DREAM3DLib/Common/Constants.h"
 #include "DREAM3DLib/Common/AbstractFilter.h"
+#include "DREAM3DLib/FilterParameters/FloatVec3FilterParameter.h"
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 
@@ -79,9 +80,9 @@ class DiscretizeDDDomain : public AbstractFilter
     DREAM3D_FILTER_PARAMETER(QString, OutputAttributeMatrixName)
     Q_PROPERTY(QString OutputAttributeMatrixName READ getOutputAttributeMatrixName WRITE setOutputAttributeMatrixName)
 
-	// Give the created data array a name
-	DREAM3D_FILTER_PARAMETER(QString, OutputArrayName)
-	Q_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
+    // Give the created data array a name
+    DREAM3D_FILTER_PARAMETER(QString, OutputArrayName)
+    Q_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
 
     /**
     * @brief This returns the group that the filter belonds to. You can select
@@ -148,7 +149,7 @@ class DiscretizeDDDomain : public AbstractFilter
     void dataCheck();
 
   private:
-	DEFINE_DATAARRAY_VARIABLE(int32_t, OutputArray)
+    DEFINE_DATAARRAY_VARIABLE(int32_t, OutputArray)
 
     DiscretizeDDDomain(const DiscretizeDDDomain&); // Copy Constructor Not Implemented
     void operator=(const DiscretizeDDDomain&); // Operator '=' Not Implemented
