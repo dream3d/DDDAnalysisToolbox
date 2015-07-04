@@ -48,6 +48,7 @@
 #include "DREAM3DLib/FilterParameters/SeparatorFilterParameter.h"
 #include "DREAM3DLib/Math/DREAM3DMath.h"
 
+
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -425,29 +426,29 @@ int LocalDislocationDensityCalculator::determine_slip_system(int edgeNum)
   slipDir4 = m_BurgersVectors[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * -DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * 0.0;
   slipDir5 = m_BurgersVectors[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * 0.0 + m_BurgersVectors[3 * edgeNum + 2] * -DREAM3D::Constants::k_1OverRoot2;
   slipDir6 = m_BurgersVectors[3 * edgeNum + 0] * 0.0 + m_BurgersVectors[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * -DREAM3D::Constants::k_1OverRoot2;
-  if (abs(abs(planeFam1) - 1.0) < tol)
+  if (fabs(fabs(planeFam1) - 1.0) < tol)
   {
-    if (abs(abs(slipDir4) - 1.0) < tol) { system = 0; }
-    if (abs(abs(slipDir5) - 1.0) < tol) { system = 1; }
-    if (abs(abs(slipDir6) - 1.0) < tol) { system = 2; }
+    if (fabs(fabs(slipDir4) - 1.0) < tol) { system = 0; }
+    if (fabs(fabs(slipDir5) - 1.0) < tol) { system = 1; }
+    if (fabs(fabs(slipDir6) - 1.0) < tol) { system = 2; }
   }
-  if (abs(abs(planeFam2) - 1.0) < tol)
+  if (fabs(fabs(planeFam2) - 1.0) < tol)
   {
-    if (abs(abs(slipDir1) - 1.0) < tol) { system = 3; }
-    if (abs(abs(slipDir2) - 1.0) < tol) { system = 4; }
-    if (abs(abs(slipDir6) - 1.0) < tol) { system = 5; }
+    if (fabs(fabs(slipDir1) - 1.0) < tol) { system = 3; }
+    if (fabs(fabs(slipDir2) - 1.0) < tol) { system = 4; }
+    if (fabs(fabs(slipDir6) - 1.0) < tol) { system = 5; }
   }
-  if (abs(abs(planeFam3) - 1.0) < tol)
+  if (fabs(fabs(planeFam3) - 1.0) < tol)
   {
-    if (abs(abs(slipDir1) - 1.0) < tol) { system = 6; }
-    if (abs(abs(slipDir3) - 1.0) < tol) { system = 7; }
-    if (abs(abs(slipDir5) - 1.0) < tol) { system = 8; }
+    if (fabs(fabs(slipDir1) - 1.0) < tol) { system = 6; }
+    if (fabs(fabs(slipDir3) - 1.0) < tol) { system = 7; }
+    if (fabs(fabs(slipDir5) - 1.0) < tol) { system = 8; }
   }
-  if (abs(abs(planeFam4) - 1.0) < tol)
+  if (fabs(fabs(planeFam4) - 1.0) < tol)
   {
-    if (abs(abs(slipDir2) - 1.0) < tol) { system = 9; }
-    if (abs(abs(slipDir3) - 1.0) < tol) { system = 10; }
-    if (abs(abs(slipDir4) - 1.0) < tol) { system = 11; }
+    if (fabs(fabs(slipDir2) - 1.0) < tol) { system = 9; }
+    if (fabs(fabs(slipDir3) - 1.0) < tol) { system = 10; }
+    if (fabs(fabs(slipDir4) - 1.0) < tol) { system = 11; }
   }
   return system;
 }
