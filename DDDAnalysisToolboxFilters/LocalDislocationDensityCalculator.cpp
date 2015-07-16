@@ -92,11 +92,11 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
   parameters.push_back(DataContainerSelectionFilterParameter::New("Edge DataContainer", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray));
   {
-    FilterParameter::DataStructureRequirements req;
+    DataArraySelectionFilterParameter::DataStructureRequirements req;
     parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors Array", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, req));
   }
   {
-    FilterParameter::DataStructureRequirements req;
+    DataArraySelectionFilterParameter::DataStructureRequirements req;
     parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals Array", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, req));
   }
 //  parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
