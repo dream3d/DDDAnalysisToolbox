@@ -90,7 +90,10 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
 
   parameters.push_back(FloatVec3FilterParameter::New("Cell Size (Microns)", "CellSize", getCellSize(), FilterParameter::Parameter));
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(DataContainerSelectionFilterParameter::New("Edge DataContainer", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray));
+  {
+    DataContainerSelectionFilterParameter::DataStructureRequirements req;
+    parameters.push_back(DataContainerSelectionFilterParameter::New("Edge DataContainer", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray, req));
+  }
   {
     DataArraySelectionFilterParameter::DataStructureRequirements req;
     parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors Array", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, req));

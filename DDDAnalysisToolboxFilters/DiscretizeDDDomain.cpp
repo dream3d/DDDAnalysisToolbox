@@ -82,7 +82,10 @@ void DiscretizeDDDomain::setupFilterParameters()
 
   parameters.push_back(FloatVec3FilterParameter::New("Cell Size (Microns)", "CellSize", getCellSize(), FilterParameter::Parameter));
   // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Parameter));
-  parameters.push_back(DataContainerSelectionFilterParameter::New("Edge Data Container", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray));
+  {
+    DataContainerSelectionFilterParameter::DataStructureRequirements req;
+    parameters.push_back(DataContainerSelectionFilterParameter::New("Edge Data Container", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray, req));
+  }
   // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
   parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray));
   parameters.push_back(StringFilterParameter::New("Cell Attribute Matrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray));
