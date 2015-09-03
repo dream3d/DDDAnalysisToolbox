@@ -40,14 +40,14 @@
 #include <QtCore/QString>
 #include <set>
 
-#include "DREAM3DLib/DREAM3DLib.h"
-#include "DREAM3DLib/Common/DREAM3DSetGetMacros.h"
-#include "DREAM3DLib/DataArrays/IDataArray.h"
-#include "DREAM3DLib/DataContainers/DataContainer.h"
-#include "DREAM3DLib/Geometry/MeshStructs.h"
-#include "DREAM3DLib/Common/Constants.h"
-#include "DREAM3DLib/Common/AbstractFilter.h"
-#include "DREAM3DLib/FilterParameters/FloatVec3FilterParameter.h"
+#include "SIMPLib/SIMPLib.h"
+#include "SIMPLib/Common/SIMPLibSetGetMacros.h"
+#include "SIMPLib/DataArrays/IDataArray.h"
+#include "SIMPLib/DataContainers/DataContainer.h"
+#include "SIMPLib/Geometry/MeshStructs.h"
+#include "SIMPLib/Common/Constants.h"
+#include "SIMPLib/Common/AbstractFilter.h"
+#include "SIMPLib/FilterParameters/FloatVec3FilterParameter.h"
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 
@@ -62,26 +62,26 @@ class DiscretizeDDDomain : public AbstractFilter
 {
     Q_OBJECT /* Need this for Qt's signals and slots mechanism to work */
   public:
-    DREAM3D_SHARED_POINTERS(DiscretizeDDDomain)
-    DREAM3D_STATIC_NEW_MACRO(DiscretizeDDDomain)
-    DREAM3D_TYPE_MACRO_SUPER(DiscretizeDDDomain, AbstractFilter)
+    SIMPL_SHARED_POINTERS(DiscretizeDDDomain)
+    SIMPL_STATIC_NEW_MACRO(DiscretizeDDDomain)
+    SIMPL_TYPE_MACRO_SUPER(DiscretizeDDDomain, AbstractFilter)
 
     virtual ~DiscretizeDDDomain();
-    DREAM3D_FILTER_PARAMETER(QString, EdgeDataContainerName)
+    SIMPL_FILTER_PARAMETER(QString, EdgeDataContainerName)
     Q_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
 
-    DREAM3D_FILTER_PARAMETER(FloatVec3_t, CellSize)
+    SIMPL_FILTER_PARAMETER(FloatVec3_t, CellSize)
     Q_PROPERTY(FloatVec3_t CellSize READ getCellSize WRITE setCellSize)
 
     // The user selects a new DataContainerName
-    DREAM3D_FILTER_PARAMETER(QString, OutputDataContainerName)
+    SIMPL_FILTER_PARAMETER(QString, OutputDataContainerName)
     Q_PROPERTY(QString OutputDataContainerName READ getOutputDataContainerName WRITE setOutputDataContainerName)
     // Name the new AttributeMatrix that will get created
-    DREAM3D_FILTER_PARAMETER(QString, OutputAttributeMatrixName)
+    SIMPL_FILTER_PARAMETER(QString, OutputAttributeMatrixName)
     Q_PROPERTY(QString OutputAttributeMatrixName READ getOutputAttributeMatrixName WRITE setOutputAttributeMatrixName)
 
     // Give the created data array a name
-    DREAM3D_FILTER_PARAMETER(QString, OutputArrayName)
+    SIMPL_FILTER_PARAMETER(QString, OutputArrayName)
     Q_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
 
     /**

@@ -40,13 +40,13 @@
 #include <QtCore/QString>
 #include <set>
 
-#include "DREAM3DLib/DREAM3DLib.h"
-#include "DREAM3DLib/Common/DREAM3DSetGetMacros.h"
-#include "DREAM3DLib/DataArrays/IDataArray.h"
-#include "DREAM3DLib/DataContainers/DataContainer.h"
-#include "DREAM3DLib/Geometry/MeshStructs.h"
-#include "DREAM3DLib/Common/Constants.h"
-#include "DREAM3DLib/Common/AbstractFilter.h"
+#include "SIMPLib/SIMPLib.h"
+#include "SIMPLib/Common/SIMPLibSetGetMacros.h"
+#include "SIMPLib/DataArrays/IDataArray.h"
+#include "SIMPLib/DataContainers/DataContainer.h"
+#include "SIMPLib/Geometry/MeshStructs.h"
+#include "SIMPLib/Common/Constants.h"
+#include "SIMPLib/Common/AbstractFilter.h"
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 /**
@@ -60,12 +60,12 @@ class IdentifyDislocationSegments : public AbstractFilter
 {
     Q_OBJECT /* Need this for Qt's signals and slots mechanism to work */
   public:
-    DREAM3D_SHARED_POINTERS(IdentifyDislocationSegments)
-    DREAM3D_STATIC_NEW_MACRO(IdentifyDislocationSegments)
-    DREAM3D_TYPE_MACRO_SUPER(IdentifyDislocationSegments, AbstractFilter)
+    SIMPL_SHARED_POINTERS(IdentifyDislocationSegments)
+    SIMPL_STATIC_NEW_MACRO(IdentifyDislocationSegments)
+    SIMPL_TYPE_MACRO_SUPER(IdentifyDislocationSegments, AbstractFilter)
 
     virtual ~IdentifyDislocationSegments();
-    DREAM3D_INSTANCE_STRING_PROPERTY(EdgeFeatureAttributeMatrixName)
+    SIMPL_INSTANCE_STRING_PROPERTY(EdgeFeatureAttributeMatrixName)
     Q_PROPERTY(QString EdgeFeatureAttributeMatrixName READ getEdgeFeatureAttributeMatrixName WRITE setEdgeFeatureAttributeMatrixName)
 
     /**
@@ -73,16 +73,16 @@ class IdentifyDislocationSegments : public AbstractFilter
     * a different group if you want. The string returned here will be displayed
     * in the GUI for the filter
     */
-    DREAM3D_FILTER_PARAMETER(DataArrayPath, BurgersVectorsArrayPath)
+    SIMPL_FILTER_PARAMETER(DataArrayPath, BurgersVectorsArrayPath)
     Q_PROPERTY(DataArrayPath BurgersVectorsArrayPath READ getBurgersVectorsArrayPath WRITE setBurgersVectorsArrayPath)
 
-    DREAM3D_FILTER_PARAMETER(DataArrayPath, SlipPlaneNormalsArrayPath)
+    SIMPL_FILTER_PARAMETER(DataArrayPath, SlipPlaneNormalsArrayPath)
     Q_PROPERTY(DataArrayPath SlipPlaneNormalsArrayPath READ getSlipPlaneNormalsArrayPath WRITE setSlipPlaneNormalsArrayPath)
 
-    DREAM3D_FILTER_PARAMETER(QString, DislocationIdsArrayName)
+    SIMPL_FILTER_PARAMETER(QString, DislocationIdsArrayName)
     Q_PROPERTY(QString DislocationIdsArrayName READ getDislocationIdsArrayName WRITE setDislocationIdsArrayName)
 
-    DREAM3D_FILTER_PARAMETER(QString, ActiveArrayName)
+    SIMPL_FILTER_PARAMETER(QString, ActiveArrayName)
     Q_PROPERTY(QString ActiveArrayName READ getActiveArrayName WRITE setActiveArrayName)
 
     virtual const QString getCompiledLibraryName();

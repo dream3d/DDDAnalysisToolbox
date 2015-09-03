@@ -36,17 +36,17 @@
 
 #include "LocalDislocationDensityCalculator.h"
 
-#include "DREAM3DLib/Common/Constants.h"
-#include "DREAM3DLib/Math/GeometryMath.h"
-#include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
+#include "SIMPLib/Common/Constants.h"
+#include "SIMPLib/Math/GeometryMath.h"
+#include "SIMPLib/FilterParameters/AbstractFilterParametersWriter.h"
 
-#include "DREAM3DLib/FilterParameters/FloatVec3FilterParameter.h"
-#include "DREAM3DLib/FilterParameters/DataContainerSelectionFilterParameter.h"
-#include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
-#include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
-#include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
-#include "DREAM3DLib/FilterParameters/SeparatorFilterParameter.h"
-#include "DREAM3DLib/Math/DREAM3DMath.h"
+#include "SIMPLib/FilterParameters/FloatVec3FilterParameter.h"
+#include "SIMPLib/FilterParameters/DataContainerSelectionFilterParameter.h"
+#include "SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h"
+#include "SIMPLib/FilterParameters/StringFilterParameter.h"
+#include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
+#include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
+#include "SIMPLib/Math/SIMPLibMath.h"
 
 
 // -----------------------------------------------------------------------------
@@ -133,14 +133,14 @@ void LocalDislocationDensityCalculator::readFilterParameters(AbstractFilterParam
 int LocalDislocationDensityCalculator::writeFilterParameters(AbstractFilterParametersWriter* writer, int index)
 {
   writer->openFilterGroup(this, index);
-  DREAM3D_FILTER_WRITE_PARAMETER(EdgeDataContainerName)
-  DREAM3D_FILTER_WRITE_PARAMETER(OutputDataContainerName)
-  DREAM3D_FILTER_WRITE_PARAMETER(OutputAttributeMatrixName)
-  DREAM3D_FILTER_WRITE_PARAMETER(OutputArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(DominantSystemArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayPath)
-  DREAM3D_FILTER_WRITE_PARAMETER(BurgersVectorsArrayPath)
-  DREAM3D_FILTER_WRITE_PARAMETER(CellSize)
+  SIMPL_FILTER_WRITE_PARAMETER(EdgeDataContainerName)
+  SIMPL_FILTER_WRITE_PARAMETER(OutputDataContainerName)
+  SIMPL_FILTER_WRITE_PARAMETER(OutputAttributeMatrixName)
+  SIMPL_FILTER_WRITE_PARAMETER(OutputArrayName)
+  SIMPL_FILTER_WRITE_PARAMETER(DominantSystemArrayName)
+  SIMPL_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayPath)
+  SIMPL_FILTER_WRITE_PARAMETER(BurgersVectorsArrayPath)
+  SIMPL_FILTER_WRITE_PARAMETER(CellSize)
   writer->closeFilterGroup();
   return ++index; // we want to return the next index that was just written to
 }
@@ -427,16 +427,16 @@ int LocalDislocationDensityCalculator::determine_slip_system(int edgeNum)
   float tol = 0.000001f;
 
   int system = 12;
-  planeFam1 = m_SlipPlaneNormals[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot3;
-  planeFam2 = m_SlipPlaneNormals[3 * edgeNum + 0] * -DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot3;
-  planeFam3 = m_SlipPlaneNormals[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * -DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot3;
-  planeFam4 = m_SlipPlaneNormals[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * -DREAM3D::Constants::k_1OverRoot3;
-  slipDir1 = m_BurgersVectors[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * 0.0;
-  slipDir2 = m_BurgersVectors[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * 0.0 + m_BurgersVectors[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot2;
-  slipDir3 = m_BurgersVectors[3 * edgeNum + 0] * 0.0 + m_BurgersVectors[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * DREAM3D::Constants::k_1OverRoot2;
-  slipDir4 = m_BurgersVectors[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * -DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * 0.0;
-  slipDir5 = m_BurgersVectors[3 * edgeNum + 0] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * 0.0 + m_BurgersVectors[3 * edgeNum + 2] * -DREAM3D::Constants::k_1OverRoot2;
-  slipDir6 = m_BurgersVectors[3 * edgeNum + 0] * 0.0 + m_BurgersVectors[3 * edgeNum + 1] * DREAM3D::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * -DREAM3D::Constants::k_1OverRoot2;
+  planeFam1 = m_SlipPlaneNormals[3 * edgeNum + 0] * SIMPLib::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * SIMPLib::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * SIMPLib::Constants::k_1OverRoot3;
+  planeFam2 = m_SlipPlaneNormals[3 * edgeNum + 0] * -SIMPLib::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * SIMPLib::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * SIMPLib::Constants::k_1OverRoot3;
+  planeFam3 = m_SlipPlaneNormals[3 * edgeNum + 0] * SIMPLib::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * -SIMPLib::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * SIMPLib::Constants::k_1OverRoot3;
+  planeFam4 = m_SlipPlaneNormals[3 * edgeNum + 0] * SIMPLib::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 1] * SIMPLib::Constants::k_1OverRoot3 + m_SlipPlaneNormals[3 * edgeNum + 2] * -SIMPLib::Constants::k_1OverRoot3;
+  slipDir1 = m_BurgersVectors[3 * edgeNum + 0] * SIMPLib::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * SIMPLib::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * 0.0;
+  slipDir2 = m_BurgersVectors[3 * edgeNum + 0] * SIMPLib::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * 0.0 + m_BurgersVectors[3 * edgeNum + 2] * SIMPLib::Constants::k_1OverRoot2;
+  slipDir3 = m_BurgersVectors[3 * edgeNum + 0] * 0.0 + m_BurgersVectors[3 * edgeNum + 1] * SIMPLib::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * SIMPLib::Constants::k_1OverRoot2;
+  slipDir4 = m_BurgersVectors[3 * edgeNum + 0] * SIMPLib::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * -SIMPLib::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * 0.0;
+  slipDir5 = m_BurgersVectors[3 * edgeNum + 0] * SIMPLib::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 1] * 0.0 + m_BurgersVectors[3 * edgeNum + 2] * -SIMPLib::Constants::k_1OverRoot2;
+  slipDir6 = m_BurgersVectors[3 * edgeNum + 0] * 0.0 + m_BurgersVectors[3 * edgeNum + 1] * SIMPLib::Constants::k_1OverRoot2 + m_BurgersVectors[3 * edgeNum + 2] * -SIMPLib::Constants::k_1OverRoot2;
   if (fabs(fabs(planeFam1) - 1.0) < tol)
   {
     if (fabs(fabs(slipDir4) - 1.0) < tol) { system = 0; }

@@ -40,15 +40,15 @@
 #include <boost/random/uniform_int.hpp>
 #include <boost/random/variate_generator.hpp>
 
-#include "DREAM3DLib/Math/DREAM3DMath.h"
-#include "DREAM3DLib/Math/GeometryMath.h"
-#include "DREAM3DLib/Utilities/DREAM3DRandom.h"
-#include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
+#include "SIMPLib/Math/SIMPLibMath.h"
+#include "SIMPLib/Math/GeometryMath.h"
+#include "SIMPLib/Utilities/SIMPLibRandom.h"
+#include "SIMPLib/FilterParameters/AbstractFilterParametersWriter.h"
 
-#include "DREAM3DLib/FilterParameters/DataArraySelectionFilterParameter.h"
-#include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
-#include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
-#include "DREAM3DLib/FilterParameters/SeparatorFilterParameter.h"
+#include "SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h"
+#include "SIMPLib/FilterParameters/StringFilterParameter.h"
+#include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
+#include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
 
 // -----------------------------------------------------------------------------
 //
@@ -120,11 +120,11 @@ void IdentifyDislocationSegments::readFilterParameters(AbstractFilterParametersR
 int IdentifyDislocationSegments::writeFilterParameters(AbstractFilterParametersWriter* writer, int index)
 {
   writer->openFilterGroup(this, index);
-  DREAM3D_FILTER_WRITE_PARAMETER(EdgeFeatureAttributeMatrixName)
-  DREAM3D_FILTER_WRITE_PARAMETER(ActiveArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(DislocationIdsArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayPath)
-  DREAM3D_FILTER_WRITE_PARAMETER(BurgersVectorsArrayPath)
+  SIMPL_FILTER_WRITE_PARAMETER(EdgeFeatureAttributeMatrixName)
+  SIMPL_FILTER_WRITE_PARAMETER(ActiveArrayName)
+  SIMPL_FILTER_WRITE_PARAMETER(DislocationIdsArrayName)
+  SIMPL_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayPath)
+  SIMPL_FILTER_WRITE_PARAMETER(BurgersVectorsArrayPath)
 
   writer->closeFilterGroup();
   return ++index; // we want to return the next index that was just written to
@@ -232,7 +232,7 @@ void IdentifyDislocationSegments::execute()
   float refBV[3], refSPN[3];
   float neighBV[3], neighSPN[3];
   float angleBV, angleSPN;
-  float angleTol = 1.0 * DREAM3D::Constants::k_Pi / 180.0f;
+  float angleTol = 1.0 * SIMPLib::Constants::k_Pi / 180.0f;
   for(size_t i = 0; i < numEdges; i++)
   {
     size = 0;
@@ -272,7 +272,7 @@ void IdentifyDislocationSegments::execute()
               neighSPN[2] = m_SlipPlaneNormals[3 * data[j] + 2];
               angleBV = GeometryMath::AngleBetweenVectors(refBV, neighBV);
               angleSPN = GeometryMath::AngleBetweenVectors(refSPN, neighSPN);
-              if((angleBV < angleTol || (DREAM3D::Constants::k_Pi - angleBV) < angleTol) && (angleSPN < angleTol || (DREAM3D::Constants::k_Pi - angleSPN) < angleTol))
+              if((angleBV < angleTol || (SIMPLib::Constants::k_Pi - angleBV) < angleTol) && (angleSPN < angleTol || (SIMPLib::Constants::k_Pi - angleSPN) < angleTol))
               {
                 m_DislocationIds[data[j]] = dnum;
                 edgeslist[size] = data[j];

@@ -40,14 +40,14 @@
 #include <QtCore/QString>
 #include <set>
 
-#include "DREAM3DLib/DREAM3DLib.h"
-#include "DREAM3DLib/Common/DREAM3DSetGetMacros.h"
-#include "DREAM3DLib/DataArrays/IDataArray.h"
-#include "DREAM3DLib/DataContainers/DataContainer.h"
-#include "DREAM3DLib/Geometry/MeshStructs.h"
-#include "DREAM3DLib/Common/Constants.h"
-#include "DREAM3DLib/Common/AbstractFilter.h"
-#include "DREAM3DLib/FilterParameters/FloatVec3FilterParameter.h"
+#include "SIMPLib/SIMPLib.h"
+#include "SIMPLib/Common/SIMPLibSetGetMacros.h"
+#include "SIMPLib/DataArrays/IDataArray.h"
+#include "SIMPLib/DataContainers/DataContainer.h"
+#include "SIMPLib/Geometry/MeshStructs.h"
+#include "SIMPLib/Common/Constants.h"
+#include "SIMPLib/Common/AbstractFilter.h"
+#include "SIMPLib/FilterParameters/FloatVec3FilterParameter.h"
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 
@@ -62,35 +62,35 @@ class LocalDislocationDensityCalculator : public AbstractFilter
 {
     Q_OBJECT /* Need this for Qt's signals and slots mechanism to work */
   public:
-    DREAM3D_SHARED_POINTERS(LocalDislocationDensityCalculator)
-    DREAM3D_STATIC_NEW_MACRO(LocalDislocationDensityCalculator)
-    DREAM3D_TYPE_MACRO_SUPER(LocalDislocationDensityCalculator, AbstractFilter)
+    SIMPL_SHARED_POINTERS(LocalDislocationDensityCalculator)
+    SIMPL_STATIC_NEW_MACRO(LocalDislocationDensityCalculator)
+    SIMPL_TYPE_MACRO_SUPER(LocalDislocationDensityCalculator, AbstractFilter)
 
     virtual ~LocalDislocationDensityCalculator();
-    DREAM3D_FILTER_PARAMETER(QString, EdgeDataContainerName)
+    SIMPL_FILTER_PARAMETER(QString, EdgeDataContainerName)
     Q_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
 
-    DREAM3D_FILTER_PARAMETER(DataArrayPath, BurgersVectorsArrayPath)
+    SIMPL_FILTER_PARAMETER(DataArrayPath, BurgersVectorsArrayPath)
     Q_PROPERTY(DataArrayPath BurgersVectorsArrayPath READ getBurgersVectorsArrayPath WRITE setBurgersVectorsArrayPath)
 
-    DREAM3D_FILTER_PARAMETER(DataArrayPath, SlipPlaneNormalsArrayPath)
+    SIMPL_FILTER_PARAMETER(DataArrayPath, SlipPlaneNormalsArrayPath)
     Q_PROPERTY(DataArrayPath SlipPlaneNormalsArrayPath READ getSlipPlaneNormalsArrayPath WRITE setSlipPlaneNormalsArrayPath)
 
-    DREAM3D_FILTER_PARAMETER(FloatVec3_t, CellSize)
+    SIMPL_FILTER_PARAMETER(FloatVec3_t, CellSize)
     Q_PROPERTY(FloatVec3_t CellSize READ getCellSize WRITE setCellSize)
 
     // The user selects a new DataContainerName
-    DREAM3D_FILTER_PARAMETER(QString, OutputDataContainerName)
+    SIMPL_FILTER_PARAMETER(QString, OutputDataContainerName)
     Q_PROPERTY(QString OutputDataContainerName READ getOutputDataContainerName WRITE setOutputDataContainerName)
     // Name the new AttributeMatrix that will get created
-    DREAM3D_FILTER_PARAMETER(QString, OutputAttributeMatrixName)
+    SIMPL_FILTER_PARAMETER(QString, OutputAttributeMatrixName)
     Q_PROPERTY(QString OutputAttributeMatrixName READ getOutputAttributeMatrixName WRITE setOutputAttributeMatrixName)
 
     // Give the created data array a name
-    DREAM3D_FILTER_PARAMETER(QString, OutputArrayName)
+    SIMPL_FILTER_PARAMETER(QString, OutputArrayName)
     Q_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
 
-    DREAM3D_FILTER_PARAMETER(QString, DominantSystemArrayName)
+    SIMPL_FILTER_PARAMETER(QString, DominantSystemArrayName)
     Q_PROPERTY(QString DominantSystemArrayName READ getDominantSystemArrayName WRITE setDominantSystemArrayName)
 
     /**

@@ -41,14 +41,14 @@
 #include <vector>
 #include <QtCore/QFile>
 
-#include "DREAM3DLib/DREAM3DLib.h"
-#include "DREAM3DLib/Common/DREAM3DSetGetMacros.h"
-#include "DREAM3DLib/DataArrays/IDataArray.h"
-#include "DREAM3DLib/DataContainers/DataContainer.h"
-#include "DREAM3DLib/Geometry/MeshStructs.h"
-#include "DREAM3DLib/CoreFilters/FileReader.h"
-#include "DREAM3DLib/Common/Constants.h"
-#include "DREAM3DLib/Common/AbstractFilter.h"
+#include "SIMPLib/SIMPLib.h"
+#include "SIMPLib/Common/SIMPLibSetGetMacros.h"
+#include "SIMPLib/DataArrays/IDataArray.h"
+#include "SIMPLib/DataContainers/DataContainer.h"
+#include "SIMPLib/Geometry/MeshStructs.h"
+#include "SIMPLib/CoreFilters/FileReader.h"
+#include "SIMPLib/Common/Constants.h"
+#include "SIMPLib/Common/AbstractFilter.h"
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 
@@ -63,36 +63,36 @@ class  ParaDisReader : public FileReader
 {
     Q_OBJECT /* Need this for Qt's signals and slots mechanism to work */
   public:
-    DREAM3D_SHARED_POINTERS(ParaDisReader)
-    DREAM3D_STATIC_NEW_MACRO(ParaDisReader)
-    DREAM3D_TYPE_MACRO_SUPER(ParaDisReader, FileReader)
+    SIMPL_SHARED_POINTERS(ParaDisReader)
+    SIMPL_STATIC_NEW_MACRO(ParaDisReader)
+    SIMPL_TYPE_MACRO_SUPER(ParaDisReader, FileReader)
 
     virtual ~ParaDisReader();
-    DREAM3D_FILTER_PARAMETER(QString, EdgeDataContainerName)
+    SIMPL_FILTER_PARAMETER(QString, EdgeDataContainerName)
     Q_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
-    DREAM3D_FILTER_PARAMETER(QString, VertexAttributeMatrixName)
+    SIMPL_FILTER_PARAMETER(QString, VertexAttributeMatrixName)
     Q_PROPERTY(QString VertexAttributeMatrixName READ getVertexAttributeMatrixName WRITE setVertexAttributeMatrixName)
-    DREAM3D_FILTER_PARAMETER(QString, EdgeAttributeMatrixName)
+    SIMPL_FILTER_PARAMETER(QString, EdgeAttributeMatrixName)
     Q_PROPERTY(QString EdgeAttributeMatrixName READ getEdgeAttributeMatrixName WRITE setEdgeAttributeMatrixName)
 
-    DREAM3D_FILTER_PARAMETER(QString, InputFile)
+    SIMPL_FILTER_PARAMETER(QString, InputFile)
     Q_PROPERTY(QString InputFile READ getInputFile WRITE setInputFile)
-    DREAM3D_FILTER_PARAMETER(float, BurgersVector)
+    SIMPL_FILTER_PARAMETER(float, BurgersVector)
     Q_PROPERTY(float BurgersVector READ getBurgersVector WRITE setBurgersVector)
 
-    DREAM3D_FILTER_PARAMETER(QString, NumberOfArmsArrayName)
+    SIMPL_FILTER_PARAMETER(QString, NumberOfArmsArrayName)
     Q_PROPERTY(QString NumberOfArmsArrayName READ getNumberOfArmsArrayName WRITE setNumberOfArmsArrayName)
 
-    DREAM3D_FILTER_PARAMETER(QString, NodeConstraintsArrayName)
+    SIMPL_FILTER_PARAMETER(QString, NodeConstraintsArrayName)
     Q_PROPERTY(QString NodeConstraintsArrayName READ getNodeConstraintsArrayName WRITE setNodeConstraintsArrayName)
 
-    DREAM3D_FILTER_PARAMETER(QString, BurgersVectorsArrayName)
+    SIMPL_FILTER_PARAMETER(QString, BurgersVectorsArrayName)
     Q_PROPERTY(QString BurgersVectorsArrayName READ getBurgersVectorsArrayName WRITE setBurgersVectorsArrayName)
 
-    DREAM3D_FILTER_PARAMETER(QString, SlipPlaneNormalsArrayName)
+    SIMPL_FILTER_PARAMETER(QString, SlipPlaneNormalsArrayName)
     Q_PROPERTY(QString SlipPlaneNormalsArrayName READ getSlipPlaneNormalsArrayName WRITE setSlipPlaneNormalsArrayName)
 
-    DREAM3D_FILTER_PARAMETER(QString, DomainBoundsArrayName)
+    SIMPL_FILTER_PARAMETER(QString, DomainBoundsArrayName)
 
     virtual const QString getCompiledLibraryName();
     virtual AbstractFilter::Pointer newFilterInstance(bool copyFilterParameters);

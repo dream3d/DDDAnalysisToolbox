@@ -40,15 +40,15 @@
 
 #include <QtCore/QFileInfo>
 
-#include "DREAM3DLib/Math/MatrixMath.h"
-#include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
+#include "SIMPLib/Math/MatrixMath.h"
+#include "SIMPLib/FilterParameters/AbstractFilterParametersWriter.h"
 
-#include "DREAM3DLib/FilterParameters/InputFileFilterParameter.h"
-#include "DREAM3DLib/FilterParameters/DoubleFilterParameter.h"
-#include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
-#include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
+#include "SIMPLib/FilterParameters/InputFileFilterParameter.h"
+#include "SIMPLib/FilterParameters/DoubleFilterParameter.h"
+#include "SIMPLib/FilterParameters/StringFilterParameter.h"
+#include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
 
-#include "DREAM3DLib/FilterParameters/SeparatorFilterParameter.h"
+#include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
 
 // -----------------------------------------------------------------------------
 //
@@ -121,15 +121,15 @@ void ParaDisReader::readFilterParameters(AbstractFilterParametersReader* reader,
 int ParaDisReader::writeFilterParameters(AbstractFilterParametersWriter* writer, int index)
 {
   writer->openFilterGroup(this, index);
-  DREAM3D_FILTER_WRITE_PARAMETER(EdgeDataContainerName)
-  DREAM3D_FILTER_WRITE_PARAMETER(VertexAttributeMatrixName)
-  DREAM3D_FILTER_WRITE_PARAMETER(EdgeAttributeMatrixName)
-  DREAM3D_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(BurgersVectorsArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(NodeConstraintsArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(NumberOfArmsArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(InputFile)
-  DREAM3D_FILTER_WRITE_PARAMETER(BurgersVector)
+  SIMPL_FILTER_WRITE_PARAMETER(EdgeDataContainerName)
+  SIMPL_FILTER_WRITE_PARAMETER(VertexAttributeMatrixName)
+  SIMPL_FILTER_WRITE_PARAMETER(EdgeAttributeMatrixName)
+  SIMPL_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayName)
+  SIMPL_FILTER_WRITE_PARAMETER(BurgersVectorsArrayName)
+  SIMPL_FILTER_WRITE_PARAMETER(NodeConstraintsArrayName)
+  SIMPL_FILTER_WRITE_PARAMETER(NumberOfArmsArrayName)
+  SIMPL_FILTER_WRITE_PARAMETER(InputFile)
+  SIMPL_FILTER_WRITE_PARAMETER(BurgersVector)
   writer->closeFilterGroup();
   return ++index; // we want to return the next index that was just written to
 }

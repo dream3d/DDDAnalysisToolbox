@@ -36,17 +36,17 @@
 
 #include "DiscretizeDDDomain.h"
 
-#include "DREAM3DLib/FilterParameters/AbstractFilterParametersReader.h"
-#include "DREAM3DLib/FilterParameters/AbstractFilterParametersWriter.h"
+#include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
+#include "SIMPLib/FilterParameters/AbstractFilterParametersWriter.h"
 
-#include "DREAM3DLib/FilterParameters/FloatVec3FilterParameter.h"
-#include "DREAM3DLib/FilterParameters/DataContainerSelectionFilterParameter.h"
-#include "DREAM3DLib/FilterParameters/StringFilterParameter.h"
-#include "DREAM3DLib/FilterParameters/SeparatorFilterParameter.h"
+#include "SIMPLib/FilterParameters/FloatVec3FilterParameter.h"
+#include "SIMPLib/FilterParameters/DataContainerSelectionFilterParameter.h"
+#include "SIMPLib/FilterParameters/StringFilterParameter.h"
+#include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
 
-#include "DREAM3DLib/Common/Constants.h"
-#include "DREAM3DLib/Math/GeometryMath.h"
-#include "DREAM3DLib/Math/DREAM3DMath.h"
+#include "SIMPLib/Common/Constants.h"
+#include "SIMPLib/Math/GeometryMath.h"
+#include "SIMPLib/Math/SIMPLibMath.h"
 
 // -----------------------------------------------------------------------------
 //
@@ -113,11 +113,11 @@ void DiscretizeDDDomain::readFilterParameters(AbstractFilterParametersReader* re
 int DiscretizeDDDomain::writeFilterParameters(AbstractFilterParametersWriter* writer, int index)
 {
   writer->openFilterGroup(this, index);
-  DREAM3D_FILTER_WRITE_PARAMETER(EdgeDataContainerName)
-  DREAM3D_FILTER_WRITE_PARAMETER(OutputDataContainerName)
-  DREAM3D_FILTER_WRITE_PARAMETER(OutputAttributeMatrixName)
-  DREAM3D_FILTER_WRITE_PARAMETER(OutputArrayName)
-  DREAM3D_FILTER_WRITE_PARAMETER(CellSize)
+  SIMPL_FILTER_WRITE_PARAMETER(EdgeDataContainerName)
+  SIMPL_FILTER_WRITE_PARAMETER(OutputDataContainerName)
+  SIMPL_FILTER_WRITE_PARAMETER(OutputAttributeMatrixName)
+  SIMPL_FILTER_WRITE_PARAMETER(OutputArrayName)
+  SIMPL_FILTER_WRITE_PARAMETER(CellSize)
   writer->closeFilterGroup();
   return ++index; // we want to return the next index that was just written to
 }
