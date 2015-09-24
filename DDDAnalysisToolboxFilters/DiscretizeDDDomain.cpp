@@ -48,6 +48,11 @@
 #include "SIMPLib/Math/GeometryMath.h"
 #include "SIMPLib/Math/SIMPLibMath.h"
 
+// Include the MOC generated file for this class
+#include "moc_DiscretizeDDDomain.cpp"
+
+
+
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
