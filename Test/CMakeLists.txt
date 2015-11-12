@@ -14,8 +14,8 @@ set(${PLUGIN_NAME}Test_BINARY_DIR ${${PLUGIN_NAME}_BINARY_DIR}/Test)
 include(${DREAM3DProj_SOURCE_DIR}/Test/DREAM3DTestFunctions.cmake)
 
 
-include_directories(${${PROJECT_NAME}_SOURCE_DIR})
-include_directories(${${PROJECT_NAME}_BINARY_DIR})
+include_directories(${${PLUGIN_NAME}_SOURCE_DIR})
+include_directories(${${PLUGIN_NAME}_BINARY_DIR})
 
 
 set(TEST_TEMP_DIR ${${PLUGIN_NAME}Test_BINARY_DIR}/Temp)
@@ -32,6 +32,6 @@ configure_file(${${PLUGIN_NAME}_SOURCE_DIR}/Test/TestFileLocations.h.in
 # another plugin would not have the same name as your test. Possible prefix the name of the
 # test and/or the name of the plugin
 # AddDREAM3DUnitTest(TESTNAME SomeTest 
-#                   SOURCES ${${PROJECT_NAME}_SOURCE_DIR}/Test/SomeTest.cpp 
+#                   SOURCES ${${PLUGIN_NAME}_SOURCE_DIR}/Test/SomeTest.cpp 
 #                   LINK_LIBRARIES Qt5::Core H5Support DREAM3DLib)
 
