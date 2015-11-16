@@ -47,6 +47,8 @@
 #include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
 #include "SIMPLib/Math/SIMPLibMath.h"
+#include "SIMPLib/Geometry/ImageGeom.h"
+#include "SIMPLib/Geometry/EdgeGeom.h"
 
 
 // Include the MOC generated file for this class

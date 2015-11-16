@@ -13,7 +13,7 @@ namespace DDDAnalysisToolboxConstants
 {
   const QString DDDAnalysisToolboxPluginFile("DDDAnalysisToolboxPlugin");
   const QString DDDAnalysisToolboxPluginDisplayName("DDDAnalysisToolbox");
-  const QString DDDAnalysisToolboxBaseName("DDDAnalysisToolboxPlugin");
+  const QString DDDAnalysisToolboxBaseName("DDDAnalysisToolbox");
 
   namespace FilterGroups
   {
