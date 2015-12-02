@@ -94,13 +94,51 @@ class  ParaDisReader : public FileReader
 
     SIMPL_FILTER_PARAMETER(QString, DomainBoundsArrayName)
 
+
+    /**
+     * @brief getCompiledLibraryName Reimplemented from @see AbstractFilter class
+     */
     virtual const QString getCompiledLibraryName();
+
+    /**
+     * @brief getBrandingString Returns the branding string for the filter, which is a tag
+     * used to denote the filter's association with specific plugins
+     * @return Branding string
+    */
+    virtual const QString getBrandingString();
+
+    /**
+     * @brief getFilterVersion Returns a version string for this filter. Default
+     * value is an empty string.
+     * @return
+     */
+    virtual const QString getFilterVersion();
+
+    /**
+     * @brief newFilterInstance Reimplemented from @see AbstractFilter class
+     */
     virtual AbstractFilter::Pointer newFilterInstance(bool copyFilterParameters);
+
+    /**
+     * @brief getGroupName Reimplemented from @see AbstractFilter class
+     */
     virtual const QString getGroupName();
+
+    /**
+     * @brief getSubGroupName Reimplemented from @see AbstractFilter class
+     */
     virtual const QString getSubGroupName();
+
+    /**
+     * @brief getHumanLabel Reimplemented from @see AbstractFilter class
+     */
     virtual const QString getHumanLabel();
 
+    /**
+     * @brief setupFilterParameters Reimplemented from @see AbstractFilter class
+     */
     virtual void setupFilterParameters();
+
     /**
     * @brief This method will write the options to a file
     * @param writer The writer that is used to write the options to a file

@@ -38,17 +38,17 @@
 
 #include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "SIMPLib/FilterParameters/AbstractFilterParametersWriter.h"
-
 #include "SIMPLib/FilterParameters/FloatVec3FilterParameter.h"
 #include "SIMPLib/FilterParameters/DataContainerSelectionFilterParameter.h"
 #include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
-
 #include "SIMPLib/Common/Constants.h"
 #include "SIMPLib/Math/GeometryMath.h"
 #include "SIMPLib/Math/SIMPLibMath.h"
 #include "SIMPLib/Geometry/ImageGeom.h"
 #include "SIMPLib/Geometry/EdgeGeom.h"
+
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 
 // Include the MOC generated file for this class
 #include "moc_DiscretizeDDDomain.cpp"
@@ -384,8 +384,28 @@ AbstractFilter::Pointer DiscretizeDDDomain::newFilterInstance(bool copyFilterPar
 //
 // -----------------------------------------------------------------------------
 const QString DiscretizeDDDomain::getCompiledLibraryName()
-{ return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName; }
+{
+  return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName;
+}
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+const QString DiscretizeDDDomain::getBrandingString()
+{
+  return "DDDAnalysisToolbox";
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+const QString DiscretizeDDDomain::getFilterVersion()
+{
+  QString version;
+  QTextStream vStream(&version);
+  vStream <<  DDDAnalysisToolbox::Version::Major() << "." << DDDAnalysisToolbox::Version::Minor() << "." << DDDAnalysisToolbox::Version::Patch();
+  return version;
+}
 
 // -----------------------------------------------------------------------------
 //

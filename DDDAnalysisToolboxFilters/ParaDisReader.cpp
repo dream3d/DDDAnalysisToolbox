@@ -42,14 +42,15 @@
 
 #include "SIMPLib/Math/MatrixMath.h"
 #include "SIMPLib/FilterParameters/AbstractFilterParametersWriter.h"
-
 #include "SIMPLib/FilterParameters/InputFileFilterParameter.h"
 #include "SIMPLib/FilterParameters/DoubleFilterParameter.h"
 #include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
-
 #include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
 #include "SIMPLib/Geometry/EdgeGeom.h"
+
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
+
 
 // Include the MOC generated file for this class
 #include "moc_ParaDisReader.cpp"
@@ -592,8 +593,28 @@ AbstractFilter::Pointer ParaDisReader::newFilterInstance(bool copyFilterParamete
 //
 // -----------------------------------------------------------------------------
 const QString ParaDisReader::getCompiledLibraryName()
-{ return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName; }
+{
+  return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName;
+}
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+const QString ParaDisReader::getBrandingString()
+{
+  return "DDDAnalysisToolbox";
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+const QString ParaDisReader::getFilterVersion()
+{
+  QString version;
+  QTextStream vStream(&version);
+  vStream <<  DDDAnalysisToolbox::Version::Major() << "." << DDDAnalysisToolbox::Version::Minor() << "." << DDDAnalysisToolbox::Version::Patch();
+  return version;
+}
 
 // -----------------------------------------------------------------------------
 //

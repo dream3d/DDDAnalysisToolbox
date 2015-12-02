@@ -50,6 +50,7 @@
 #include "SIMPLib/Geometry/ImageGeom.h"
 #include "SIMPLib/Geometry/EdgeGeom.h"
 
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 
 // Include the MOC generated file for this class
 #include "moc_LocalDislocationDensityCalculator.cpp"
@@ -488,8 +489,28 @@ AbstractFilter::Pointer LocalDislocationDensityCalculator::newFilterInstance(boo
 //
 // -----------------------------------------------------------------------------
 const QString LocalDislocationDensityCalculator::getCompiledLibraryName()
-{ return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName; }
+{
+  return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName;
+}
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+const QString LocalDislocationDensityCalculator::getBrandingString()
+{
+  return "DDDAnalysisToolbox";
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+const QString LocalDislocationDensityCalculator::getFilterVersion()
+{
+  QString version;
+  QTextStream vStream(&version);
+  vStream <<  DDDAnalysisToolbox::Version::Major() << "." << DDDAnalysisToolbox::Version::Minor() << "." << DDDAnalysisToolbox::Version::Patch();
+  return version;
+}
 
 // -----------------------------------------------------------------------------
 //

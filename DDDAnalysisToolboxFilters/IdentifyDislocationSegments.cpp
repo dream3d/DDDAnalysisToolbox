@@ -44,12 +44,14 @@
 #include "SIMPLib/Math/GeometryMath.h"
 #include "SIMPLib/Utilities/SIMPLibRandom.h"
 #include "SIMPLib/FilterParameters/AbstractFilterParametersWriter.h"
-
 #include "SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h"
 #include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
 #include "SIMPLib/Geometry/EdgeGeom.h"
+
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
+
 
 // Include the MOC generated file for this class
 #include "moc_IdentifyDislocationSegments.cpp"
@@ -361,8 +363,28 @@ AbstractFilter::Pointer IdentifyDislocationSegments::newFilterInstance(bool copy
 //
 // -----------------------------------------------------------------------------
 const QString IdentifyDislocationSegments::getCompiledLibraryName()
-{ return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName; }
+{
+  return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName;
+}
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+const QString IdentifyDislocationSegments::getBrandingString()
+{
+  return "DDDAnalysisToolbox";
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+const QString IdentifyDislocationSegments::getFilterVersion()
+{
+  QString version;
+  QTextStream vStream(&version);
+  vStream <<  DDDAnalysisToolbox::Version::Major() << "." << DDDAnalysisToolbox::Version::Minor() << "." << DDDAnalysisToolbox::Version::Patch();
+  return version;
+}
 
 // -----------------------------------------------------------------------------
 //
