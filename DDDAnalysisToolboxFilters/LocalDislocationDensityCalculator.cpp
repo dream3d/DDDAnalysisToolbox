@@ -61,11 +61,11 @@
 // -----------------------------------------------------------------------------
 LocalDislocationDensityCalculator::LocalDislocationDensityCalculator() :
   AbstractFilter(),
-  m_EdgeDataContainerName(DREAM3D::Defaults::DataContainerName),
-  m_BurgersVectorsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::BurgersVectors),
-  m_SlipPlaneNormalsArrayPath(DREAM3D::Defaults::DataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::SlipPlaneNormals),
-  m_OutputDataContainerName(DREAM3D::Defaults::NewDataContainerName),
-  m_OutputAttributeMatrixName(DREAM3D::Defaults::CellAttributeMatrixName),
+  m_EdgeDataContainerName(SIMPL::Defaults::DataContainerName),
+  m_BurgersVectorsArrayPath(SIMPL::Defaults::DataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::BurgersVectors),
+  m_SlipPlaneNormalsArrayPath(SIMPL::Defaults::DataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::SlipPlaneNormals),
+  m_OutputDataContainerName(SIMPL::Defaults::NewDataContainerName),
+  m_OutputAttributeMatrixName(SIMPL::Defaults::CellAttributeMatrixName),
   m_OutputArrayName("DislocationLineDensity"),
   m_DominantSystemArrayName("DominantSystem"),
   m_OutputArray(NULL),
@@ -234,12 +234,12 @@ void LocalDislocationDensityCalculator::dataCheck()
   if(getErrorCondition() < 0) { return; }
 
   //Create the voxel geometry to hold the local densities
-  ImageGeom::Pointer image = ImageGeom::CreateGeometry(DREAM3D::Geometry::ImageGeometry);
+  ImageGeom::Pointer image = ImageGeom::CreateGeometry(SIMPL::Geometry::ImageGeometry);
   m2->setGeometry(image);
 
   //Create the cell attrMat in the new data container
   QVector<size_t> tDims(3, 0);
-  AttributeMatrix::Pointer newCellAttrMat = m2->createNonPrereqAttributeMatrix<AbstractFilter>(this, getOutputAttributeMatrixName(), tDims, DREAM3D::AttributeMatrixType::Cell);
+  AttributeMatrix::Pointer newCellAttrMat = m2->createNonPrereqAttributeMatrix<AbstractFilter>(this, getOutputAttributeMatrixName(), tDims, SIMPL::AttributeMatrixType::Cell);
   if(getErrorCondition() < 0) { return; }
 
   //Get the name and create the array in the new data attrMat
@@ -515,14 +515,14 @@ const QString LocalDislocationDensityCalculator::getFilterVersion()
 //
 // -----------------------------------------------------------------------------
 const QString LocalDislocationDensityCalculator::getGroupName()
-{ return DREAM3D::FilterGroups::Unsupported; }
+{ return SIMPL::FilterGroups::Unsupported; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 const QString LocalDislocationDensityCalculator::getSubGroupName()
-{ return DREAM3D::FilterSubGroups::StatisticsFilters; }
+{ return SIMPL::FilterSubGroups::StatisticsFilters; }
 
 
 // -----------------------------------------------------------------------------
