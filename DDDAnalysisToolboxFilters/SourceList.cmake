@@ -31,7 +31,7 @@ set(_PublicFilters
 foreach(f ${_PublicFilters} )
   ADD_SIMPL_FILTER(  "DDDAnalysisToolbox" "DDDAnalysisToolbox"
                         ${_filterGroupName} ${f}
-                        ${DDDAnalysisToolbox_SOURCE_DIR}/Documentation/${_filterGroupName}/${f}.md TRUE ${DDDAnalysisToolbox_BINARY_DIR})
+                        ${${PLUGIN_NAME}_SOURCE_DIR}/Documentation/${_filterGroupName}/${f}.md TRUE ${${PLUGIN_NAME}_BINARY_DIR})
 endforeach()
 
 
@@ -45,7 +45,7 @@ set(_PrivateFilters
 #-----------------
 # Loop on the Private Filters adding each one to the DREAM3DLib project so that it gets compiled.
 foreach(f ${_PrivateFilters} )
-  ADD_SIMPL_FILTER(  "DDDAnalysisToolbox" "DDDAnalysisToolbox"
+  ADD_SIMPL_FILTER(  "${PLUGIN_NAME}" "${PLUGIN_NAME}"
                         ${_filterGroupName} ${f}
                         ${${PLUGIN_NAME}_SOURCE_DIR}/Documentation/${_filterGroupName}/${f}.md FALSE ${${PLUGIN_NAME}_BINARY_DIR})
 endforeach()
@@ -54,5 +54,5 @@ endforeach()
 
 #---------------------
 # This macro must come last after we are done adding all the filters and support files.
-SIMPL_END_FILTER_GROUP(${DDDAnalysisToolbox_BINARY_DIR} "${_filterGroupName}" "DDDAnalysisToolbox")
+SIMPL_END_FILTER_GROUP(${${PLUGIN_NAME}_BINARY_DIR} "${_filterGroupName}" "${PLUGIN_NAME}")
 
