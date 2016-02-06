@@ -61,15 +61,15 @@
 // -----------------------------------------------------------------------------
 ParaDisReader::ParaDisReader() :
   FileReader(),
-  m_EdgeDataContainerName(DREAM3D::Defaults::DataContainerName),
-  m_VertexAttributeMatrixName(DREAM3D::Defaults::VertexAttributeMatrixName),
-  m_EdgeAttributeMatrixName(DREAM3D::Defaults::EdgeAttributeMatrixName),
+  m_EdgeDataContainerName(SIMPL::Defaults::DataContainerName),
+  m_VertexAttributeMatrixName(SIMPL::Defaults::VertexAttributeMatrixName),
+  m_EdgeAttributeMatrixName(SIMPL::Defaults::EdgeAttributeMatrixName),
   m_InputFile(""),
   m_BurgersVector(2.5),
-  m_NumberOfArmsArrayName(DREAM3D::VertexData::NumberOfArms),
-  m_NodeConstraintsArrayName(DREAM3D::VertexData::NodeConstraints),
-  m_BurgersVectorsArrayName(DREAM3D::EdgeData::BurgersVectors),
-  m_SlipPlaneNormalsArrayName(DREAM3D::EdgeData::SlipPlaneNormals),
+  m_NumberOfArmsArrayName(SIMPL::VertexData::NumberOfArms),
+  m_NodeConstraintsArrayName(SIMPL::VertexData::NodeConstraints),
+  m_BurgersVectorsArrayName(SIMPL::EdgeData::BurgersVectors),
+  m_SlipPlaneNormalsArrayName(SIMPL::EdgeData::SlipPlaneNormals),
   m_DomainBoundsArrayName("DomainBounds"),
   m_NumberOfArms(NULL),
   m_NodeConstraints(NULL),
@@ -176,12 +176,12 @@ void ParaDisReader::dataCheck()
   DataContainer::Pointer m = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getEdgeDataContainerName());
   if(getErrorCondition() < 0) { return; }
   QVector<size_t> tDims(1, 0);
-  AttributeMatrix::Pointer amV = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getVertexAttributeMatrixName(), tDims, DREAM3D::AttributeMatrixType::Vertex);
+  AttributeMatrix::Pointer amV = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getVertexAttributeMatrixName(), tDims, SIMPL::AttributeMatrixType::Vertex);
   if(getErrorCondition() < 0) { return; }
-  AttributeMatrix::Pointer amE = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getEdgeAttributeMatrixName(), tDims, DREAM3D::AttributeMatrixType::Edge);
+  AttributeMatrix::Pointer amE = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getEdgeAttributeMatrixName(), tDims, SIMPL::AttributeMatrixType::Edge);
   if (getErrorCondition() < 0) { return; }
   tDims[0] = 1;
-  AttributeMatrix::Pointer amMeta = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, "_MetaData", tDims, DREAM3D::AttributeMatrixType::MetaData);
+  AttributeMatrix::Pointer amMeta = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, "_MetaData", tDims, SIMPL::AttributeMatrixType::MetaData);
   if (getErrorCondition() < 0) { return; }
 
   QFileInfo fi(getInputFile());
@@ -243,7 +243,7 @@ void ParaDisReader::dataCheck()
     //int error = readHeader();
     //add edges for preflight sake...they will get overwritten when actually reading the file
     SharedVertexList::Pointer vertices = EdgeGeom::CreateSharedVertexList(0);
-    EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(0, vertices, DREAM3D::Geometry::EdgeGeometry);
+    EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(0, vertices, SIMPL::Geometry::EdgeGeometry);
     m->setGeometry(edgeGeom);
 
     //m_InStream.close();
@@ -620,14 +620,14 @@ const QString ParaDisReader::getFilterVersion()
 //
 // -----------------------------------------------------------------------------
 const QString ParaDisReader::getGroupName()
-{ return DREAM3D::FilterGroups::Unsupported; }
+{ return SIMPL::FilterGroups::Unsupported; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 const QString ParaDisReader::getSubGroupName()
-{ return DREAM3D::FilterSubGroups::InputFilters; }
+{ return SIMPL::FilterSubGroups::InputFilters; }
 
 
 // -----------------------------------------------------------------------------

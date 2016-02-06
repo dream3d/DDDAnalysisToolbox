@@ -63,11 +63,11 @@
 // -----------------------------------------------------------------------------
 IdentifyDislocationSegments::IdentifyDislocationSegments() :
   AbstractFilter(),
-  m_EdgeFeatureAttributeMatrixName(DREAM3D::Defaults::EdgeFeatureAttributeMatrixName),
-  m_BurgersVectorsArrayPath(DREAM3D::Defaults::EdgeDataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::BurgersVectors),
-  m_SlipPlaneNormalsArrayPath(DREAM3D::Defaults::EdgeDataContainerName, DREAM3D::Defaults::EdgeAttributeMatrixName, DREAM3D::EdgeData::SlipPlaneNormals),
-  m_DislocationIdsArrayName(DREAM3D::EdgeData::DislocationIds),
-  m_ActiveArrayName(DREAM3D::FeatureData::Active),
+  m_EdgeFeatureAttributeMatrixName(SIMPL::Defaults::EdgeFeatureAttributeMatrixName),
+  m_BurgersVectorsArrayPath(SIMPL::Defaults::EdgeDataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::BurgersVectors),
+  m_SlipPlaneNormalsArrayPath(SIMPL::Defaults::EdgeDataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::SlipPlaneNormals),
+  m_DislocationIdsArrayName(SIMPL::EdgeData::DislocationIds),
+  m_ActiveArrayName(SIMPL::FeatureData::Active),
   m_BurgersVectors(NULL),
   m_SlipPlaneNormals(NULL),
   m_DislocationIds(NULL),
@@ -161,7 +161,7 @@ void IdentifyDislocationSegments::dataCheck()
   DataContainer::Pointer m = getDataContainerArray()->getPrereqDataContainer<AbstractFilter>(this, getBurgersVectorsArrayPath().getDataContainerName());
   if(getErrorCondition() < 0) { return; }
   QVector<size_t> tDims(1, 0);
-  AttributeMatrix::Pointer edgeFeatureAttrMat = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getEdgeFeatureAttributeMatrixName(), tDims, DREAM3D::AttributeMatrixType::EdgeFeature);
+  AttributeMatrix::Pointer edgeFeatureAttrMat = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getEdgeFeatureAttributeMatrixName(), tDims, SIMPL::AttributeMatrixType::EdgeFeature);
   if(getErrorCondition() < 0) { return; }
 
   EdgeGeom::Pointer edges = m->getPrereqGeometry<EdgeGeom, AbstractFilter>(this);
@@ -390,14 +390,14 @@ const QString IdentifyDislocationSegments::getFilterVersion()
 //
 // -----------------------------------------------------------------------------
 const QString IdentifyDislocationSegments::getGroupName()
-{ return DREAM3D::FilterGroups::Unsupported; }
+{ return SIMPL::FilterGroups::Unsupported; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 const QString IdentifyDislocationSegments::getSubGroupName()
-{ return DREAM3D::FilterSubGroups::FeatureIdentificationFilters; }
+{ return SIMPL::FilterSubGroups::FeatureIdentificationFilters; }
 
 
 // -----------------------------------------------------------------------------
