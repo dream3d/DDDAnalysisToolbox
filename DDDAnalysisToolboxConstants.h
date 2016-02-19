@@ -1,8 +1,8 @@
 /*
  * Your License should go here
  */
-#ifndef _DDDAnalysisToolboxConstants_H_
-#define _DDDAnalysisToolboxConstants_H_
+#ifndef _dddanalysistoolboxconstants_h_
+#define _dddanalysistoolboxconstants_h_
 
 #include <QtCore/QString>
 

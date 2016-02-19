@@ -34,8 +34,8 @@
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-#ifndef _DiscretizeDDDomain_H_
-#define _DiscretizeDDDomain_H_
+#ifndef _discretizedddomain_h_
+#define _discretizedddomain_h_
 
 #include <QtCore/QString>
 #include <set>

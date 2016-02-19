@@ -34,8 +34,8 @@
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-#ifndef _LocalDislocationDensityCalculator_H_
-#define _LocalDislocationDensityCalculator_H_
+#ifndef _localdislocationdensitycalculator_h_
+#define _localdislocationdensitycalculator_h_
 
 #include <QtCore/QString>
 #include <set>

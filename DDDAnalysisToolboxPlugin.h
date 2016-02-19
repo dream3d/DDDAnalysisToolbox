@@ -2,8 +2,8 @@
  * Your License or Copyright Information can go here
  */
 
-#ifndef _DDDAnalysisToolbox_H_
-#define _DDDAnalysisToolbox_H_
+#ifndef _dddanalysistoolboxplugin_h_
+#define _dddanalysistoolboxplugin_h_
 
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
