@@ -243,7 +243,7 @@ void ParaDisReader::dataCheck()
     //int error = readHeader();
     //add edges for preflight sake...they will get overwritten when actually reading the file
     SharedVertexList::Pointer vertices = EdgeGeom::CreateSharedVertexList(0);
-    EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(0, vertices, SIMPL::Geometry::EdgeGeometry);
+    EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(0, vertices, SIMPL::Geometry::EdgeGeometry, !getInPreflight());
     m->setGeometry(edgeGeom);
 
     //m_InStream.close();
