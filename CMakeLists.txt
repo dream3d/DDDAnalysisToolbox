@@ -221,9 +221,9 @@ add_library(${PLUGIN_NAME} MODULE ${${PLUGIN_NAME}_MODULE_SRCS})
 target_link_libraries(${PLUGIN_NAME}
                     Qt5::Core
                     SIMPLib
-                    Qt5::Gui Qt5::Widgets
-                    QtSupportLib
-                    SIMPLViewWidgetsLib
+                    Qt5::Gui
+                    Qt5::Widgets
+                    SVWidgetsLib
                     )
 SET_TARGET_PROPERTIES(${PLUGIN_NAME} PROPERTIES FOLDER ${PLUGIN_NAME}Plugin)
 
