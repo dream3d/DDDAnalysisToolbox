@@ -183,14 +183,14 @@ class LocalDislocationDensityCalculator : public AbstractFilter
 
     void updateCellInstancePointers();
 
-  int determine_slip_system(int edgeNum);
+    int determine_slip_system(int edgeNum);
 
   private:
-  DEFINE_DATAARRAY_VARIABLE(float, OutputArray)
-  DEFINE_DATAARRAY_VARIABLE(float, DominantSystemArray)
-  DEFINE_DATAARRAY_VARIABLE(float, DomainBounds)
-  DEFINE_DATAARRAY_VARIABLE(float, BurgersVectors)
-  DEFINE_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
+    DEFINE_DATAARRAY_VARIABLE(float, OutputArray)
+    DEFINE_DATAARRAY_VARIABLE(float, DominantSystemArray)
+    DEFINE_DATAARRAY_VARIABLE(float, DomainBounds)
+    DEFINE_DATAARRAY_VARIABLE(float, BurgersVectors)
+    DEFINE_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
 
     LocalDislocationDensityCalculator(const LocalDislocationDensityCalculator&); // Copy Constructor Not Implemented
     void operator=(const LocalDislocationDensityCalculator&); // Operator '=' Not Implemented

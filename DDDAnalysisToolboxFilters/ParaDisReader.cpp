@@ -171,7 +171,10 @@ void ParaDisReader::updateEdgeInstancePointers()
 // -----------------------------------------------------------------------------
 void ParaDisReader::initialize()
 {
-
+  if(m_InStream.isOpen()) m_InStream.close();
+  m_NumVerts = -1;
+  m_NumEdges = -1;
+  m_FileVersion = 0;
 }
 
 // -----------------------------------------------------------------------------
@@ -337,7 +340,7 @@ int ParaDisReader::readHeader()
   buf = buf.trimmed();
   buf = buf.simplified();
   tokens = buf.split(' ');
-  fileVersion = tokens[2].toInt(&ok, 10);
+  m_FileVersion = tokens[2].toInt(&ok, 10);
 
   int keepgoing = 1;
   //read until get to minCoordinates line
@@ -394,7 +397,7 @@ int ParaDisReader::readHeader()
     QString word(tokens.at(0));
     if (word.compare("nodeCount") == 0)
     {
-      numVerts = tokens[2].toInt(&ok, 10);
+      m_NumVerts = tokens[2].toInt(&ok, 10);
       keepgoing = 0;
     }
   }
@@ -417,9 +420,9 @@ int ParaDisReader::readHeader()
   }
 
   EdgeGeom::Pointer edgeGeom = m->getGeometryAs<EdgeGeom>();
-  edgeGeom->resizeVertexList(numVerts);
+  edgeGeom->resizeVertexList(m_NumVerts);
 
-  QVector<size_t> tDims(1, numVerts);
+  QVector<size_t> tDims(1, m_NumVerts);
   vertexAttrMat->resizeAttributeArrays(tDims);
   updateVertexInstancePointers();
 
@@ -439,16 +442,16 @@ int ParaDisReader::readFile()
   QList<QByteArray> subTokens; /* vector to store the split data */
 
   EdgeGeom::Pointer edgeGeom = m->getGeometryAs<EdgeGeom>();
-  edgeGeom->resizeVertexList(numVerts);
+  edgeGeom->resizeVertexList(m_NumVerts);
 
   float* vertex = edgeGeom->getVertexPointer(0);
-  numVerts = edgeGeom->getNumberOfVertices();
+  m_NumVerts = edgeGeom->getNumberOfVertices();
 
   bool ok = false;
 
   int nodeNum = 0;
   int neighborNode = 0;
-  numEdges = 0;
+  m_NumEdges = 0;
   int nodeCounter = 0;
   uint64_t* ptr64;
 
@@ -473,7 +476,7 @@ int ParaDisReader::readFile()
   //convert user input Burgers Vector to microns from angstroms
   float burgersVec = m_BurgersVector / 10000.0f;
 
-  for(int j = 0; j < numVerts; j++)
+  for(int j = 0; j < m_NumVerts; j++)
   {
     buf = m_InStream.readLine();
     buf = buf.trimmed();
@@ -503,7 +506,7 @@ int ParaDisReader::readFile()
       m_NumberOfArms[nodeNum] = tokens[4].toInt(&ok, 10);
       m_NodeConstraints[nodeNum] = tokens[5].toInt(&ok, 10);
     }
-    if(fileVersion >= 5)
+    if(m_FileVersion >= 5)
     {
       buf = m_InStream.readLine();
     }
@@ -526,7 +529,7 @@ int ParaDisReader::readFile()
       }
       if(neighborNode > nodeNum)
       {
-        numEdges++;
+        m_NumEdges++;
         firstNodes.push_back(nodeNum);
         secondNodes.push_back(neighborNode);
         burgVec[0] = tokens[1].toFloat(&ok);
@@ -556,15 +559,15 @@ int ParaDisReader::readFile()
     }
   }
 
-  edgeGeom->resizeEdgeList(numEdges);
+  edgeGeom->resizeEdgeList(m_NumEdges);
   int64_t* edge = edgeGeom->getEdgePointer(0);
 
   // Resize the edge attribute matrix to the number of vertices
-  QVector<size_t> tDims (1, numEdges);
+  QVector<size_t> tDims (1, m_NumEdges);
   edgeAttrMat->resizeAttributeArrays(tDims);
   updateEdgeInstancePointers();
 
-  for(int i = 0; i < numEdges; i++)
+  for(int i = 0; i < m_NumEdges; i++)
   {
     edge[2 * i + 0] = firstNodes[i];
     edge[2 * i + 1] = secondNodes[i];

@@ -203,10 +203,10 @@ class  ParaDisReader : public FileReader
     DEFINE_DATAARRAY_VARIABLE(float, DomainBounds)
     QFile  m_InStream;
 
-    int numVerts;
-    int numEdges;
+    int m_NumVerts;
+    int m_NumEdges;
 
-    int fileVersion;
+    int m_FileVersion;
 
     ParaDisReader(const ParaDisReader&); // Copy Constructor Not Implemented
     void operator=(const ParaDisReader&); // Operator '=' Not Implemented
