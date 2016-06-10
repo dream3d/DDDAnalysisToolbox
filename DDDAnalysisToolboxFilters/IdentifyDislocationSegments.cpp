@@ -152,6 +152,14 @@ void IdentifyDislocationSegments::updateEdgeFeatureInstancePointers()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
+void IdentifyDislocationSegments::initialize()
+{
+
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void IdentifyDislocationSegments::dataCheck()
 {
   DataArrayPath tempPath;

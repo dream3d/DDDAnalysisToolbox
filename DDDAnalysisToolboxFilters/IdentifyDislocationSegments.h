@@ -164,14 +164,15 @@ class IdentifyDislocationSegments : public AbstractFilter
     IdentifyDislocationSegments();
 
     /**
-    * @brief Checks for the appropriate parameter values and availability of
-    * arrays in the data container
-    * @param preflight
-    * @param voxels The number of voxels
-    * @param features The number of features
-    * @param ensembles The number of ensembles
-    */
+     * @brief dataCheck Checks for the appropriate parameter values and availability of arrays
+     */
     void dataCheck();
+
+    /**
+     * @brief Initializes all the private instance variables.
+     */
+    void initialize();
+
     void updateEdgeFeatureInstancePointers();
 
   private:

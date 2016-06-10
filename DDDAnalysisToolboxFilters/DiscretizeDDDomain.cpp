@@ -132,6 +132,14 @@ int DiscretizeDDDomain::writeFilterParameters(AbstractFilterParametersWriter* wr
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
+void DiscretizeDDDomain::initialize()
+{
+
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void DiscretizeDDDomain::dataCheck()
 {
   DataArrayPath tempPath;

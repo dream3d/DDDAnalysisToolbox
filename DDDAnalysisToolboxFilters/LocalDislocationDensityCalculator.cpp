@@ -172,6 +172,14 @@ void LocalDislocationDensityCalculator::updateCellInstancePointers()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
+void LocalDislocationDensityCalculator::initialize()
+{
+
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void LocalDislocationDensityCalculator::dataCheck()
 {
   DataArrayPath tempPath;

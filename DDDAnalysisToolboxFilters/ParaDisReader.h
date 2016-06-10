@@ -163,11 +163,36 @@ class  ParaDisReader : public FileReader
   protected:
     ParaDisReader();
 
+    /**
+     * @brief readHeader
+     * @return
+     */
     virtual int readHeader();
+
+    /**
+     * @brief readFile
+     * @return
+     */
     virtual int readFile();
 
+    /**
+     * @brief dataCheck Checks for the appropriate parameter values and availability of arrays
+     */
     void dataCheck();
+
+    /**
+     * @brief Initializes all the private instance variables.
+     */
+    void initialize();
+
+    /**
+     * @brief updateVertexInstancePointers
+     */
     void updateVertexInstancePointers();
+
+    /**
+     * @brief updateEdgeInstancePointers
+     */
     void updateEdgeInstancePointers();
 
   private:
