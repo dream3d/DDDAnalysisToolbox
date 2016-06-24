@@ -95,7 +95,7 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
 {
   FilterParameterVector parameters;
 
-  parameters.push_back(FloatVec3FilterParameter::New("Cell Size (Microns)", "CellSize", getCellSize(), FilterParameter::Parameter));
+  parameters.push_back(FloatVec3FilterParameter::New("Cell Size (Microns)", "CellSize", getCellSize(), FilterParameter::Parameter, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, CellSize), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, CellSize)));
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
   {
     DataContainerSelectionFilterParameter::RequirementType req;

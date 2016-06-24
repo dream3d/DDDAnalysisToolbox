@@ -93,7 +93,7 @@ void ParaDisReader::setupFilterParameters()
 {
   FilterParameterVector parameters;
   parameters.push_back(InputFileFilterParameter::New("Input File", "InputFile", getInputFile(), FilterParameter::Parameter, "*", SIMPL_BIND_SETTER(ParaDisReader, this, InputFile), SIMPL_BIND_GETTER(ParaDisReader, this, InputFile)));
-  parameters.push_back(DoubleFilterParameter::New("Burgers Vector Length (Angstroms)", "BurgersVector", getBurgersVector(), FilterParameter::Parameter));
+  parameters.push_back(DoubleFilterParameter::New("Burgers Vector Length (Angstroms)", "BurgersVector", getBurgersVector(), FilterParameter::Parameter, SIMPL_BIND_SETTER(ParaDisReader, this, BurgersVector), SIMPL_BIND_GETTER(ParaDisReader, this, BurgersVector)));
 // parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
   parameters.push_back(StringFilterParameter::New("Edge DataContainer Name", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, EdgeDataContainerName), SIMPL_BIND_GETTER(ParaDisReader, this, EdgeDataContainerName)));
   parameters.push_back(StringFilterParameter::New("Vertex AttributeMatrix Name", "VertexAttributeMatrixName", getVertexAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, VertexAttributeMatrixName), SIMPL_BIND_GETTER(ParaDisReader, this, VertexAttributeMatrixName)));
