@@ -99,21 +99,21 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
   {
     DataContainerSelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataContainerSelectionFilterParameter::New("Edge DataContainer", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray, req));
+    parameters.push_back(DataContainerSelectionFilterParameter::New("Edge DataContainer", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, EdgeDataContainerName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, EdgeDataContainerName)));
   }
   {
     DataArraySelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors Array", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, req));
+    parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors Array", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, BurgersVectorsArrayPath), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, BurgersVectorsArrayPath)));
   }
   {
     DataArraySelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals Array", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, req));
+    parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals Array", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, SlipPlaneNormalsArrayPath), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, SlipPlaneNormalsArrayPath)));
   }
 //  parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Cell AttributeMatrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Dominant System Array Name", "DominantSystemArrayName", getDominantSystemArrayName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, OutputDataContainerName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, OutputDataContainerName)));
+  parameters.push_back(StringFilterParameter::New("Cell AttributeMatrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, OutputAttributeMatrixName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, OutputAttributeMatrixName)));
+  parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, OutputArrayName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, OutputArrayName)));
+  parameters.push_back(StringFilterParameter::New("Dominant System Array Name", "DominantSystemArrayName", getDominantSystemArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, DominantSystemArrayName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, DominantSystemArrayName)));
   setFilterParameters(parameters);
 }
 

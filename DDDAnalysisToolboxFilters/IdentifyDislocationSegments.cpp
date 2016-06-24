@@ -92,18 +92,18 @@ void IdentifyDislocationSegments::setupFilterParameters()
   parameters.push_back(SeparatorFilterParameter::New("Edge Data", FilterParameter::RequiredArray));
   {
     DataArraySelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, req));
+    parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(IdentifyDislocationSegments, this, BurgersVectorsArrayPath), SIMPL_BIND_GETTER(IdentifyDislocationSegments, this, BurgersVectorsArrayPath)));
   }
   {
     DataArraySelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, req));
+    parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(IdentifyDislocationSegments, this, SlipPlaneNormalsArrayPath), SIMPL_BIND_GETTER(IdentifyDislocationSegments, this, SlipPlaneNormalsArrayPath)));
   }
 
   parameters.push_back(SeparatorFilterParameter::New("Edge Data", FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Dislocation Ids", "DislocationIdsArrayName", getDislocationIdsArrayName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Dislocation Ids", "DislocationIdsArrayName", getDislocationIdsArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(IdentifyDislocationSegments, this, DislocationIdsArrayName), SIMPL_BIND_GETTER(IdentifyDislocationSegments, this, DislocationIdsArrayName)));
   parameters.push_back(SeparatorFilterParameter::New("Edge Feature Data", FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Edge Feature Attribute Matrix", "EdgeFeatureAttributeMatrixName", getEdgeFeatureAttributeMatrixName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Active", "ActiveArrayName", getActiveArrayName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Edge Feature Attribute Matrix", "EdgeFeatureAttributeMatrixName", getEdgeFeatureAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(IdentifyDislocationSegments, this, EdgeFeatureAttributeMatrixName), SIMPL_BIND_GETTER(IdentifyDislocationSegments, this, EdgeFeatureAttributeMatrixName)));
+  parameters.push_back(StringFilterParameter::New("Active", "ActiveArrayName", getActiveArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(IdentifyDislocationSegments, this, ActiveArrayName), SIMPL_BIND_GETTER(IdentifyDislocationSegments, this, ActiveArrayName)));
   setFilterParameters(parameters);
 }
 

@@ -91,12 +91,12 @@ void DiscretizeDDDomain::setupFilterParameters()
   // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Parameter));
   {
     DataContainerSelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataContainerSelectionFilterParameter::New("Edge Data Container", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray, req));
+    parameters.push_back(DataContainerSelectionFilterParameter::New("Edge Data Container", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(DiscretizeDDDomain, this, EdgeDataContainerName), SIMPL_BIND_GETTER(DiscretizeDDDomain, this, EdgeDataContainerName)));
   }
   // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Cell Attribute Matrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(DiscretizeDDDomain, this, OutputDataContainerName), SIMPL_BIND_GETTER(DiscretizeDDDomain, this, OutputDataContainerName)));
+  parameters.push_back(StringFilterParameter::New("Cell Attribute Matrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(DiscretizeDDDomain, this, OutputAttributeMatrixName), SIMPL_BIND_GETTER(DiscretizeDDDomain, this, OutputAttributeMatrixName)));
+  parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(DiscretizeDDDomain, this, OutputArrayName), SIMPL_BIND_GETTER(DiscretizeDDDomain, this, OutputArrayName)));
   setFilterParameters(parameters);
 }
 
