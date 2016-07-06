@@ -124,25 +124,6 @@ void ParaDisReader::readFilterParameters(AbstractFilterParametersReader* reader,
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-int ParaDisReader::writeFilterParameters(AbstractFilterParametersWriter* writer, int index)
-{
-  writer->openFilterGroup(this, index);
-  SIMPL_FILTER_WRITE_PARAMETER(EdgeDataContainerName)
-  SIMPL_FILTER_WRITE_PARAMETER(VertexAttributeMatrixName)
-  SIMPL_FILTER_WRITE_PARAMETER(EdgeAttributeMatrixName)
-  SIMPL_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(BurgersVectorsArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(NodeConstraintsArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(NumberOfArmsArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(InputFile)
-  SIMPL_FILTER_WRITE_PARAMETER(BurgersVector)
-  writer->closeFilterGroup();
-  return ++index; // we want to return the next index that was just written to
-}
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
 void ParaDisReader::updateVertexInstancePointers()
 {
   setErrorCondition(0);

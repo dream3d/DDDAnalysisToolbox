@@ -125,22 +125,6 @@ void IdentifyDislocationSegments::readFilterParameters(AbstractFilterParametersR
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-int IdentifyDislocationSegments::writeFilterParameters(AbstractFilterParametersWriter* writer, int index)
-{
-  writer->openFilterGroup(this, index);
-  SIMPL_FILTER_WRITE_PARAMETER(EdgeFeatureAttributeMatrixName)
-  SIMPL_FILTER_WRITE_PARAMETER(ActiveArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(DislocationIdsArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayPath)
-  SIMPL_FILTER_WRITE_PARAMETER(BurgersVectorsArrayPath)
-
-  writer->closeFilterGroup();
-  return ++index; // we want to return the next index that was just written to
-}
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
 void IdentifyDislocationSegments::updateEdgeFeatureInstancePointers()
 {
   setErrorCondition(0);
