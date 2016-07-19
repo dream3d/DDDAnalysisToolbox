@@ -92,16 +92,16 @@ ParaDisReader::~ParaDisReader()
 void ParaDisReader::setupFilterParameters()
 {
   FilterParameterVector parameters;
-  parameters.push_back(InputFileFilterParameter::New("Input File", "InputFile", getInputFile(), FilterParameter::Parameter, "*"));
-  parameters.push_back(DoubleFilterParameter::New("Burgers Vector Length (Angstroms)", "BurgersVector", getBurgersVector(), FilterParameter::Parameter));
+  parameters.push_back(InputFileFilterParameter::New("Input File", "InputFile", getInputFile(), FilterParameter::Parameter, SIMPL_BIND_SETTER(ParaDisReader, this, InputFile), SIMPL_BIND_GETTER(ParaDisReader, this, InputFile), "*"));
+  parameters.push_back(DoubleFilterParameter::New("Burgers Vector Length (Angstroms)", "BurgersVector", getBurgersVector(), FilterParameter::Parameter, SIMPL_BIND_SETTER(ParaDisReader, this, BurgersVector), SIMPL_BIND_GETTER(ParaDisReader, this, BurgersVector)));
 // parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
-  parameters.push_back(StringFilterParameter::New("Edge DataContainer Name", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Vertex AttributeMatrix Name", "VertexAttributeMatrixName", getVertexAttributeMatrixName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Edge AttributeMatrix Name", "EdgeAttributeMatrixName", getEdgeAttributeMatrixName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Number Of Arms Array Name", "NumberOfArmsArrayName", getNumberOfArmsArrayName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Node Constraints Array Name", "NodeConstraintsArrayName", getNodeConstraintsArrayName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Burgers Vectors Array Name", "BurgersVectorsArrayName", getBurgersVectorsArrayName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Slip Plane Normals Array Name", "SlipPlaneNormalsArrayName", getSlipPlaneNormalsArrayName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Edge DataContainer Name", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, EdgeDataContainerName), SIMPL_BIND_GETTER(ParaDisReader, this, EdgeDataContainerName)));
+  parameters.push_back(StringFilterParameter::New("Vertex AttributeMatrix Name", "VertexAttributeMatrixName", getVertexAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, VertexAttributeMatrixName), SIMPL_BIND_GETTER(ParaDisReader, this, VertexAttributeMatrixName)));
+  parameters.push_back(StringFilterParameter::New("Edge AttributeMatrix Name", "EdgeAttributeMatrixName", getEdgeAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, EdgeAttributeMatrixName), SIMPL_BIND_GETTER(ParaDisReader, this, EdgeAttributeMatrixName)));
+  parameters.push_back(StringFilterParameter::New("Number Of Arms Array Name", "NumberOfArmsArrayName", getNumberOfArmsArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, NumberOfArmsArrayName), SIMPL_BIND_GETTER(ParaDisReader, this, NumberOfArmsArrayName)));
+  parameters.push_back(StringFilterParameter::New("Node Constraints Array Name", "NodeConstraintsArrayName", getNodeConstraintsArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, NodeConstraintsArrayName), SIMPL_BIND_GETTER(ParaDisReader, this, NodeConstraintsArrayName)));
+  parameters.push_back(StringFilterParameter::New("Burgers Vectors Array Name", "BurgersVectorsArrayName", getBurgersVectorsArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, BurgersVectorsArrayName), SIMPL_BIND_GETTER(ParaDisReader, this, BurgersVectorsArrayName)));
+  parameters.push_back(StringFilterParameter::New("Slip Plane Normals Array Name", "SlipPlaneNormalsArrayName", getSlipPlaneNormalsArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, SlipPlaneNormalsArrayName), SIMPL_BIND_GETTER(ParaDisReader, this, SlipPlaneNormalsArrayName)));
   setFilterParameters(parameters);
 }
 
@@ -119,25 +119,6 @@ void ParaDisReader::readFilterParameters(AbstractFilterParametersReader* reader,
   setInputFile( reader->readString( "InputFile", getInputFile() ) );
   setBurgersVector( reader->readValue( "BurgersVector", getBurgersVector() ) );
   reader->closeFilterGroup();
-}
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-int ParaDisReader::writeFilterParameters(AbstractFilterParametersWriter* writer, int index)
-{
-  writer->openFilterGroup(this, index);
-  SIMPL_FILTER_WRITE_PARAMETER(EdgeDataContainerName)
-  SIMPL_FILTER_WRITE_PARAMETER(VertexAttributeMatrixName)
-  SIMPL_FILTER_WRITE_PARAMETER(EdgeAttributeMatrixName)
-  SIMPL_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(BurgersVectorsArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(NodeConstraintsArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(NumberOfArmsArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(InputFile)
-  SIMPL_FILTER_WRITE_PARAMETER(BurgersVector)
-  writer->closeFilterGroup();
-  return ++index; // we want to return the next index that was just written to
 }
 
 // -----------------------------------------------------------------------------

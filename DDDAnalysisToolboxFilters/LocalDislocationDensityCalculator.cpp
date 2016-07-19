@@ -95,25 +95,25 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
 {
   FilterParameterVector parameters;
 
-  parameters.push_back(FloatVec3FilterParameter::New("Cell Size (Microns)", "CellSize", getCellSize(), FilterParameter::Parameter));
+  parameters.push_back(FloatVec3FilterParameter::New("Cell Size (Microns)", "CellSize", getCellSize(), FilterParameter::Parameter, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, CellSize), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, CellSize)));
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
   {
     DataContainerSelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataContainerSelectionFilterParameter::New("Edge DataContainer", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray, req));
+    parameters.push_back(DataContainerSelectionFilterParameter::New("Edge DataContainer", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, EdgeDataContainerName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, EdgeDataContainerName)));
   }
   {
     DataArraySelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors Array", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, req));
+    parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors Array", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, BurgersVectorsArrayPath), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, BurgersVectorsArrayPath)));
   }
   {
     DataArraySelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals Array", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, req));
+    parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals Array", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, SlipPlaneNormalsArrayPath), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, SlipPlaneNormalsArrayPath)));
   }
 //  parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Cell AttributeMatrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray));
-  parameters.push_back(StringFilterParameter::New("Dominant System Array Name", "DominantSystemArrayName", getDominantSystemArrayName(), FilterParameter::CreatedArray));
+  parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, OutputDataContainerName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, OutputDataContainerName)));
+  parameters.push_back(StringFilterParameter::New("Cell AttributeMatrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, OutputAttributeMatrixName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, OutputAttributeMatrixName)));
+  parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, OutputArrayName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, OutputArrayName)));
+  parameters.push_back(StringFilterParameter::New("Dominant System Array Name", "DominantSystemArrayName", getDominantSystemArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, DominantSystemArrayName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, DominantSystemArrayName)));
   setFilterParameters(parameters);
 }
 
@@ -132,24 +132,6 @@ void LocalDislocationDensityCalculator::readFilterParameters(AbstractFilterParam
   setDominantSystemArrayName(reader->readString("DominantSystemArrayName", getDominantSystemArrayName()));
   setCellSize(reader->readFloatVec3("CellSize", getCellSize()));
   reader->closeFilterGroup();
-}
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-int LocalDislocationDensityCalculator::writeFilterParameters(AbstractFilterParametersWriter* writer, int index)
-{
-  writer->openFilterGroup(this, index);
-  SIMPL_FILTER_WRITE_PARAMETER(EdgeDataContainerName)
-  SIMPL_FILTER_WRITE_PARAMETER(OutputDataContainerName)
-  SIMPL_FILTER_WRITE_PARAMETER(OutputAttributeMatrixName)
-  SIMPL_FILTER_WRITE_PARAMETER(OutputArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(DominantSystemArrayName)
-  SIMPL_FILTER_WRITE_PARAMETER(SlipPlaneNormalsArrayPath)
-  SIMPL_FILTER_WRITE_PARAMETER(BurgersVectorsArrayPath)
-  SIMPL_FILTER_WRITE_PARAMETER(CellSize)
-  writer->closeFilterGroup();
-  return ++index; // we want to return the next index that was just written to
 }
 
 // -----------------------------------------------------------------------------
