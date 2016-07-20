@@ -43,7 +43,6 @@
 #include "SIMPLib/Math/SIMPLibMath.h"
 #include "SIMPLib/Math/GeometryMath.h"
 #include "SIMPLib/Utilities/SIMPLibRandom.h"
-#include "SIMPLib/FilterParameters/AbstractFilterParametersWriter.h"
 #include "SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h"
 #include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"

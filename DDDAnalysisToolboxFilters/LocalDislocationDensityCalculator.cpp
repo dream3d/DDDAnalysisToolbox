@@ -38,7 +38,6 @@
 
 #include "SIMPLib/Common/Constants.h"
 #include "SIMPLib/Math/GeometryMath.h"
-#include "SIMPLib/FilterParameters/AbstractFilterParametersWriter.h"
 #include "SIMPLib/FilterParameters/FloatVec3FilterParameter.h"
 #include "SIMPLib/FilterParameters/DataContainerSelectionFilterParameter.h"
 #include "SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h"
