@@ -91,11 +91,11 @@ void IdentifyDislocationSegments::setupFilterParameters()
   parameters.push_back(SeparatorFilterParameter::New("Edge Data", FilterParameter::RequiredArray));
   {
     DataArraySelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(IdentifyDislocationSegments, this, BurgersVectorsArrayPath), SIMPL_BIND_GETTER(IdentifyDislocationSegments, this, BurgersVectorsArrayPath)));
+    parameters.push_back(DataArraySelectionFilterParameter::New("Burgers Vectors", "BurgersVectorsArrayPath", getBurgersVectorsArrayPath(), FilterParameter::RequiredArray, SIMPL_BIND_SETTER(IdentifyDislocationSegments, this, BurgersVectorsArrayPath), SIMPL_BIND_GETTER(IdentifyDislocationSegments, this, BurgersVectorsArrayPath), req));
   }
   {
     DataArraySelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, req, SIMPL_BIND_SETTER(IdentifyDislocationSegments, this, SlipPlaneNormalsArrayPath), SIMPL_BIND_GETTER(IdentifyDislocationSegments, this, SlipPlaneNormalsArrayPath)));
+    parameters.push_back(DataArraySelectionFilterParameter::New("Slip Plane Normals", "SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath(), FilterParameter::RequiredArray, SIMPL_BIND_SETTER(IdentifyDislocationSegments, this, SlipPlaneNormalsArrayPath), SIMPL_BIND_GETTER(IdentifyDislocationSegments, this, SlipPlaneNormalsArrayPath), req));
   }
 
   parameters.push_back(SeparatorFilterParameter::New("Edge Data", FilterParameter::CreatedArray));
