@@ -91,7 +91,7 @@ ParaDisReader::~ParaDisReader()
 void ParaDisReader::setupFilterParameters()
 {
   FilterParameterVector parameters;
-  parameters.push_back(InputFileFilterParameter::New("Input File", "InputFile", getInputFile(), FilterParameter::Parameter, SIMPL_BIND_SETTER(ParaDisReader, this, InputFile), SIMPL_BIND_GETTER(ParaDisReader, this, InputFile), "*"));
+  parameters.push_back(SIMPL_NEW_INPUT_FILE_FP("Input File", InputFile, FilterParameter::Parameter, ParaDisReader, "*"));
   parameters.push_back(SIMPL_NEW_DOUBLE_FP("Burgers Vector Length (Angstroms)", BurgersVector, FilterParameter::Parameter, ParaDisReader));
 // parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
   parameters.push_back(StringFilterParameter::New("Edge DataContainer Name", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, EdgeDataContainerName), SIMPL_BIND_GETTER(ParaDisReader, this, EdgeDataContainerName)));
