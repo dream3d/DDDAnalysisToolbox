@@ -98,7 +98,7 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
   {
     DataContainerSelectionFilterParameter::RequirementType req;
-    parameters.push_back(DataContainerSelectionFilterParameter::New("Edge DataContainer", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::RequiredArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, EdgeDataContainerName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, EdgeDataContainerName), req));
+    parameters.push_back(SIMPL_NEW_DC_SELECTION_FP("Edge DataContainer", EdgeDataContainerName, FilterParameter::RequiredArray, LocalDislocationDensityCalculator, req));
   }
   {
     DataArraySelectionFilterParameter::RequirementType req;
