@@ -93,9 +93,9 @@ void DiscretizeDDDomain::setupFilterParameters()
     parameters.push_back(SIMPL_NEW_DC_SELECTION_FP("Edge Data Container", EdgeDataContainerName, FilterParameter::RequiredArray, DiscretizeDDDomain, req));
   }
   // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(DiscretizeDDDomain, this, OutputDataContainerName), SIMPL_BIND_GETTER(DiscretizeDDDomain, this, OutputDataContainerName)));
-  parameters.push_back(StringFilterParameter::New("Cell Attribute Matrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(DiscretizeDDDomain, this, OutputAttributeMatrixName), SIMPL_BIND_GETTER(DiscretizeDDDomain, this, OutputAttributeMatrixName)));
-  parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(DiscretizeDDDomain, this, OutputArrayName), SIMPL_BIND_GETTER(DiscretizeDDDomain, this, OutputArrayName)));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Volume Data Container", OutputDataContainerName, FilterParameter::CreatedArray, DiscretizeDDDomain));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Cell Attribute Matrix", OutputAttributeMatrixName, FilterParameter::CreatedArray, DiscretizeDDDomain));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Dislocation Line Density Array Name", OutputArrayName, FilterParameter::CreatedArray, DiscretizeDDDomain));
   setFilterParameters(parameters);
 }
 

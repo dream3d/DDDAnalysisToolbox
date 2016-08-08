@@ -109,10 +109,10 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
     parameters.push_back(SIMPL_NEW_DA_SELECTION_FP("Slip Plane Normals Array", SlipPlaneNormalsArrayPath, FilterParameter::RequiredArray, LocalDislocationDensityCalculator, req));
   }
 //  parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(StringFilterParameter::New("Volume Data Container", "OutputDataContainerName", getOutputDataContainerName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, OutputDataContainerName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, OutputDataContainerName)));
-  parameters.push_back(StringFilterParameter::New("Cell AttributeMatrix", "OutputAttributeMatrixName", getOutputAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, OutputAttributeMatrixName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, OutputAttributeMatrixName)));
-  parameters.push_back(StringFilterParameter::New("Dislocation Line Density Array Name", "OutputArrayName", getOutputArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, OutputArrayName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, OutputArrayName)));
-  parameters.push_back(StringFilterParameter::New("Dominant System Array Name", "DominantSystemArrayName", getDominantSystemArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(LocalDislocationDensityCalculator, this, DominantSystemArrayName), SIMPL_BIND_GETTER(LocalDislocationDensityCalculator, this, DominantSystemArrayName)));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Volume Data Container", OutputDataContainerName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Cell AttributeMatrix", OutputAttributeMatrixName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Dislocation Line Density Array Name", OutputArrayName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Dominant System Array Name", DominantSystemArrayName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
   setFilterParameters(parameters);
 }
 
