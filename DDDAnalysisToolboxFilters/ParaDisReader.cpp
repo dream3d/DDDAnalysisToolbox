@@ -91,16 +91,16 @@ ParaDisReader::~ParaDisReader()
 void ParaDisReader::setupFilterParameters()
 {
   FilterParameterVector parameters;
-  parameters.push_back(InputFileFilterParameter::New("Input File", "InputFile", getInputFile(), FilterParameter::Parameter, SIMPL_BIND_SETTER(ParaDisReader, this, InputFile), SIMPL_BIND_GETTER(ParaDisReader, this, InputFile), "*"));
-  parameters.push_back(DoubleFilterParameter::New("Burgers Vector Length (Angstroms)", "BurgersVector", getBurgersVector(), FilterParameter::Parameter, SIMPL_BIND_SETTER(ParaDisReader, this, BurgersVector), SIMPL_BIND_GETTER(ParaDisReader, this, BurgersVector)));
+  parameters.push_back(SIMPL_NEW_INPUT_FILE_FP("Input File", InputFile, FilterParameter::Parameter, ParaDisReader, "*"));
+  parameters.push_back(SIMPL_NEW_DOUBLE_FP("Burgers Vector Length (Angstroms)", BurgersVector, FilterParameter::Parameter, ParaDisReader));
 // parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
-  parameters.push_back(StringFilterParameter::New("Edge DataContainer Name", "EdgeDataContainerName", getEdgeDataContainerName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, EdgeDataContainerName), SIMPL_BIND_GETTER(ParaDisReader, this, EdgeDataContainerName)));
-  parameters.push_back(StringFilterParameter::New("Vertex AttributeMatrix Name", "VertexAttributeMatrixName", getVertexAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, VertexAttributeMatrixName), SIMPL_BIND_GETTER(ParaDisReader, this, VertexAttributeMatrixName)));
-  parameters.push_back(StringFilterParameter::New("Edge AttributeMatrix Name", "EdgeAttributeMatrixName", getEdgeAttributeMatrixName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, EdgeAttributeMatrixName), SIMPL_BIND_GETTER(ParaDisReader, this, EdgeAttributeMatrixName)));
-  parameters.push_back(StringFilterParameter::New("Number Of Arms Array Name", "NumberOfArmsArrayName", getNumberOfArmsArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, NumberOfArmsArrayName), SIMPL_BIND_GETTER(ParaDisReader, this, NumberOfArmsArrayName)));
-  parameters.push_back(StringFilterParameter::New("Node Constraints Array Name", "NodeConstraintsArrayName", getNodeConstraintsArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, NodeConstraintsArrayName), SIMPL_BIND_GETTER(ParaDisReader, this, NodeConstraintsArrayName)));
-  parameters.push_back(StringFilterParameter::New("Burgers Vectors Array Name", "BurgersVectorsArrayName", getBurgersVectorsArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, BurgersVectorsArrayName), SIMPL_BIND_GETTER(ParaDisReader, this, BurgersVectorsArrayName)));
-  parameters.push_back(StringFilterParameter::New("Slip Plane Normals Array Name", "SlipPlaneNormalsArrayName", getSlipPlaneNormalsArrayName(), FilterParameter::CreatedArray, SIMPL_BIND_SETTER(ParaDisReader, this, SlipPlaneNormalsArrayName), SIMPL_BIND_GETTER(ParaDisReader, this, SlipPlaneNormalsArrayName)));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Edge DataContainer Name", EdgeDataContainerName, FilterParameter::CreatedArray, ParaDisReader));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Vertex AttributeMatrix Name", VertexAttributeMatrixName, FilterParameter::CreatedArray, ParaDisReader));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Edge AttributeMatrix Name", EdgeAttributeMatrixName, FilterParameter::CreatedArray, ParaDisReader));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Number Of Arms Array Name", NumberOfArmsArrayName, FilterParameter::CreatedArray, ParaDisReader));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Node Constraints Array Name", NodeConstraintsArrayName, FilterParameter::CreatedArray, ParaDisReader));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Burgers Vectors Array Name", BurgersVectorsArrayName, FilterParameter::CreatedArray, ParaDisReader));
+  parameters.push_back(SIMPL_NEW_STRING_FP("Slip Plane Normals Array Name", SlipPlaneNormalsArrayName, FilterParameter::CreatedArray, ParaDisReader));
   setFilterParameters(parameters);
 }
 
