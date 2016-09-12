@@ -63,7 +63,7 @@ DiscretizeDDDomain::DiscretizeDDDomain() :
   m_OutputDataContainerName(SIMPL::Defaults::NewDataContainerName),
   m_OutputAttributeMatrixName(SIMPL::Defaults::CellAttributeMatrixName),
   m_OutputArrayName("DislocationLineDensity"),
-  m_OutputArray(NULL)
+  m_OutputArray(nullptr)
 {
   m_CellSize.x = 2.0;
   m_CellSize.y = 2.0;
@@ -161,13 +161,13 @@ void DiscretizeDDDomain::dataCheck()
 
   EdgeGeom::Pointer edges = m->getPrereqGeometry<EdgeGeom, AbstractFilter>(this);
   // We MUST have Vertices defined.
-  if(edges->getVertices().get() == NULL)
+  if(edges->getVertices().get() == nullptr)
   {
     setErrorCondition(-384);
     notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Vertices", getErrorCondition());
   }
   // We MUST have Edges defined also.
-  if(edges->getEdges().get() == NULL)
+  if(edges->getEdges().get() == nullptr)
   {
     setErrorCondition(-384);
     notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Edges", getErrorCondition());
@@ -190,7 +190,7 @@ void DiscretizeDDDomain::dataCheck()
   QVector<size_t> dims(1, 1);
   tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
   m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (NULL != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
+  if (nullptr != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
 }
 

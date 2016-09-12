@@ -67,11 +67,11 @@ LocalDislocationDensityCalculator::LocalDislocationDensityCalculator() :
   m_OutputAttributeMatrixName(SIMPL::Defaults::CellAttributeMatrixName),
   m_OutputArrayName("DislocationLineDensity"),
   m_DominantSystemArrayName("DominantSystem"),
-  m_OutputArray(NULL),
-  m_DominantSystemArray(NULL),
-  m_DomainBounds(NULL),
-  m_BurgersVectors(NULL),
-  m_SlipPlaneNormals(NULL)
+  m_OutputArray(nullptr),
+  m_DominantSystemArray(nullptr),
+  m_DomainBounds(nullptr),
+  m_BurgersVectors(nullptr),
+  m_SlipPlaneNormals(nullptr)
 {
   m_CellSize.x = 2.0;
   m_CellSize.y = 2.0;
@@ -140,11 +140,11 @@ void LocalDislocationDensityCalculator::updateCellInstancePointers()
 {
   setErrorCondition(0);
 
-  if (NULL != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
+  if (nullptr != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {
     m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);
   } /* Now assign the raw pointer to data from the DataArray<T> object */
-  if (NULL != m_DominantSystemArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
+  if (nullptr != m_DominantSystemArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {
     m_DominantSystemArray = m_DominantSystemArrayPtr.lock()->getPointer(0);
   } /* Now assign the raw pointer to data from the DataArray<T> object */
@@ -200,13 +200,13 @@ void LocalDislocationDensityCalculator::dataCheck()
   if(getErrorCondition() < 0) { return; }
 
   // We MUST have Vertices defined.
-  if(edges->getVertices().get() == NULL)
+  if(edges->getVertices().get() == nullptr)
   {
     setErrorCondition(-384);
     notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Vertices", getErrorCondition());
   }
   // We MUST have Edges defined also.
-  if(edges->getEdges().get() == NULL)
+  if(edges->getEdges().get() == nullptr)
   {
     setErrorCondition(-384);
     notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Edges", getErrorCondition());
@@ -215,7 +215,7 @@ void LocalDislocationDensityCalculator::dataCheck()
   QVector<size_t> dims(1, 6);
   tempPath.update(getEdgeDataContainerName(), "_MetaData", "DomainBounds");
   m_DomainBoundsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, tempPath, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (NULL != m_DomainBoundsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
+  if (nullptr != m_DomainBoundsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_DomainBounds = m_DomainBoundsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 
   // Create a new DataContainer
@@ -234,20 +234,20 @@ void LocalDislocationDensityCalculator::dataCheck()
   //Get the name and create the array in the new data attrMat
   dims[0] = 3;
   m_BurgersVectorsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, getBurgersVectorsArrayPath(), dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (NULL != m_BurgersVectorsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
+  if (nullptr != m_BurgersVectorsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_BurgersVectors = m_BurgersVectorsPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   m_SlipPlaneNormalsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, getSlipPlaneNormalsArrayPath(), dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (NULL != m_SlipPlaneNormalsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
+  if (nullptr != m_SlipPlaneNormalsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 1;
   tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
   m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (NULL != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
+  if (nullptr != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 1;
   tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getDominantSystemArrayName());
   m_DominantSystemArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (NULL != m_DominantSystemArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-NULL pointer to a DataArray<T> object */
+  if (nullptr != m_DominantSystemArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_DominantSystemArray = m_DominantSystemArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
 }
 
