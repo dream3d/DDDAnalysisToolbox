@@ -167,12 +167,12 @@ void ParaDisReader::dataCheck()
   DataContainer::Pointer m = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getEdgeDataContainerName());
   if(getErrorCondition() < 0) { return; }
   QVector<size_t> tDims(1, 0);
-  AttributeMatrix::Pointer amV = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getVertexAttributeMatrixName(), tDims, SIMPL::AttributeMatrixType::Vertex);
+  AttributeMatrix::Pointer amV = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getVertexAttributeMatrixName(), tDims, AttributeMatrix::Type::Vertex);
   if(getErrorCondition() < 0) { return; }
-  AttributeMatrix::Pointer amE = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getEdgeAttributeMatrixName(), tDims, SIMPL::AttributeMatrixType::Edge);
+  AttributeMatrix::Pointer amE = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, getEdgeAttributeMatrixName(), tDims, AttributeMatrix::Type::Edge);
   if (getErrorCondition() < 0) { return; }
   tDims[0] = 1;
-  AttributeMatrix::Pointer amMeta = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, "_MetaData", tDims, SIMPL::AttributeMatrixType::MetaData);
+  AttributeMatrix::Pointer amMeta = m->createNonPrereqAttributeMatrix<AbstractFilter>(this, "_MetaData", tDims, AttributeMatrix::Type::MetaData);
   if (getErrorCondition() < 0) { return; }
 
   QFileInfo fi(getInputFile());
