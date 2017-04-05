@@ -1,4 +1,4 @@
-Quilt Cell Data {#localdislocationdensitycalculator}
+Calculate Local Dislocation Densities {#localdislocationdensitycalculator}
 ==========
 
 
@@ -8,7 +8,7 @@ __This filter is highly experimental and under heavy development. Future version
 
 
 ## Group (Subgroup) ##
-Statistics Filters (Ensemble)
+Unsupported (Statistics)
 
 ## Description ##
 This filter does the following...
@@ -16,20 +16,22 @@ This filter does the following...
 ## Parameters ##
 | Name             | Type |
 |------------------|------|
-| Feature Array Name | String |
+| Cell Size (Microns) | Float Vec3 |
 
 ## Required Arrays ##
 
-| Type | Default Array Name | Description | Comment |
-|------|--------------------|-------------|---------|
-| Int  | SomeName           | ....        | other   |
+| Type  | Default Array Name | Description | Comment |
+|-------|--------------------|-------------|---------|
+| Float | BurgersVectors     | ....        | other   |
+| Float | SlipPlaneNormals   | ....        | other   |
 
 
 ## Created Arrays ##
 
-| Type | Default Array Name | Description | Comment |
-|------|--------------------|-------------|---------|
-| Int  | SomeName           | ....        | other   |
+| Type  | Default Array Name | Description | Comment |
+|-------|--------------------|-------------|---------|
+| Float | DislocationLineDensity | ....        | other   |
+| Float | DominantSystem     | ....        | other   |
 
 
 

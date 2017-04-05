@@ -1,4 +1,4 @@
-Quilt Cell Data {#discretizedddomain}
+Discretized DDD Domain {#discretizedddomain}
 ==========
 
 
@@ -8,7 +8,7 @@ __This filter is highly experimental and under heavy development. Future version
 
 
 ## Group (Subgroup) ##
-Statistics Filters (Ensemble)
+Unsupported (Misc)
 
 ## Description ##
 This filter does the following...
@@ -16,20 +16,20 @@ This filter does the following...
 ## Parameters ##
 | Name             | Type |
 |------------------|------|
-| Feature Array Name | String |
+| Cell Size (Microns) | Float Vec3 |
 
 ## Required Arrays ##
 
-| Type | Default Array Name | Description | Comment |
-|------|--------------------|-------------|---------|
-| Int  | SomeName           | ....        | other   |
+| Default Container Name | Description | Comment |
+|------------------------|-------------|---------|
+| SomeName               | ....        | other   |
 
 
 ## Created Arrays ##
 
 | Type | Default Array Name | Description | Comment |
 |------|--------------------|-------------|---------|
-| Int  | SomeName           | ....        | other   |
+| Int  | DislocationLineDensity | ....        | other   |
 
 
 
