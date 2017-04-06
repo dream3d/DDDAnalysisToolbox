@@ -16,13 +16,7 @@ This filter does the following...
 ## Parameters ##
 | Name             | Type |
 |------------------|------|
-| Cell Size (Microns) | Float Vec3 |
-
-## Required Arrays ##
-
-| Default Container Name | Description | Comment |
-|------------------------|-------------|---------|
-| SomeName               | ....        | other   |
+| Cell Size (Microns) | 3x Float |
 
 
 ## Created Arrays ##
