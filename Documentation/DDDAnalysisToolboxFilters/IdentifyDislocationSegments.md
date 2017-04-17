@@ -18,17 +18,18 @@ NOTE: This filter is intended for use with *Hexagonal* materials.  While the c-a
 
 | Type | Default Name | Description | Comment | Filters Known to Create Data |
 |------|--------------|-------------|---------|-----|
-| -- | Burgers Vectors | | | |
-| -- | Slip Plane Normals | | | |
+| EdgeData | Burgers Vectors | | | |
+| EdgeData | Slip Plane Normals | | | |
 
 ## Created Arrays ##
 
 | Type | Default Name | Description | Comment |
 |------|--------------|-------------|---------|
 | Feature | Active | Boolean value specifying if the **Feature** is still in the sample (1 if the **Feature** is in the sample and 0 if it is not). | At the end of the filter, all **Features** will be "Active" as the "Inactive" **Features** will have been removed.  |
-| -- | Edge Data | | |
-| -- | Dislocation Ids | | |
-| Feature | Edge Feature Data | | |
+| EdgeData | Edge Data | | |
+| EdgeData | Dislocation Ids | | |
+| AttributeMatrix | EdgeFeatureData | | |
+| EdgeFeature | Edge Feature Data | | |
 
 
 
