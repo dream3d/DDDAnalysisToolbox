@@ -160,6 +160,8 @@ void DiscretizeDDDomain::dataCheck()
   if(getErrorCondition() < 0) { return; }
 
   EdgeGeom::Pointer edges = m->getPrereqGeometry<EdgeGeom, AbstractFilter>(this);
+  if(getErrorCondition() < 0) { return; }
+
   // We MUST have Vertices defined.
   if(edges->getVertices().get() == nullptr)
   {
