@@ -1,4 +1,4 @@
-Quilt Cell Data {#discretizedddomain}
+Discretize DD Domain {#discretizedddomain}
 ==========
 
 
@@ -8,9 +8,11 @@ __This filter is highly experimental and under heavy development. Future version
 
 
 ## Group (Subgroup) ##
+
 Statistics Filters (Ensemble)
 
 ## Description ##
+
 This filter does the following...
 
 ## Parameters ##
