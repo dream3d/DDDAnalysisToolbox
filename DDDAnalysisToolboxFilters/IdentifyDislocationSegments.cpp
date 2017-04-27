@@ -36,9 +36,7 @@
 
 #include "IdentifyDislocationSegments.h"
 
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_int.hpp>
-#include <boost/random/variate_generator.hpp>
+#include <random>
 
 #include "SIMPLib/Math/SIMPLibMath.h"
 #include "SIMPLib/Math/GeometryMath.h"
@@ -295,14 +293,12 @@ void IdentifyDislocationSegments::execute()
   // Generate all the numbers up front
   const int rangeMin = 1;
   const int rangeMax = dnum - 1;
-  typedef boost::uniform_int<int> NumberDistribution;
-  typedef boost::mt19937 RandomNumberGenerator;
-  typedef boost::variate_generator<RandomNumberGenerator&, NumberDistribution> Generator;
 
-  NumberDistribution distribution(rangeMin, rangeMax);
-  RandomNumberGenerator generator;
-  Generator numberGenerator(generator, distribution);
-  generator.seed(static_cast<boost::uint32_t>( QDateTime::currentMSecsSinceEpoch() )); // seed with the current time
+  std::random_device randomDevice;  //Will be used to obtain a seed for the random number engine
+  std::mt19937_64 generator(randomDevice()); //Standard mersenne_twister_engine seeded with rd()
+  std::mt19937_64::result_type seed = static_cast<std::mt19937_64::result_type>(std::chrono::steady_clock::now().time_since_epoch().count());
+  generator.seed(seed);
+  std::uniform_int_distribution<int32_t> distribution(rangeMin, rangeMax);
 
   DataArray<int32_t>::Pointer rndNumbers = DataArray<int32_t>::CreateArray(dnum, "New FeatureIds");
   int32_t* gid = rndNumbers->getPointer(0);
@@ -320,7 +316,7 @@ void IdentifyDislocationSegments::execute()
   //--- Shuffle elements by randomly exchanging each with one other.
   for (qint32 i = 1; i < dnum; i++)
   {
-    r = numberGenerator(); // Random remaining position.
+    r = distribution(generator); // Random remaining position.
     if (r >= dnum)
     {
       continue;
