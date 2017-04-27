@@ -37,6 +37,7 @@
 #include "IdentifyDislocationSegments.h"
 
 #include <random>
+#include <chrono>
 
 #include "SIMPLib/Math/SIMPLibMath.h"
 #include "SIMPLib/Math/GeometryMath.h"
