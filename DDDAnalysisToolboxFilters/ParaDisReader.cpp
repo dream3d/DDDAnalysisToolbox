@@ -625,5 +625,5 @@ const QString ParaDisReader::getSubGroupName()
 //
 // -----------------------------------------------------------------------------
 const QString ParaDisReader::getHumanLabel()
-{ return "Read ParaDis File"; }
+{ return "Import ParaDis File"; }
 
