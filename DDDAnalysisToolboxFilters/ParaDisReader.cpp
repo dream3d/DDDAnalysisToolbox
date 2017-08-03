@@ -126,6 +126,7 @@ void ParaDisReader::readFilterParameters(AbstractFilterParametersReader* reader,
 void ParaDisReader::updateVertexInstancePointers()
 {
   setErrorCondition(0);
+  setWarningCondition(0);
 
   if( nullptr != m_NumberOfArmsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_NumberOfArms = m_NumberOfArmsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
@@ -139,6 +140,7 @@ void ParaDisReader::updateVertexInstancePointers()
 void ParaDisReader::updateEdgeInstancePointers()
 {
   setErrorCondition(0);
+  setWarningCondition(0);
 
   if( nullptr != m_BurgersVectorsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_BurgersVectors = m_BurgersVectorsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
@@ -164,6 +166,7 @@ void ParaDisReader::dataCheck()
 {
   DataArrayPath tempPath;
   setErrorCondition(0);
+  setWarningCondition(0);
   DataContainer::Pointer m = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getEdgeDataContainerName());
   if(getErrorCondition() < 0) { return; }
   QVector<size_t> tDims(1, 0);

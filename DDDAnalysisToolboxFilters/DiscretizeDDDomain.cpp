@@ -128,6 +128,7 @@ void DiscretizeDDDomain::dataCheck()
 {
   DataArrayPath tempPath;
   setErrorCondition(0);
+  setWarningCondition(0);
 
   // First sanity check the inputs and output names. All must be filled in
 
@@ -216,6 +217,7 @@ void DiscretizeDDDomain::execute()
 {
   QString ss;
   setErrorCondition(0);
+  setWarningCondition(0);
   dataCheck();
   if(getErrorCondition() < 0) { return; }
 
