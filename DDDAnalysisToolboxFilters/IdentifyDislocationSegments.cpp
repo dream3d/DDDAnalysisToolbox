@@ -39,14 +39,14 @@
 #include <random>
 #include <chrono>
 
-#include "SIMPLib/Math/SIMPLibMath.h"
-#include "SIMPLib/Math/GeometryMath.h"
-#include "SIMPLib/Utilities/SIMPLibRandom.h"
-#include "SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h"
-#include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
+#include "SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h"
 #include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
+#include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/Geometry/EdgeGeom.h"
+#include "SIMPLib/Math/GeometryMath.h"
+#include "SIMPLib/Math/SIMPLibMath.h"
+#include "SIMPLib/Math/SIMPLibRandom.h"
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 

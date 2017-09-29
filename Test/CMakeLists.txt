@@ -8,7 +8,7 @@ set(${PLUGIN_NAME}Test_BINARY_DIR ${${PLUGIN_NAME}_BINARY_DIR}/Test)
 
 #------------------------------------------------------------------------------
 # Include this file from the SIMPL Project
-include(${SIMPLProj_SOURCE_DIR}/Test/SIMPLTestFunctions.cmake)
+include(${SIMPLProj_SOURCE_DIR}/Source/SIMPLib/Testing/SIMPLTestFunctions.cmake)
 
 include_directories(${${PLUGIN_NAME}_SOURCE_DIR}/Test)
 include_directories(${${PLUGIN_NAME}_BINARY_DIR}/Test)
@@ -55,7 +55,7 @@ if(NOT "${TestMainFunctors}" STREQUAL "")
   STRING(REPLACE "|" ";" TestMainFunctors ${TestMainFunctors}   )
 endif()
 
-configure_file(${SIMPLProj_SOURCE_DIR}/Test/TestMain.cpp.in
+configure_file(${SIMPLProj_SOURCE_DIR}/Source/SIMPLib/Testing/TestMain.cpp.in
                ${${PLUGIN_NAME}Test_BINARY_DIR}/${PLUGIN_NAME}UnitTest.cpp @ONLY)
 
 
