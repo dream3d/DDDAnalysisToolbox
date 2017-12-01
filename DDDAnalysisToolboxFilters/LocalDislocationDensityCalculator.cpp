@@ -50,11 +50,6 @@
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 
-// Include the MOC generated file for this class
-#include "moc_LocalDislocationDensityCalculator.cpp"
-
-
-
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -83,9 +78,7 @@ LocalDislocationDensityCalculator::LocalDislocationDensityCalculator() :
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-LocalDislocationDensityCalculator::~LocalDislocationDensityCalculator()
-{
-}
+LocalDislocationDensityCalculator::~LocalDislocationDensityCalculator() = default;
 
 // -----------------------------------------------------------------------------
 //

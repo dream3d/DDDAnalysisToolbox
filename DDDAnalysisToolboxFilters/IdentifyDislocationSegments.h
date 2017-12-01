@@ -175,8 +175,8 @@ class IdentifyDislocationSegments : public AbstractFilter
     DEFINE_DATAARRAY_VARIABLE(int32_t, DislocationIds)
     DEFINE_DATAARRAY_VARIABLE(bool, Active)
 
-    IdentifyDislocationSegments(const IdentifyDislocationSegments&); // Copy Constructor Not Implemented
-    void operator=(const IdentifyDislocationSegments&); // Operator '=' Not Implemented
+    IdentifyDislocationSegments(const IdentifyDislocationSegments&) = delete; // Copy Constructor Not Implemented
+    void operator=(const IdentifyDislocationSegments&) = delete;              // Operator '=' Not Implemented
 };
 
 #endif /* IdentifyDislocationSegments_H_ */

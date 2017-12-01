@@ -49,11 +49,6 @@
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 
-// Include the MOC generated file for this class
-#include "moc_DiscretizeDDDomain.cpp"
-
-
-
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -75,9 +70,7 @@ DiscretizeDDDomain::DiscretizeDDDomain() :
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DiscretizeDDDomain::~DiscretizeDDDomain()
-{
-}
+DiscretizeDDDomain::~DiscretizeDDDomain() = default;
 
 // -----------------------------------------------------------------------------
 //

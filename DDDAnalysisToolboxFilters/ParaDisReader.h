@@ -203,8 +203,8 @@ class  ParaDisReader : public FileReader
 
     int m_FileVersion;
 
-    ParaDisReader(const ParaDisReader&); // Copy Constructor Not Implemented
-    void operator=(const ParaDisReader&); // Operator '=' Not Implemented
+    ParaDisReader(const ParaDisReader&) = delete;  // Copy Constructor Not Implemented
+    void operator=(const ParaDisReader&) = delete; // Operator '=' Not Implemented
 };
 
 #endif /* ParaDisREADER_H_ */

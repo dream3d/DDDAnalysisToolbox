@@ -186,8 +186,8 @@ class LocalDislocationDensityCalculator : public AbstractFilter
     DEFINE_DATAARRAY_VARIABLE(float, BurgersVectors)
     DEFINE_DATAARRAY_VARIABLE(float, SlipPlaneNormals)
 
-    LocalDislocationDensityCalculator(const LocalDislocationDensityCalculator&); // Copy Constructor Not Implemented
-    void operator=(const LocalDislocationDensityCalculator&); // Operator '=' Not Implemented
+    LocalDislocationDensityCalculator(const LocalDislocationDensityCalculator&) = delete; // Copy Constructor Not Implemented
+    void operator=(const LocalDislocationDensityCalculator&) = delete;                    // Operator '=' Not Implemented
 };
 
 #endif /* LocalDislocationDensityCalculator_H_ */

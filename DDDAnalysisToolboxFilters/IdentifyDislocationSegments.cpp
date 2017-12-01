@@ -50,12 +50,6 @@
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 
-
-// Include the MOC generated file for this class
-#include "moc_IdentifyDislocationSegments.cpp"
-
-
-
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -77,9 +71,7 @@ IdentifyDislocationSegments::IdentifyDislocationSegments() :
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-IdentifyDislocationSegments::~IdentifyDislocationSegments()
-{
-}
+IdentifyDislocationSegments::~IdentifyDislocationSegments() = default;
 
 // -----------------------------------------------------------------------------
 //

@@ -139,8 +139,8 @@ class DDDAnalysisToolboxPlugin : public QObject, public ISIMPLibPlugin
     QList<QString>      m_Filters;
     bool                m_DidLoad;
 
-    DDDAnalysisToolboxPlugin(const DDDAnalysisToolboxPlugin&); // Copy Constructor Not Implemented
-    void operator=(const DDDAnalysisToolboxPlugin&); // Operator '=' Not Implemented
+    DDDAnalysisToolboxPlugin(const DDDAnalysisToolboxPlugin&) = delete; // Copy Constructor Not Implemented
+    void operator=(const DDDAnalysisToolboxPlugin&) = delete;           // Operator '=' Not Implemented
 };
 
 #endif /* _DDDAnalysisToolbox_H_ */
