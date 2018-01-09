@@ -2,9 +2,11 @@ Identify Dislocation Segments {#identifydislocationsegments}
 ======
 
 ## Group (Subgroup) ##
+
 Unsupported (FeatureIdentification)
 
 ## Description ##
+
 This Filter groups neighboring **Features** that have c-axes aligned within a user defined tolerance.  The algorithm for grouping the **Features** is analogous to the algorithm for segmenting the **Features** - only the average orientation of the **Features** are used instead of the orientations of the individual **Cells** and the criterion for grouping only considers the alignment of the c-axes.  The user can specify a tolerance for how closely aligned the c-axes must be for neighbor **Features** to be grouped.
 
 

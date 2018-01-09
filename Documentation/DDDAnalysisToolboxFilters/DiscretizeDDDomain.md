@@ -8,12 +8,15 @@ __This filter is highly experimental and under heavy development. Future version
 
 
 ## Group (Subgroup) ##
+
 Unsupported (Misc)
 
 ## Description ##
+
 This filter does the following...
 
 ## Parameters ##
+
 | Name             | Type |
 |------------------|------|
 | Cell Size (Microns) | 3x Float |
