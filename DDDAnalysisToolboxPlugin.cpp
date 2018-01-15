@@ -41,10 +41,27 @@ DDDAnalysisToolboxPlugin::~DDDAnalysisToolboxPlugin() = default;
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DDDAnalysisToolboxPlugin::getPluginName()
+QString DDDAnalysisToolboxPlugin::getPluginFileName()
 {
-  return (DDDAnalysisToolboxConstants::DDDAnalysisToolboxPluginDisplayName);
+  return DDDAnalysisToolboxConstants::DDDAnalysisToolboxPluginFile;
 }
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+QString DDDAnalysisToolboxPlugin::getPluginDisplayName()
+{
+  return DDDAnalysisToolboxConstants::DDDAnalysisToolboxPluginDisplayName;
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+QString DDDAnalysisToolboxPlugin::getPluginBaseName()
+{
+  return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName;
+}
+
 
 // -----------------------------------------------------------------------------
 //
