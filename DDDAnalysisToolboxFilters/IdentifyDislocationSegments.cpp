@@ -381,6 +381,14 @@ const QString IdentifyDislocationSegments::getGroupName()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
+const QUuid IdentifyDislocationSegments::getUuid()
+{
+  return QUuid("{073798a1-1fb4-5e3c-81f6-e426f60e347a}");
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 const QString IdentifyDislocationSegments::getSubGroupName()
 { return SIMPL::FilterSubGroups::FeatureIdentificationFilters; }
 

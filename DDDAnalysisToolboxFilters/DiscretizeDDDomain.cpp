@@ -406,6 +406,14 @@ const QString DiscretizeDDDomain::getGroupName()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
+const QUuid DiscretizeDDDomain::getUuid()
+{
+  return QUuid("{ebdfe707-0c9c-5552-89f6-6ee4a1e0891b}");
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 const QString DiscretizeDDDomain::getSubGroupName()
 { return SIMPL::FilterSubGroups::MiscFilters; }
 

@@ -506,6 +506,14 @@ const QString LocalDislocationDensityCalculator::getGroupName()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
+const QUuid LocalDislocationDensityCalculator::getUuid()
+{
+  return QUuid("{620a3022-0f92-5d07-b725-b22604874bbf}");
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 const QString LocalDislocationDensityCalculator::getSubGroupName()
 { return SIMPL::FilterSubGroups::StatisticsFilters; }
 
