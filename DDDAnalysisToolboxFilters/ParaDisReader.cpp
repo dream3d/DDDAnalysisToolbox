@@ -566,7 +566,7 @@ int ParaDisReader::readFile()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-AbstractFilter::Pointer ParaDisReader::newFilterInstance(bool copyFilterParameters)
+AbstractFilter::Pointer ParaDisReader::newFilterInstance(bool copyFilterParameters) const
 {
   ParaDisReader::Pointer filter = ParaDisReader::New();
   if(true == copyFilterParameters)
@@ -579,7 +579,7 @@ AbstractFilter::Pointer ParaDisReader::newFilterInstance(bool copyFilterParamete
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString ParaDisReader::getCompiledLibraryName()
+const QString ParaDisReader::getCompiledLibraryName() const
 {
   return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName;
 }
@@ -587,7 +587,7 @@ const QString ParaDisReader::getCompiledLibraryName()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString ParaDisReader::getBrandingString()
+const QString ParaDisReader::getBrandingString() const
 {
   return "DDDAnalysisToolbox";
 }
@@ -595,7 +595,7 @@ const QString ParaDisReader::getBrandingString()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString ParaDisReader::getFilterVersion()
+const QString ParaDisReader::getFilterVersion() const
 {
   QString version;
   QTextStream vStream(&version);
@@ -606,7 +606,7 @@ const QString ParaDisReader::getFilterVersion()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString ParaDisReader::getGroupName()
+const QString ParaDisReader::getGroupName() const
 { return SIMPL::FilterGroups::Unsupported; }
 
 
@@ -621,13 +621,13 @@ const QUuid ParaDisReader::getUuid()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString ParaDisReader::getSubGroupName()
+const QString ParaDisReader::getSubGroupName() const
 { return SIMPL::FilterSubGroups::InputFilters; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString ParaDisReader::getHumanLabel()
+const QString ParaDisReader::getHumanLabel() const
 { return "Import ParaDis File"; }
 

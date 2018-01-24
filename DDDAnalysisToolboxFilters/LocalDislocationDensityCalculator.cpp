@@ -459,7 +459,7 @@ int LocalDislocationDensityCalculator::determine_slip_system(int edgeNum)
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-AbstractFilter::Pointer LocalDislocationDensityCalculator::newFilterInstance(bool copyFilterParameters)
+AbstractFilter::Pointer LocalDislocationDensityCalculator::newFilterInstance(bool copyFilterParameters) const
 {
   LocalDislocationDensityCalculator::Pointer filter = LocalDislocationDensityCalculator::New();
   if(true == copyFilterParameters)
@@ -472,7 +472,7 @@ AbstractFilter::Pointer LocalDislocationDensityCalculator::newFilterInstance(boo
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString LocalDislocationDensityCalculator::getCompiledLibraryName()
+const QString LocalDislocationDensityCalculator::getCompiledLibraryName() const
 {
   return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName;
 }
@@ -480,7 +480,7 @@ const QString LocalDislocationDensityCalculator::getCompiledLibraryName()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString LocalDislocationDensityCalculator::getBrandingString()
+const QString LocalDislocationDensityCalculator::getBrandingString() const
 {
   return "DDDAnalysisToolbox";
 }
@@ -488,7 +488,7 @@ const QString LocalDislocationDensityCalculator::getBrandingString()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString LocalDislocationDensityCalculator::getFilterVersion()
+const QString LocalDislocationDensityCalculator::getFilterVersion() const
 {
   QString version;
   QTextStream vStream(&version);
@@ -499,7 +499,7 @@ const QString LocalDislocationDensityCalculator::getFilterVersion()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString LocalDislocationDensityCalculator::getGroupName()
+const QString LocalDislocationDensityCalculator::getGroupName() const
 { return SIMPL::FilterGroups::Unsupported; }
 
 
@@ -514,13 +514,13 @@ const QUuid LocalDislocationDensityCalculator::getUuid()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString LocalDislocationDensityCalculator::getSubGroupName()
+const QString LocalDislocationDensityCalculator::getSubGroupName() const
 { return SIMPL::FilterSubGroups::StatisticsFilters; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString LocalDislocationDensityCalculator::getHumanLabel()
+const QString LocalDislocationDensityCalculator::getHumanLabel() const
 { return "Calculate Local Dislocation Densities"; }
 

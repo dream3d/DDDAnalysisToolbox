@@ -359,7 +359,7 @@ void DiscretizeDDDomain::execute()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-AbstractFilter::Pointer DiscretizeDDDomain::newFilterInstance(bool copyFilterParameters)
+AbstractFilter::Pointer DiscretizeDDDomain::newFilterInstance(bool copyFilterParameters) const
 {
   DiscretizeDDDomain::Pointer filter = DiscretizeDDDomain::New();
   if(true == copyFilterParameters)
@@ -372,7 +372,7 @@ AbstractFilter::Pointer DiscretizeDDDomain::newFilterInstance(bool copyFilterPar
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString DiscretizeDDDomain::getCompiledLibraryName()
+const QString DiscretizeDDDomain::getCompiledLibraryName() const
 {
   return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName;
 }
@@ -380,7 +380,7 @@ const QString DiscretizeDDDomain::getCompiledLibraryName()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString DiscretizeDDDomain::getBrandingString()
+const QString DiscretizeDDDomain::getBrandingString() const
 {
   return "DDDAnalysisToolbox";
 }
@@ -388,7 +388,7 @@ const QString DiscretizeDDDomain::getBrandingString()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString DiscretizeDDDomain::getFilterVersion()
+const QString DiscretizeDDDomain::getFilterVersion() const
 {
   QString version;
   QTextStream vStream(&version);
@@ -399,7 +399,7 @@ const QString DiscretizeDDDomain::getFilterVersion()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString DiscretizeDDDomain::getGroupName()
+const QString DiscretizeDDDomain::getGroupName() const
 { return SIMPL::FilterGroups::Unsupported; }
 
 
@@ -414,12 +414,12 @@ const QUuid DiscretizeDDDomain::getUuid()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString DiscretizeDDDomain::getSubGroupName()
+const QString DiscretizeDDDomain::getSubGroupName() const
 { return SIMPL::FilterSubGroups::MiscFilters; }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString DiscretizeDDDomain::getHumanLabel()
+const QString DiscretizeDDDomain::getHumanLabel() const
 { return "Discretize DDD Domain"; }
 

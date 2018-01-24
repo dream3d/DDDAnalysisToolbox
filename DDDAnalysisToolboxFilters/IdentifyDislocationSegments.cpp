@@ -334,7 +334,7 @@ void IdentifyDislocationSegments::execute()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-AbstractFilter::Pointer IdentifyDislocationSegments::newFilterInstance(bool copyFilterParameters)
+AbstractFilter::Pointer IdentifyDislocationSegments::newFilterInstance(bool copyFilterParameters) const
 {
   IdentifyDislocationSegments::Pointer filter = IdentifyDislocationSegments::New();
   if(true == copyFilterParameters)
@@ -347,7 +347,7 @@ AbstractFilter::Pointer IdentifyDislocationSegments::newFilterInstance(bool copy
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString IdentifyDislocationSegments::getCompiledLibraryName()
+const QString IdentifyDislocationSegments::getCompiledLibraryName() const
 {
   return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName;
 }
@@ -355,7 +355,7 @@ const QString IdentifyDislocationSegments::getCompiledLibraryName()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString IdentifyDislocationSegments::getBrandingString()
+const QString IdentifyDislocationSegments::getBrandingString() const
 {
   return "DDDAnalysisToolbox";
 }
@@ -363,7 +363,7 @@ const QString IdentifyDislocationSegments::getBrandingString()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString IdentifyDislocationSegments::getFilterVersion()
+const QString IdentifyDislocationSegments::getFilterVersion() const
 {
   QString version;
   QTextStream vStream(&version);
@@ -374,7 +374,7 @@ const QString IdentifyDislocationSegments::getFilterVersion()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString IdentifyDislocationSegments::getGroupName()
+const QString IdentifyDislocationSegments::getGroupName() const
 { return SIMPL::FilterGroups::Unsupported; }
 
 
@@ -389,13 +389,13 @@ const QUuid IdentifyDislocationSegments::getUuid()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString IdentifyDislocationSegments::getSubGroupName()
+const QString IdentifyDislocationSegments::getSubGroupName() const
 { return SIMPL::FilterSubGroups::FeatureIdentificationFilters; }
 
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-const QString IdentifyDislocationSegments::getHumanLabel()
+const QString IdentifyDislocationSegments::getHumanLabel() const
 { return "Identify Dislocation Segments"; }
 
