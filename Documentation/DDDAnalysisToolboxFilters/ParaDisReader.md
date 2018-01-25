@@ -1,4 +1,4 @@
-Read ParaDis File {#paradisreader}
+Read ParaDis File 
 =====
 
 ## Group (Subgroup) ##

@@ -1,4 +1,4 @@
-Discretized DDD Domain {#discretizedddomain}
+Discretized DDD Domain 
 ==========
 
 

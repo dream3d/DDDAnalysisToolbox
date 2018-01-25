@@ -1,4 +1,4 @@
-Calculate Local Dislocation Densities {#localdislocationdensitycalculator}
+Calculate Local Dislocation Densities 
 ==========
 
 
