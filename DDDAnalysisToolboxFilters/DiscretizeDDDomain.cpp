@@ -150,7 +150,7 @@ void DiscretizeDDDomain::dataCheck()
   if(getErrorCondition() < 0) { return; }
 
   // Next check the existing DataContainer/AttributeMatrix
-  DataContainer::Pointer m = getDataContainerArray()->getPrereqDataContainer<AbstractFilter>(this, getEdgeDataContainerName());
+  DataContainer::Pointer m = getDataContainerArray()->getPrereqDataContainer(this, getEdgeDataContainerName());
   if(getErrorCondition() < 0) { return; }
 
   EdgeGeom::Pointer edges = m->getPrereqGeometry<EdgeGeom, AbstractFilter>(this);
@@ -179,7 +179,7 @@ void DiscretizeDDDomain::dataCheck()
 
   //Create the cell attrMat in the new data container
   QVector<size_t> tDims(3, 0);
-  AttributeMatrix::Pointer newCellAttrMat = m2->createNonPrereqAttributeMatrix<AbstractFilter>(this, getOutputAttributeMatrixName(), tDims, AttributeMatrix::Type::Cell);
+  AttributeMatrix::Pointer newCellAttrMat = m2->createNonPrereqAttributeMatrix(this, getOutputAttributeMatrixName(), tDims, AttributeMatrix::Type::Cell);
   if(getErrorCondition() < 0) { return; }
 
   //Get the name and create the array in the new data attrMat
