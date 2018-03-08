@@ -287,21 +287,21 @@ void LocalDislocationDensityCalculator::execute()
   float zMax = m_DomainBounds[5];
 
   FloatVec3_t halfCellSize;
-  halfCellSize.x = (m_CellSize.x / 2.0);
-  halfCellSize.y = (m_CellSize.y / 2.0);
-  halfCellSize.z = (m_CellSize.z / 2.0);
+  halfCellSize.x = (m_CellSize.x / 2.0f);
+  halfCellSize.y = (m_CellSize.y / 2.0f);
+  halfCellSize.z = (m_CellSize.z / 2.0f);
   FloatVec3_t quarterCellSize;
-  quarterCellSize.x = (m_CellSize.x / 4.0);
-  quarterCellSize.y = (m_CellSize.y / 4.0);
-  quarterCellSize.z = (m_CellSize.z / 4.0);
+  quarterCellSize.x = (m_CellSize.x / 4.0f);
+  quarterCellSize.y = (m_CellSize.y / 4.0f);
+  quarterCellSize.z = (m_CellSize.z / 4.0f);
 
-  vdc->getGeometryAs<ImageGeom>()->setOrigin(xMin, yMin, zMin);
+  vdc->getGeometryAs<ImageGeom>()->setOrigin(std::make_tuple(xMin, yMin, zMin));
   size_t dcDims[3];
   dcDims[0] = size_t((xMax - xMin) / halfCellSize.x);
   dcDims[1] = size_t((yMax - yMin) / halfCellSize.y);
   dcDims[2] = size_t((zMax - zMin) / halfCellSize.z);
-  vdc->getGeometryAs<ImageGeom>()->setDimensions(dcDims[0], dcDims[1], dcDims[2]);
-  vdc->getGeometryAs<ImageGeom>()->setResolution(m_CellSize.x / 2.0, m_CellSize.y / 2.0, m_CellSize.z / 2.0);
+  vdc->getGeometryAs<ImageGeom>()->setDimensions(std::make_tuple(dcDims[0], dcDims[1], dcDims[2]));
+  vdc->getGeometryAs<ImageGeom>()->setResolution(std::make_tuple(m_CellSize.x / 2.0, m_CellSize.y / 2.0, m_CellSize.z / 2.0));
 
   QVector<size_t> tDims(3, 0);
   tDims[0] = dcDims[0];
