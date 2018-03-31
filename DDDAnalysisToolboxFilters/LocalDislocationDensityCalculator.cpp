@@ -53,26 +53,24 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-LocalDislocationDensityCalculator::LocalDislocationDensityCalculator() :
-  AbstractFilter(),
-  m_EdgeDataContainerName(SIMPL::Defaults::DataContainerName),
-  m_BurgersVectorsArrayPath(SIMPL::Defaults::DataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::BurgersVectors),
-  m_SlipPlaneNormalsArrayPath(SIMPL::Defaults::DataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::SlipPlaneNormals),
-  m_OutputDataContainerName(SIMPL::Defaults::NewDataContainerName),
-  m_OutputAttributeMatrixName(SIMPL::Defaults::CellAttributeMatrixName),
-  m_OutputArrayName("DislocationLineDensity"),
-  m_DominantSystemArrayName("DominantSystem"),
-  m_OutputArray(nullptr),
-  m_DominantSystemArray(nullptr),
-  m_DomainBounds(nullptr),
-  m_BurgersVectors(nullptr),
-  m_SlipPlaneNormals(nullptr)
+LocalDislocationDensityCalculator::LocalDislocationDensityCalculator()
+: m_EdgeDataContainerName(SIMPL::Defaults::DataContainerName)
+, m_BurgersVectorsArrayPath(SIMPL::Defaults::DataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::BurgersVectors)
+, m_SlipPlaneNormalsArrayPath(SIMPL::Defaults::DataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::SlipPlaneNormals)
+, m_OutputDataContainerName(SIMPL::Defaults::NewDataContainerName)
+, m_OutputAttributeMatrixName(SIMPL::Defaults::CellAttributeMatrixName)
+, m_OutputArrayName("DislocationLineDensity")
+, m_DominantSystemArrayName("DominantSystem")
+, m_OutputArray(nullptr)
+, m_DominantSystemArray(nullptr)
+, m_DomainBounds(nullptr)
+, m_BurgersVectors(nullptr)
+, m_SlipPlaneNormals(nullptr)
 {
   m_CellSize.x = 2.0;
   m_CellSize.y = 2.0;
   m_CellSize.z = 2.0;
 
-  setupFilterParameters();
 }
 
 // -----------------------------------------------------------------------------

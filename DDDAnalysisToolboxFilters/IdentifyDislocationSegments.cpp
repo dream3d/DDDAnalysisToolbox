@@ -53,19 +53,17 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-IdentifyDislocationSegments::IdentifyDislocationSegments() :
-  AbstractFilter(),
-  m_EdgeFeatureAttributeMatrixName(SIMPL::Defaults::EdgeFeatureAttributeMatrixName),
-  m_BurgersVectorsArrayPath(SIMPL::Defaults::EdgeDataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::BurgersVectors),
-  m_SlipPlaneNormalsArrayPath(SIMPL::Defaults::EdgeDataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::SlipPlaneNormals),
-  m_DislocationIdsArrayName(SIMPL::EdgeData::DislocationIds),
-  m_ActiveArrayName(SIMPL::FeatureData::Active),
-  m_BurgersVectors(nullptr),
-  m_SlipPlaneNormals(nullptr),
-  m_DislocationIds(nullptr),
-  m_Active(nullptr)
+IdentifyDislocationSegments::IdentifyDislocationSegments()
+: m_EdgeFeatureAttributeMatrixName(SIMPL::Defaults::EdgeFeatureAttributeMatrixName)
+, m_BurgersVectorsArrayPath(SIMPL::Defaults::EdgeDataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::BurgersVectors)
+, m_SlipPlaneNormalsArrayPath(SIMPL::Defaults::EdgeDataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::SlipPlaneNormals)
+, m_DislocationIdsArrayName(SIMPL::EdgeData::DislocationIds)
+, m_ActiveArrayName(SIMPL::FeatureData::Active)
+, m_BurgersVectors(nullptr)
+, m_SlipPlaneNormals(nullptr)
+, m_DislocationIds(nullptr)
+, m_Active(nullptr)
 {
-  setupFilterParameters();
 }
 
 // -----------------------------------------------------------------------------

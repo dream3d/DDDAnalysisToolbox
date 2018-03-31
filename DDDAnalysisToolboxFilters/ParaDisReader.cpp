@@ -70,7 +70,6 @@ ParaDisReader::ParaDisReader() :
   m_BurgersVectors(nullptr),
   m_SlipPlaneNormals(nullptr)
 {
-  setupFilterParameters();
 }
 
 // -----------------------------------------------------------------------------

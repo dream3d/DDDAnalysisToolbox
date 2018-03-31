@@ -52,19 +52,17 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DiscretizeDDDomain::DiscretizeDDDomain() :
-  AbstractFilter(),
-  m_EdgeDataContainerName(SIMPL::Defaults::DataContainerName),
-  m_OutputDataContainerName(SIMPL::Defaults::NewDataContainerName),
-  m_OutputAttributeMatrixName(SIMPL::Defaults::CellAttributeMatrixName),
-  m_OutputArrayName("DislocationLineDensity"),
-  m_OutputArray(nullptr)
+DiscretizeDDDomain::DiscretizeDDDomain()
+: m_EdgeDataContainerName(SIMPL::Defaults::DataContainerName)
+, m_OutputDataContainerName(SIMPL::Defaults::NewDataContainerName)
+, m_OutputAttributeMatrixName(SIMPL::Defaults::CellAttributeMatrixName)
+, m_OutputArrayName("DislocationLineDensity")
+, m_OutputArray(nullptr)
 {
   m_CellSize.x = 2.0;
   m_CellSize.y = 2.0;
   m_CellSize.z = 2.0;
 
-  setupFilterParameters();
 }
 
 // -----------------------------------------------------------------------------
