@@ -178,7 +178,7 @@ class DiscretizeDDDomain : public AbstractFilter
   public:
     DiscretizeDDDomain(const DiscretizeDDDomain&) = delete; // Copy Constructor Not Implemented
     DiscretizeDDDomain(DiscretizeDDDomain&&) = delete;      // Move Constructor
-    DiscretizeDDDomain& operator=(const DiscretizeDDDomain&) = delete; // Copy Assignment
+    DiscretizeDDDomain& operator=(const DiscretizeDDDomain&) = delete; // Copy Assignment Not Implemented
     DiscretizeDDDomain& operator=(DiscretizeDDDomain&&) = delete;      // Move Assignment
 };
 

@@ -184,7 +184,7 @@ class IdentifyDislocationSegments : public AbstractFilter
   public:
     IdentifyDislocationSegments(const IdentifyDislocationSegments&) = delete; // Copy Constructor Not Implemented
     IdentifyDislocationSegments(IdentifyDislocationSegments&&) = delete;      // Move Constructor
-    IdentifyDislocationSegments& operator=(const IdentifyDislocationSegments&) = delete; // Copy Assignment
+    IdentifyDislocationSegments& operator=(const IdentifyDislocationSegments&) = delete; // Copy Assignment Not Implemented
     IdentifyDislocationSegments& operator=(IdentifyDislocationSegments&&) = delete;      // Move Assignment
 };
 

@@ -195,7 +195,7 @@ class LocalDislocationDensityCalculator : public AbstractFilter
   public:
     LocalDislocationDensityCalculator(const LocalDislocationDensityCalculator&) = delete; // Copy Constructor Not Implemented
     LocalDislocationDensityCalculator(LocalDislocationDensityCalculator&&) = delete;      // Move Constructor
-    LocalDislocationDensityCalculator& operator=(const LocalDislocationDensityCalculator&) = delete; // Copy Assignment
+    LocalDislocationDensityCalculator& operator=(const LocalDislocationDensityCalculator&) = delete; // Copy Assignment Not Implemented
     LocalDislocationDensityCalculator& operator=(LocalDislocationDensityCalculator&&) = delete;      // Move Assignment
 };
 
