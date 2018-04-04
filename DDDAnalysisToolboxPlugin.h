@@ -158,7 +158,7 @@ class DDDAnalysisToolboxPlugin : public QObject, public ISIMPLibPlugin
     bool                m_DidLoad;
 
     DDDAnalysisToolboxPlugin(const DDDAnalysisToolboxPlugin&) = delete; // Copy Constructor Not Implemented
-    void operator=(const DDDAnalysisToolboxPlugin&) = delete;           // Operator '=' Not Implemented
+    void operator=(const DDDAnalysisToolboxPlugin&) = delete;           // Move assignment Not Implemented
 };
 
 #endif /* _DDDAnalysisToolbox_H_ */

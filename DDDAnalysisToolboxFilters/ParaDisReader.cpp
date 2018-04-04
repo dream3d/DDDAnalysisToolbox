@@ -70,7 +70,6 @@ ParaDisReader::ParaDisReader() :
   m_BurgersVectors(nullptr),
   m_SlipPlaneNormals(nullptr)
 {
-  setupFilterParameters();
 }
 
 // -----------------------------------------------------------------------------
@@ -83,6 +82,7 @@ ParaDisReader::~ParaDisReader() = default;
 // -----------------------------------------------------------------------------
 void ParaDisReader::setupFilterParameters()
 {
+  FileReader::setupFilterParameters();
   FilterParameterVector parameters;
   parameters.push_back(SIMPL_NEW_INPUT_FILE_FP("Input File", InputFile, FilterParameter::Parameter, ParaDisReader, "*"));
   parameters.push_back(SIMPL_NEW_FLOAT_FP("Burgers Vector Length (Angstroms)", BurgersVector, FilterParameter::Parameter, ParaDisReader));
@@ -121,9 +121,9 @@ void ParaDisReader::updateVertexInstancePointers()
   setErrorCondition(0);
   setWarningCondition(0);
 
-  if( nullptr != m_NumberOfArmsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_NumberOfArmsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_NumberOfArms = m_NumberOfArmsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
-  if( nullptr != m_NodeConstraintsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_NodeConstraintsPtr.lock())                    /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_NodeConstraints = m_NodeConstraintsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 }
 
@@ -135,9 +135,9 @@ void ParaDisReader::updateEdgeInstancePointers()
   setErrorCondition(0);
   setWarningCondition(0);
 
-  if( nullptr != m_BurgersVectorsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_BurgersVectorsPtr.lock())                         /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_BurgersVectors = m_BurgersVectorsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
-  if( nullptr != m_SlipPlaneNormalsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_SlipPlaneNormalsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 }
 
@@ -188,20 +188,20 @@ void ParaDisReader::dataCheck()
   QVector<size_t> dims(1, 1);
   tempPath.update(getEdgeDataContainerName(), getVertexAttributeMatrixName(), getNumberOfArmsArrayName() );
   m_NumberOfArmsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this,  tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if( nullptr != m_NumberOfArmsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_NumberOfArmsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_NumberOfArms = m_NumberOfArmsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   tempPath.update(getEdgeDataContainerName(), getVertexAttributeMatrixName(), getNodeConstraintsArrayName() );
   m_NodeConstraintsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this,  tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if( nullptr != m_NodeConstraintsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_NodeConstraintsPtr.lock())                          /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_NodeConstraints = m_NodeConstraintsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 3;
   tempPath.update(getEdgeDataContainerName(), getEdgeAttributeMatrixName(), getBurgersVectorsArrayName() );
   m_BurgersVectorsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this,  tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if( nullptr != m_BurgersVectorsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_BurgersVectorsPtr.lock())                         /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_BurgersVectors = m_BurgersVectorsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   tempPath.update(getEdgeDataContainerName(), getEdgeAttributeMatrixName(), getSlipPlaneNormalsArrayName() );
   m_SlipPlaneNormalsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this,  tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if( nullptr != m_SlipPlaneNormalsPtr.lock().get() ) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_SlipPlaneNormalsPtr.lock())                           /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 6;
   tempPath.update(getEdgeDataContainerName(), "_MetaData", getDomainBoundsArrayName());
