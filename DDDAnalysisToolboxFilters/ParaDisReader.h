@@ -62,6 +62,17 @@
 class  ParaDisReader : public FileReader
 {
     Q_OBJECT
+    PYB11_CREATE_BINDINGS(ParaDisReader SUPERCLASS AbstractFilter)
+    PYB11_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
+    PYB11_PROPERTY(QString VertexAttributeMatrixName READ getVertexAttributeMatrixName WRITE setVertexAttributeMatrixName)
+    PYB11_PROPERTY(QString EdgeAttributeMatrixName READ getEdgeAttributeMatrixName WRITE setEdgeAttributeMatrixName)
+    PYB11_PROPERTY(QString InputFile READ getInputFile WRITE setInputFile)
+    PYB11_PROPERTY(float BurgersVector READ getBurgersVector WRITE setBurgersVector)
+    PYB11_PROPERTY(QString NumberOfArmsArrayName READ getNumberOfArmsArrayName WRITE setNumberOfArmsArrayName)
+    PYB11_PROPERTY(QString NodeConstraintsArrayName READ getNodeConstraintsArrayName WRITE setNodeConstraintsArrayName)
+    PYB11_PROPERTY(QString BurgersVectorsArrayName READ getBurgersVectorsArrayName WRITE setBurgersVectorsArrayName)
+    PYB11_PROPERTY(QString SlipPlaneNormalsArrayName READ getSlipPlaneNormalsArrayName WRITE setSlipPlaneNormalsArrayName)
+    PYB11_PROPERTY(QString DomainBoundsArrayName READ getDomainBoundsArrayName WRITE setDomainBoundsArrayName)
   public:
     SIMPL_SHARED_POINTERS(ParaDisReader)
     SIMPL_FILTER_NEW_MACRO(ParaDisReader)

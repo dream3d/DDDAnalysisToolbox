@@ -61,6 +61,15 @@
 class LocalDislocationDensityCalculator : public AbstractFilter
 {
     Q_OBJECT
+    PYB11_CREATE_BINDINGS(LocalDislocationDensityCalculator SUPERCLASS AbstractFilter)
+    PYB11_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
+    PYB11_PROPERTY(DataArrayPath BurgersVectorsArrayPath READ getBurgersVectorsArrayPath WRITE setBurgersVectorsArrayPath)
+    PYB11_PROPERTY(DataArrayPath SlipPlaneNormalsArrayPath READ getSlipPlaneNormalsArrayPath WRITE setSlipPlaneNormalsArrayPath)
+    PYB11_PROPERTY(FloatVec3_t CellSize READ getCellSize WRITE setCellSize)
+    PYB11_PROPERTY(QString OutputDataContainerName READ getOutputDataContainerName WRITE setOutputDataContainerName)
+    PYB11_PROPERTY(QString OutputAttributeMatrixName READ getOutputAttributeMatrixName WRITE setOutputAttributeMatrixName)
+    PYB11_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
+    PYB11_PROPERTY(QString DominantSystemArrayName READ getDominantSystemArrayName WRITE setDominantSystemArrayName)
   public:
     SIMPL_SHARED_POINTERS(LocalDislocationDensityCalculator)
     SIMPL_FILTER_NEW_MACRO(LocalDislocationDensityCalculator)

@@ -61,6 +61,12 @@
 class DiscretizeDDDomain : public AbstractFilter
 {
     Q_OBJECT
+    PYB11_CREATE_BINDINGS(DiscretizeDDDomain SUPERCLASS AbstractFilter)
+    PYB11_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
+    PYB11_PROPERTY(FloatVec3_t CellSize READ getCellSize WRITE setCellSize)
+    PYB11_PROPERTY(QString OutputDataContainerName READ getOutputDataContainerName WRITE setOutputDataContainerName)
+    PYB11_PROPERTY(QString OutputAttributeMatrixName READ getOutputAttributeMatrixName WRITE setOutputAttributeMatrixName)
+    PYB11_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
   public:
     SIMPL_SHARED_POINTERS(DiscretizeDDDomain)
     SIMPL_FILTER_NEW_MACRO(DiscretizeDDDomain)

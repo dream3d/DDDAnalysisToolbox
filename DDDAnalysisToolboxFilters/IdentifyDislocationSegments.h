@@ -59,6 +59,11 @@
 class IdentifyDislocationSegments : public AbstractFilter
 {
     Q_OBJECT
+    PYB11_CREATE_BINDINGS(IdentifyDislocationSegments SUPERCLASS AbstractFilter)
+    PYB11_PROPERTY(DataArrayPath BurgersVectorsArrayPath READ getBurgersVectorsArrayPath WRITE setBurgersVectorsArrayPath)
+    PYB11_PROPERTY(DataArrayPath SlipPlaneNormalsArrayPath READ getSlipPlaneNormalsArrayPath WRITE setSlipPlaneNormalsArrayPath)
+    PYB11_PROPERTY(QString DislocationIdsArrayName READ getDislocationIdsArrayName WRITE setDislocationIdsArrayName)
+    PYB11_PROPERTY(QString ActiveArrayName READ getActiveArrayName WRITE setActiveArrayName)
   public:
     SIMPL_SHARED_POINTERS(IdentifyDislocationSegments)
     SIMPL_FILTER_NEW_MACRO(IdentifyDislocationSegments)
