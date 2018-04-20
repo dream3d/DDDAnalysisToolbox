@@ -227,7 +227,11 @@ void DDDAnalysisToolboxPlugin::readSettings(QSettings& prefs)
 
 }
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void DDDAnalysisToolboxPlugin::registerFilterWidgets(FilterWidgetManager* fwm)
+{
+}
+
 #include "DDDAnalysisToolboxFilters/RegisterKnownFilters.cpp"
-
-#include "FilterParameterWidgets/RegisterKnownFilterParameterWidgets.cpp"
-
