@@ -10,7 +10,13 @@ class DDDAnalysisToolboxGuiPlugin : public DDDAnalysisToolboxPlugin
 
 public:
   DDDAnalysisToolboxGuiPlugin();
-  ~DDDAnalysisToolboxGuiPlugin() override;
+   ~DDDAnalysisToolboxGuiPlugin() override;
+  
+  /**
+   * @brief Register all the filters with the FilterWidgetFactory
+   */
+  void registerFilterWidgets(FilterWidgetManager* fwm) override;
+  
 
 public:
   DDDAnalysisToolboxGuiPlugin(const DDDAnalysisToolboxGuiPlugin&) = delete;            // Copy Constructor Not Implemented

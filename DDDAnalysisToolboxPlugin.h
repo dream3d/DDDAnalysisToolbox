@@ -11,14 +11,17 @@
 #include "SIMPLib/Plugin/ISIMPLibPlugin.h"
 
 
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxDLLExport.h"
+
 /**
- * @class DDDAnalysisToolboxPlugin DDDAnalysisToolboxPlugin.h SurfaceMeshing/DDDAnalysisToolboxPlugin.h
+ * @class DDDAnalysisToolboxPlugin DDDAnalysisToolboxPlugin.hSurfaceMeshing/DDDAnalysisToolboxPlugin.h
  * @brief
  * @author
  * @date
  * @version 1.0
  */
-class DDDAnalysisToolboxPlugin : public QObject, public ISIMPLibPlugin
+class DDDAnalysisToolbox_EXPORT DDDAnalysisToolboxPlugin : public QObject, public ISIMPLibPlugin
+
 {
     Q_OBJECT
     Q_INTERFACES(ISIMPLibPlugin)
