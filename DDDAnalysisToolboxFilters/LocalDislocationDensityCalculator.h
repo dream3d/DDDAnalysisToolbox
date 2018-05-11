@@ -51,6 +51,8 @@
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxDLLExport.h"
+
 /**
  * @class LocalDislocationDensityCalculator LocalDislocationDensityCalculator.h /FilterCategoryFilters/LocalDislocationDensityCalculator.h
  * @brief
@@ -58,7 +60,7 @@
  * @date
  * @version 1.0
  */
-class LocalDislocationDensityCalculator : public AbstractFilter
+class DDDAnalysisToolbox_EXPORT LocalDislocationDensityCalculator : public AbstractFilter
 {
     Q_OBJECT
     PYB11_CREATE_BINDINGS(LocalDislocationDensityCalculator SUPERCLASS AbstractFilter)

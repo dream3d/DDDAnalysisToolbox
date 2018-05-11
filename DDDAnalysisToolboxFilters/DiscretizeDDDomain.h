@@ -51,6 +51,8 @@
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxDLLExport.h"
+
 /**
  * @class DiscretizeDDDomain DiscretizeDDDomain.h /FilterCategoryFilters/DiscretizeDDDomain.h
  * @brief
@@ -58,7 +60,7 @@
  * @date
  * @version 1.0
  */
-class DiscretizeDDDomain : public AbstractFilter
+class DDDAnalysisToolbox_EXPORT DiscretizeDDDomain : public AbstractFilter
 {
     Q_OBJECT
     PYB11_CREATE_BINDINGS(DiscretizeDDDomain SUPERCLASS AbstractFilter)

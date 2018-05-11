@@ -48,6 +48,8 @@
 #include "SIMPLib/Geometry/MeshStructs.h"
 #include "SIMPLib/SIMPLib.h"
 
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxDLLExport.h"
+
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 /**
  * @class IdentifyDislocationSegments IdentifyDislocationSegments.h /FilterCategoryFilters/IdentifyDislocationSegments.h
@@ -56,7 +58,7 @@
  * @date
  * @version 1.0
  */
-class IdentifyDislocationSegments : public AbstractFilter
+class DDDAnalysisToolbox_EXPORT IdentifyDislocationSegments : public AbstractFilter
 {
     Q_OBJECT
     PYB11_CREATE_BINDINGS(IdentifyDislocationSegments SUPERCLASS AbstractFilter)
