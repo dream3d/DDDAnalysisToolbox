@@ -51,6 +51,7 @@
 #include "SIMPLib/SIMPLib.h"
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
+#include "DDDAnalysisToolbox/DDDAnalysisToolboxDLLExport.h"
 
 /**
  * @class ParaDisReader ParaDisReader.h DREAM3DLib/IO/ParaDisReader.h
@@ -59,7 +60,7 @@
  * @date Sep 28, 2011
  * @version $Revision$
  */
-class  ParaDisReader : public FileReader
+class DDDAnalysisToolbox_EXPORT ParaDisReader : public FileReader
 {
     Q_OBJECT
     PYB11_CREATE_BINDINGS(ParaDisReader SUPERCLASS AbstractFilter)
