@@ -34,8 +34,7 @@
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-#ifndef _localdislocationdensitycalculator_h_
-#define _localdislocationdensitycalculator_h_
+#pragma once
 
 #include <QtCore/QString>
 #include <set>
@@ -210,7 +209,6 @@ class DDDAnalysisToolbox_EXPORT LocalDislocationDensityCalculator : public Abstr
     LocalDislocationDensityCalculator& operator=(LocalDislocationDensityCalculator&&) = delete;      // Move Assignment
 };
 
-#endif /* LocalDislocationDensityCalculator_H_ */
 
 
 

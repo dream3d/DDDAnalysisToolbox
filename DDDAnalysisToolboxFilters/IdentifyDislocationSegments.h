@@ -34,8 +34,7 @@
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-#ifndef _identifydislocationsegments_h_
-#define _identifydislocationsegments_h_
+#pragma once
 
 #include <QtCore/QString>
 #include <set>
@@ -195,7 +194,6 @@ class DDDAnalysisToolbox_EXPORT IdentifyDislocationSegments : public AbstractFil
     IdentifyDislocationSegments& operator=(IdentifyDislocationSegments&&) = delete;      // Move Assignment
 };
 
-#endif /* IdentifyDislocationSegments_H_ */
 
 
 

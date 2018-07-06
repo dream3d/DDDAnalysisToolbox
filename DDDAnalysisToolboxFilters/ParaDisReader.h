@@ -34,8 +34,7 @@
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-#ifndef _paradisreader_h_
-#define _paradisreader_h_
+#pragma once
 
 #include <QtCore/QString>
 #include <vector>
@@ -225,7 +224,6 @@ class DDDAnalysisToolbox_EXPORT ParaDisReader : public FileReader
     void operator=(const ParaDisReader&) = delete; // Move assignment Not Implemented
 };
 
-#endif /* ParaDisREADER_H_ */
 
 
 

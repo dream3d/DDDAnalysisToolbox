@@ -34,8 +34,7 @@
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-#ifndef _discretizedddomain_h_
-#define _discretizedddomain_h_
+#pragma once
 
 #include <QtCore/QString>
 #include <set>
@@ -190,7 +189,6 @@ class DDDAnalysisToolbox_EXPORT DiscretizeDDDomain : public AbstractFilter
     DiscretizeDDDomain& operator=(DiscretizeDDDomain&&) = delete;      // Move Assignment
 };
 
-#endif /* DiscretizeDDDomain_H_ */
 
 
 

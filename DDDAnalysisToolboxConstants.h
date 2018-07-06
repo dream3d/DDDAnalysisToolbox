@@ -1,8 +1,7 @@
 /*
  * Your License should go here
  */
-#ifndef _dddanalysistoolboxconstants_h_
-#define _dddanalysistoolboxconstants_h_
+#pragma once
 
 #include <QtCore/QString>
 
@@ -31,4 +30,3 @@ namespace FilterParameterWidgetType
 /*  const QString SomeCustomWidget("SomeCustomWidget"); */
 
 }
-#endif

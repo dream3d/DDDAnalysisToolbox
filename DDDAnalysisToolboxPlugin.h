@@ -2,8 +2,7 @@
  * Your License or Copyright Information can go here
  */
 
-#ifndef _dddanalysistoolboxplugin_h_
-#define _dddanalysistoolboxplugin_h_
+#pragma once
 
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
@@ -164,4 +163,3 @@ class DDDAnalysisToolbox_EXPORT DDDAnalysisToolboxPlugin : public QObject, publi
     void operator=(const DDDAnalysisToolboxPlugin&) = delete;           // Move assignment Not Implemented
 };
 
-#endif /* _DDDAnalysisToolbox_H_ */
