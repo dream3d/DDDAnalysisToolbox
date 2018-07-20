@@ -2,7 +2,6 @@
  * Your License or Copyright Information can go here
  */
 
-
 #include "DDDAnalysisToolboxPlugin.h"
 
 #include <QtCore/QFile>
@@ -14,23 +13,24 @@
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxConstants.h"
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 
-
-
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DDDAnalysisToolboxPlugin::DDDAnalysisToolboxPlugin() :
-  m_Version(DDDAnalysisToolbox::Version::Package()),                            // Initialize DDDAnalysisToolbox's Version Number Here
-  m_CompatibilityVersion(DDDAnalysisToolbox::Version::Package()), // Initialize DDDAnalysisToolbox's Compatibility Version Number Here
-  m_Vendor("Open-Source"),
-  m_URL("http://www.github.com/dream3d/DDDAnalysisToolbox"),
-  m_Location(""),                                 // Initialize Company Location Here
-  m_Description("Description"),                           // Initialize DDDAnalysisToolbox's Description Here
-  m_Copyright(""),                               // Initialize DDDAnalysisToolbox's Copyright Here
-  m_Filters(QList<QString>()),                        // Initialize DDDAnalysisToolbox's List of Dependencies Here
-  m_DidLoad(false)
+DDDAnalysisToolboxPlugin::DDDAnalysisToolboxPlugin()
+: m_Version(DDDAnalysisToolbox::Version::Package())
+, // Initialize DDDAnalysisToolbox's Version Number Here
+    m_CompatibilityVersion(DDDAnalysisToolbox::Version::Package())
+, // Initialize DDDAnalysisToolbox's Compatibility Version Number Here
+    m_Vendor("Open-Source")
+, m_URL("http://www.github.com/dream3d/DDDAnalysisToolbox")
+, m_Location("")
+, // Initialize Company Location Here
+    m_Copyright("")
+, // Initialize DDDAnalysisToolbox's Copyright Here
+    m_Filters(QList<QString>())
+, // Initialize DDDAnalysisToolbox's List of Dependencies Here
+    m_DidLoad(false)
 {
-
 }
 
 // -----------------------------------------------------------------------------
@@ -61,7 +61,6 @@ QString DDDAnalysisToolboxPlugin::getPluginBaseName()
 {
   return DDDAnalysisToolboxConstants::DDDAnalysisToolboxBaseName;
 }
-
 
 // -----------------------------------------------------------------------------
 //
@@ -115,9 +114,9 @@ QString DDDAnalysisToolboxPlugin::getDescription()
   QFileInfo licenseFileInfo(licenseFile);
   QString text = "<<--Description was not read-->>";
 
-  if ( licenseFileInfo.exists() )
+  if(licenseFileInfo.exists())
   {
-    if ( licenseFile.open(QIODevice::ReadOnly | QIODevice::Text) )
+    if(licenseFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
       QTextStream in(&licenseFile);
       text = in.readAll();
@@ -146,9 +145,9 @@ QString DDDAnalysisToolboxPlugin::getLicense()
   QFileInfo licenseFileInfo(licenseFile);
   QString text = "<<--License was not read-->>";
 
-  if ( licenseFileInfo.exists() )
+  if(licenseFileInfo.exists())
   {
-    if ( licenseFile.open(QIODevice::ReadOnly | QIODevice::Text) )
+    if(licenseFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
       QTextStream in(&licenseFile);
       text = in.readAll();
@@ -165,18 +164,18 @@ QMap<QString, QString> DDDAnalysisToolboxPlugin::getThirdPartyLicenses()
   QMap<QString, QString> licenseMap;
   QList<QString> fileStrList;
   fileStrList.push_back(":/ThirdParty/HDF5.txt");
-  
+
   fileStrList.push_back(":/ThirdParty/Qt.txt");
   fileStrList.push_back(":/ThirdParty/Qwt.txt");
 
-  for (QList<QString>::iterator iter = fileStrList.begin(); iter != fileStrList.end(); iter++)
+  for(QList<QString>::iterator iter = fileStrList.begin(); iter != fileStrList.end(); iter++)
   {
     QFile file(*iter);
     QFileInfo licenseFileInfo(file);
 
-    if ( licenseFileInfo.exists() )
+    if(licenseFileInfo.exists())
     {
-      if ( file.open(QIODevice::ReadOnly | QIODevice::Text) )
+      if(file.open(QIODevice::ReadOnly | QIODevice::Text))
       {
         QTextStream in(&file);
         licenseMap.insert(licenseFileInfo.baseName(), in.readAll());
@@ -216,7 +215,6 @@ void DDDAnalysisToolboxPlugin::setLocation(QString filePath)
 // -----------------------------------------------------------------------------
 void DDDAnalysisToolboxPlugin::writeSettings(QSettings& prefs)
 {
-
 }
 
 // -----------------------------------------------------------------------------
@@ -224,7 +222,6 @@ void DDDAnalysisToolboxPlugin::writeSettings(QSettings& prefs)
 // -----------------------------------------------------------------------------
 void DDDAnalysisToolboxPlugin::readSettings(QSettings& prefs)
 {
-
 }
 
 // -----------------------------------------------------------------------------
