@@ -184,7 +184,7 @@ class DDDAnalysisToolbox_EXPORT DiscretizeDDDomain : public AbstractFilter
 
   public:
     DiscretizeDDDomain(const DiscretizeDDDomain&) = delete; // Copy Constructor Not Implemented
-    DiscretizeDDDomain(DiscretizeDDDomain&&) = delete;      // Move Constructor
+    DiscretizeDDDomain(DiscretizeDDDomain&&) = delete;      // Move Constructor Not Implemented
     DiscretizeDDDomain& operator=(const DiscretizeDDDomain&) = delete; // Copy Assignment Not Implemented
     DiscretizeDDDomain& operator=(DiscretizeDDDomain&&) = delete;      // Move Assignment
 };

@@ -204,7 +204,7 @@ class DDDAnalysisToolbox_EXPORT LocalDislocationDensityCalculator : public Abstr
 
   public:
     LocalDislocationDensityCalculator(const LocalDislocationDensityCalculator&) = delete; // Copy Constructor Not Implemented
-    LocalDislocationDensityCalculator(LocalDislocationDensityCalculator&&) = delete;      // Move Constructor
+    LocalDislocationDensityCalculator(LocalDislocationDensityCalculator&&) = delete;      // Move Constructor Not Implemented
     LocalDislocationDensityCalculator& operator=(const LocalDislocationDensityCalculator&) = delete; // Copy Assignment Not Implemented
     LocalDislocationDensityCalculator& operator=(LocalDislocationDensityCalculator&&) = delete;      // Move Assignment
 };

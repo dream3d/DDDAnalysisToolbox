@@ -20,7 +20,7 @@ public:
 
 public:
   DDDAnalysisToolboxGuiPlugin(const DDDAnalysisToolboxGuiPlugin&) = delete;            // Copy Constructor Not Implemented
-  DDDAnalysisToolboxGuiPlugin(DDDAnalysisToolboxGuiPlugin&&) = delete;                 // Move Constructor
+  DDDAnalysisToolboxGuiPlugin(DDDAnalysisToolboxGuiPlugin&&) = delete;                 // Move Constructor Not Implemented
   DDDAnalysisToolboxGuiPlugin& operator=(const DDDAnalysisToolboxGuiPlugin&) = delete; // Copy Assignment Not Implemented
   DDDAnalysisToolboxGuiPlugin& operator=(DDDAnalysisToolboxGuiPlugin&&) = delete;      // Move Assignment Not Implemented
 };

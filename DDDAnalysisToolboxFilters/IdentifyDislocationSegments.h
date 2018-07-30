@@ -189,7 +189,7 @@ class DDDAnalysisToolbox_EXPORT IdentifyDislocationSegments : public AbstractFil
 
   public:
     IdentifyDislocationSegments(const IdentifyDislocationSegments&) = delete; // Copy Constructor Not Implemented
-    IdentifyDislocationSegments(IdentifyDislocationSegments&&) = delete;      // Move Constructor
+    IdentifyDislocationSegments(IdentifyDislocationSegments&&) = delete;      // Move Constructor Not Implemented
     IdentifyDislocationSegments& operator=(const IdentifyDislocationSegments&) = delete; // Copy Assignment Not Implemented
     IdentifyDislocationSegments& operator=(IdentifyDislocationSegments&&) = delete;      // Move Assignment
 };
