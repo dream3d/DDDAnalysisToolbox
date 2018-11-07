@@ -220,8 +220,11 @@ class DDDAnalysisToolbox_EXPORT ParaDisReader : public FileReader
 
     int m_FileVersion;
 
+  public:
     ParaDisReader(const ParaDisReader&) = delete;  // Copy Constructor Not Implemented
-    void operator=(const ParaDisReader&) = delete; // Move assignment Not Implemented
+    ParaDisReader(ParaDisReader&&) = delete;       // Move Constructor Not Implemented
+    ParaDisReader& operator=(const ParaDisReader&) = delete; // Copy Assignment Not Implemented
+    ParaDisReader& operator=(ParaDisReader&&) = delete;      // Move Assignment Not Implemented
 };
 
 
