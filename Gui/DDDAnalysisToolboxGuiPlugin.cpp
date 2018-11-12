@@ -5,10 +5,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DDDAnalysisToolboxGuiPlugin::DDDAnalysisToolboxGuiPlugin()
-: DDDAnalysisToolboxPlugin()
-{
-}
+DDDAnalysisToolboxGuiPlugin::DDDAnalysisToolboxGuiPlugin() = default;
 
 // -----------------------------------------------------------------------------
 //

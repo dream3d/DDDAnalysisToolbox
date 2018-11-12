@@ -132,11 +132,11 @@ void LocalDislocationDensityCalculator::updateCellInstancePointers()
   setErrorCondition(0);
   setWarningCondition(0);
 
-  if (nullptr != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_OutputArrayPtr.lock()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {
     m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);
   } /* Now assign the raw pointer to data from the DataArray<T> object */
-  if (nullptr != m_DominantSystemArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_DominantSystemArrayPtr.lock()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {
     m_DominantSystemArray = m_DominantSystemArrayPtr.lock()->getPointer(0);
   } /* Now assign the raw pointer to data from the DataArray<T> object */
@@ -161,21 +161,21 @@ void LocalDislocationDensityCalculator::dataCheck()
 
   // First sanity check the inputs and output names. All must be filled in
 
-  if(getOutputDataContainerName().isEmpty() == true)
+  if(getOutputDataContainerName().isEmpty())
   {
     QString ss = QObject::tr("The output DataContainer name is empty. Please assign a name for the created DataContainer");
     setErrorCondition(-11001);
     notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
   }
 
-  if(getOutputAttributeMatrixName().isEmpty() == true)
+  if(getOutputAttributeMatrixName().isEmpty())
   {
     QString ss = QObject::tr("The output AttributeMatrix name is empty. Please assign a name for the created AttributeMatrix");
     setErrorCondition(-11002);
     notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
   }
 
-  if(getOutputArrayName().isEmpty() == true)
+  if(getOutputArrayName().isEmpty())
   {
     QString ss = QObject::tr("The output array name is empty. Please assign a name for the created array");
     setErrorCondition(-11003);
@@ -208,7 +208,7 @@ void LocalDislocationDensityCalculator::dataCheck()
   QVector<size_t> dims(1, 6);
   tempPath.update(getEdgeDataContainerName(), "_MetaData", "DomainBounds");
   m_DomainBoundsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, tempPath, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (nullptr != m_DomainBoundsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_DomainBoundsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_DomainBounds = m_DomainBoundsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 
   // Create a new DataContainer
@@ -227,20 +227,20 @@ void LocalDislocationDensityCalculator::dataCheck()
   //Get the name and create the array in the new data attrMat
   dims[0] = 3;
   m_BurgersVectorsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, getBurgersVectorsArrayPath(), dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (nullptr != m_BurgersVectorsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_BurgersVectorsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_BurgersVectors = m_BurgersVectorsPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   m_SlipPlaneNormalsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, getSlipPlaneNormalsArrayPath(), dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (nullptr != m_SlipPlaneNormalsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_SlipPlaneNormalsPtr.lock())                         /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 1;
   tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
   m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (nullptr != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_OutputArrayPtr.lock())                    /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 1;
   tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getDominantSystemArrayName());
   m_DominantSystemArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (nullptr != m_DominantSystemArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_DominantSystemArrayPtr.lock())                            /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_DominantSystemArray = m_DominantSystemArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
 }
 
@@ -460,7 +460,7 @@ int LocalDislocationDensityCalculator::determine_slip_system(int edgeNum)
 AbstractFilter::Pointer LocalDislocationDensityCalculator::newFilterInstance(bool copyFilterParameters) const
 {
   LocalDislocationDensityCalculator::Pointer filter = LocalDislocationDensityCalculator::New();
-  if(true == copyFilterParameters)
+  if(copyFilterParameters)
   {
     copyFilterParameterInstanceVariables(filter.get());
   }

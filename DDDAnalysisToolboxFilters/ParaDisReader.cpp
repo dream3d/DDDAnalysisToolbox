@@ -53,22 +53,21 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ParaDisReader::ParaDisReader() :
-  FileReader(),
-  m_EdgeDataContainerName(SIMPL::Defaults::DataContainerName),
-  m_VertexAttributeMatrixName(SIMPL::Defaults::VertexAttributeMatrixName),
-  m_EdgeAttributeMatrixName(SIMPL::Defaults::EdgeAttributeMatrixName),
-  m_InputFile(""),
-  m_BurgersVector(2.5),
-  m_NumberOfArmsArrayName(SIMPL::VertexData::NumberOfArms),
-  m_NodeConstraintsArrayName(SIMPL::VertexData::NodeConstraints),
-  m_BurgersVectorsArrayName(SIMPL::EdgeData::BurgersVectors),
-  m_SlipPlaneNormalsArrayName(SIMPL::EdgeData::SlipPlaneNormals),
-  m_DomainBoundsArrayName("DomainBounds"),
-  m_NumberOfArms(nullptr),
-  m_NodeConstraints(nullptr),
-  m_BurgersVectors(nullptr),
-  m_SlipPlaneNormals(nullptr)
+ParaDisReader::ParaDisReader()
+: m_EdgeDataContainerName(SIMPL::Defaults::DataContainerName)
+, m_VertexAttributeMatrixName(SIMPL::Defaults::VertexAttributeMatrixName)
+, m_EdgeAttributeMatrixName(SIMPL::Defaults::EdgeAttributeMatrixName)
+, m_InputFile("")
+, m_BurgersVector(2.5)
+, m_NumberOfArmsArrayName(SIMPL::VertexData::NumberOfArms)
+, m_NodeConstraintsArrayName(SIMPL::VertexData::NodeConstraints)
+, m_BurgersVectorsArrayName(SIMPL::EdgeData::BurgersVectors)
+, m_SlipPlaneNormalsArrayName(SIMPL::EdgeData::SlipPlaneNormals)
+, m_DomainBoundsArrayName("DomainBounds")
+, m_NumberOfArms(nullptr)
+, m_NodeConstraints(nullptr)
+, m_BurgersVectors(nullptr)
+, m_SlipPlaneNormals(nullptr)
 {
 }
 
@@ -146,7 +145,10 @@ void ParaDisReader::updateEdgeInstancePointers()
 // -----------------------------------------------------------------------------
 void ParaDisReader::initialize()
 {
-  if(m_InStream.isOpen()) m_InStream.close();
+  if(m_InStream.isOpen())
+  {
+    m_InStream.close();
+  }
   m_NumVerts = -1;
   m_NumEdges = -1;
   m_FileVersion = 0;
@@ -173,13 +175,13 @@ void ParaDisReader::dataCheck()
 
   QFileInfo fi(getInputFile());
 
-  if (getInputFile().isEmpty() == true)
+  if(getInputFile().isEmpty())
   {
     QString ss = QObject::tr("%1 needs the Input File Set and it was not.").arg(ClassName());
     setErrorCondition(-387);
     notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
   }
-  else if (fi.exists() == false)
+  else if(!fi.exists())
   {
     QString ss = QObject::tr("The input file does not exist.");
     setErrorCondition(-388);
@@ -206,16 +208,15 @@ void ParaDisReader::dataCheck()
   dims[0] = 6;
   tempPath.update(getEdgeDataContainerName(), "_MetaData", getDomainBoundsArrayName());
   m_DomainBoundsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (nullptr != m_DomainBoundsPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_DomainBoundsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_DomainBounds = m_DomainBoundsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 
-
-  if (m_InStream.isOpen() == true)
+  if(m_InStream.isOpen())
   {
     m_InStream.close();
   }
 
-  if (getInputFile().isEmpty() == false && fi.exists() == true)
+  if(!getInputFile().isEmpty() && fi.exists())
   {
     // We need to read the header of the input file to get the dimensions
     m_InStream.setFileName(getInputFile());
@@ -569,7 +570,7 @@ int ParaDisReader::readFile()
 AbstractFilter::Pointer ParaDisReader::newFilterInstance(bool copyFilterParameters) const
 {
   ParaDisReader::Pointer filter = ParaDisReader::New();
-  if(true == copyFilterParameters)
+  if(copyFilterParameters)
   {
     copyFilterParameterInstanceVariables(filter.get());
   }

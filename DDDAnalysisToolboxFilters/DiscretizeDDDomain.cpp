@@ -123,21 +123,21 @@ void DiscretizeDDDomain::dataCheck()
 
   // First sanity check the inputs and output names. All must be filled in
 
-  if(getOutputDataContainerName().isEmpty() == true)
+  if(getOutputDataContainerName().isEmpty())
   {
     QString ss = QObject::tr("The output DataContainer name is empty. Please assign a name for the created DataContainer");
     setErrorCondition(-11001);
     notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
   }
 
-  if(getOutputAttributeMatrixName().isEmpty() == true)
+  if(getOutputAttributeMatrixName().isEmpty())
   {
     QString ss = QObject::tr("The output AttributeMatrix name is empty. Please assign a name for the created AttributeMatrix");
     setErrorCondition(-11002);
     notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
   }
 
-  if(getOutputArrayName().isEmpty() == true)
+  if(getOutputArrayName().isEmpty())
   {
     QString ss = QObject::tr("The output array name is empty. Please assign a name for the created array");
     setErrorCondition(-11003);
@@ -184,7 +184,7 @@ void DiscretizeDDDomain::dataCheck()
   QVector<size_t> dims(1, 1);
   tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
   m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
-  if (nullptr != m_OutputArrayPtr.lock().get()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
+  if(nullptr != m_OutputArrayPtr.lock())                    /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
 }
 
@@ -360,7 +360,7 @@ void DiscretizeDDDomain::execute()
 AbstractFilter::Pointer DiscretizeDDDomain::newFilterInstance(bool copyFilterParameters) const
 {
   DiscretizeDDDomain::Pointer filter = DiscretizeDDDomain::New();
-  if(true == copyFilterParameters)
+  if(copyFilterParameters)
   {
     copyFilterParameterInstanceVariables(filter.get());
   }

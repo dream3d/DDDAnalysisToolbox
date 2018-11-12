@@ -335,7 +335,7 @@ void IdentifyDislocationSegments::execute()
 AbstractFilter::Pointer IdentifyDislocationSegments::newFilterInstance(bool copyFilterParameters) const
 {
   IdentifyDislocationSegments::Pointer filter = IdentifyDislocationSegments::New();
-  if(true == copyFilterParameters)
+  if(copyFilterParameters)
   {
     copyFilterParameterInstanceVariables(filter.get());
   }
