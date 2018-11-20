@@ -57,7 +57,6 @@ DiscretizeDDDomain::DiscretizeDDDomain()
 , m_OutputDataContainerName(SIMPL::Defaults::NewDataContainerName)
 , m_OutputAttributeMatrixName(SIMPL::Defaults::CellAttributeMatrixName)
 , m_OutputArrayName("DislocationLineDensity")
-, m_OutputArray(nullptr)
 {
   m_CellSize.x = 2.0;
   m_CellSize.y = 2.0;
@@ -109,7 +108,6 @@ void DiscretizeDDDomain::readFilterParameters(AbstractFilterParametersReader* re
 // -----------------------------------------------------------------------------
 void DiscretizeDDDomain::initialize()
 {
-
 }
 
 // -----------------------------------------------------------------------------

@@ -64,10 +64,6 @@ ParaDisReader::ParaDisReader()
 , m_BurgersVectorsArrayName(SIMPL::EdgeData::BurgersVectors)
 , m_SlipPlaneNormalsArrayName(SIMPL::EdgeData::SlipPlaneNormals)
 , m_DomainBoundsArrayName("DomainBounds")
-, m_NumberOfArms(nullptr)
-, m_NodeConstraints(nullptr)
-, m_BurgersVectors(nullptr)
-, m_SlipPlaneNormals(nullptr)
 {
 }
 

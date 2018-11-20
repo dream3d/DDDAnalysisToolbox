@@ -61,11 +61,6 @@ LocalDislocationDensityCalculator::LocalDislocationDensityCalculator()
 , m_OutputAttributeMatrixName(SIMPL::Defaults::CellAttributeMatrixName)
 , m_OutputArrayName("DislocationLineDensity")
 , m_DominantSystemArrayName("DominantSystem")
-, m_OutputArray(nullptr)
-, m_DominantSystemArray(nullptr)
-, m_DomainBounds(nullptr)
-, m_BurgersVectors(nullptr)
-, m_SlipPlaneNormals(nullptr)
 {
   m_CellSize.x = 2.0;
   m_CellSize.y = 2.0;
@@ -147,7 +142,6 @@ void LocalDislocationDensityCalculator::updateCellInstancePointers()
 // -----------------------------------------------------------------------------
 void LocalDislocationDensityCalculator::initialize()
 {
-
 }
 
 // -----------------------------------------------------------------------------

@@ -59,10 +59,6 @@ IdentifyDislocationSegments::IdentifyDislocationSegments()
 , m_SlipPlaneNormalsArrayPath(SIMPL::Defaults::EdgeDataContainerName, SIMPL::Defaults::EdgeAttributeMatrixName, SIMPL::EdgeData::SlipPlaneNormals)
 , m_DislocationIdsArrayName(SIMPL::EdgeData::DislocationIds)
 , m_ActiveArrayName(SIMPL::FeatureData::Active)
-, m_BurgersVectors(nullptr)
-, m_SlipPlaneNormals(nullptr)
-, m_DislocationIds(nullptr)
-, m_Active(nullptr)
 {
 }
 
@@ -127,7 +123,6 @@ void IdentifyDislocationSegments::updateEdgeFeatureInstancePointers()
 // -----------------------------------------------------------------------------
 void IdentifyDislocationSegments::initialize()
 {
-
 }
 
 // -----------------------------------------------------------------------------
