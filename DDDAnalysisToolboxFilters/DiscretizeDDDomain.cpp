@@ -349,7 +349,6 @@ void DiscretizeDDDomain::execute()
     }
   }
 
-  notifyStatusMessage(getHumanLabel(), "Complete");
 }
 
 // -----------------------------------------------------------------------------

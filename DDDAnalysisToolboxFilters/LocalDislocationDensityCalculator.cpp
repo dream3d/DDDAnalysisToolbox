@@ -397,7 +397,6 @@ void LocalDislocationDensityCalculator::execute()
     }
   }
 
-  notifyStatusMessage(getHumanLabel(), "Complete");
 }
 
 // -----------------------------------------------------------------------------

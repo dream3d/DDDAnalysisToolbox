@@ -555,7 +555,6 @@ int ParaDisReader::readFile()
   tokens.clear();
   m_InStream.close();
 
-  notifyStatusMessage(getHumanLabel(), "Complete");
   return 0;
 }
 

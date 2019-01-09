@@ -321,7 +321,6 @@ void IdentifyDislocationSegments::execute()
     m_DislocationIds[i] = gid[ m_DislocationIds[i] ];
   }
 
-  notifyStatusMessage(getHumanLabel(), "Complete");
 }
 
 // -----------------------------------------------------------------------------
