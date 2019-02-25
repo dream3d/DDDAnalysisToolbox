@@ -72,7 +72,7 @@ IdentifyDislocationSegments::~IdentifyDislocationSegments() = default;
 // -----------------------------------------------------------------------------
 void IdentifyDislocationSegments::setupFilterParameters()
 {
-  FilterParameterVector parameters;
+  FilterParameterVectorType parameters;
   parameters.push_back(SeparatorFilterParameter::New("Edge Data", FilterParameter::RequiredArray));
   {
     DataArraySelectionFilterParameter::RequirementType req;

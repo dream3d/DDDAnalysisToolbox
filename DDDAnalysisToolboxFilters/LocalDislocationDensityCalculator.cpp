@@ -78,7 +78,7 @@ LocalDislocationDensityCalculator::~LocalDislocationDensityCalculator() = defaul
 // -----------------------------------------------------------------------------
 void LocalDislocationDensityCalculator::setupFilterParameters()
 {
-  FilterParameterVector parameters;
+  FilterParameterVectorType parameters;
 
   parameters.push_back(SIMPL_NEW_FLOAT_VEC3_FP("Cell Size (Microns)", CellSize, FilterParameter::Parameter, LocalDislocationDensityCalculator));
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
