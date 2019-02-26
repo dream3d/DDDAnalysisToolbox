@@ -82,7 +82,7 @@ void ParaDisReader::setupFilterParameters()
   parameters.push_back(SIMPL_NEW_INPUT_FILE_FP("Input File", InputFile, FilterParameter::Parameter, ParaDisReader, "*"));
   parameters.push_back(SIMPL_NEW_FLOAT_FP("Burgers Vector Length (Angstroms)", BurgersVector, FilterParameter::Parameter, ParaDisReader));
 // parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Edge DataContainer Name", EdgeDataContainerName, FilterParameter::CreatedArray, ParaDisReader));
+  parameters.push_back(SIMPL_NEW_DC_CREATION_FP("Edge DataContainer Name", EdgeDataContainerName, FilterParameter::CreatedArray, ParaDisReader));
   parameters.push_back(SIMPL_NEW_STRING_FP("Vertex AttributeMatrix Name", VertexAttributeMatrixName, FilterParameter::CreatedArray, ParaDisReader));
   parameters.push_back(SIMPL_NEW_STRING_FP("Edge AttributeMatrix Name", EdgeAttributeMatrixName, FilterParameter::CreatedArray, ParaDisReader));
   parameters.push_back(SIMPL_NEW_STRING_FP("Number Of Arms Array Name", NumberOfArmsArrayName, FilterParameter::CreatedArray, ParaDisReader));

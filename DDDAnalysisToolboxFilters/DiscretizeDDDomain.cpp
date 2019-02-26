@@ -83,7 +83,7 @@ void DiscretizeDDDomain::setupFilterParameters()
     parameters.push_back(SIMPL_NEW_DC_SELECTION_FP("Edge Data Container", EdgeDataContainerName, FilterParameter::RequiredArray, DiscretizeDDDomain, req));
   }
   // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Volume Data Container", OutputDataContainerName, FilterParameter::CreatedArray, DiscretizeDDDomain));
+  parameters.push_back(SIMPL_NEW_DC_CREATION_FP("Volume Data Container", OutputDataContainerName, FilterParameter::CreatedArray, DiscretizeDDDomain));
   parameters.push_back(SIMPL_NEW_STRING_FP("Cell Attribute Matrix", OutputAttributeMatrixName, FilterParameter::CreatedArray, DiscretizeDDDomain));
   parameters.push_back(SIMPL_NEW_STRING_FP("Dislocation Line Density Array Name", OutputArrayName, FilterParameter::CreatedArray, DiscretizeDDDomain));
   setFilterParameters(parameters);
@@ -96,7 +96,7 @@ void DiscretizeDDDomain::readFilterParameters(AbstractFilterParametersReader* re
 {
   reader->openFilterGroup(this, index);
   setEdgeDataContainerName( reader->readString( "EdgeDataContainerName", getEdgeDataContainerName() ) );
-  setOutputDataContainerName(reader->readString("OutputDataContainerName", getOutputDataContainerName()));
+  setOutputDataContainerName(reader->readDataArrayPath("OutputDataContainerName", getOutputDataContainerName()));
   setOutputAttributeMatrixName( reader->readString( "OutputAttributeMatrixName", getOutputAttributeMatrixName() ) );
   setOutputArrayName(reader->readString("OutputArrayName", getOutputArrayName()));
   setCellSize(reader->readFloatVec3("CellSize", getCellSize()));

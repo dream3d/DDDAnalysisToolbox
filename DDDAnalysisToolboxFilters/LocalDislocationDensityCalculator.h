@@ -63,11 +63,11 @@ class DDDAnalysisToolbox_EXPORT LocalDislocationDensityCalculator : public Abstr
 {
     Q_OBJECT
     PYB11_CREATE_BINDINGS(LocalDislocationDensityCalculator SUPERCLASS AbstractFilter)
-    PYB11_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
+    PYB11_PROPERTY(DataArrayPath EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
     PYB11_PROPERTY(DataArrayPath BurgersVectorsArrayPath READ getBurgersVectorsArrayPath WRITE setBurgersVectorsArrayPath)
     PYB11_PROPERTY(DataArrayPath SlipPlaneNormalsArrayPath READ getSlipPlaneNormalsArrayPath WRITE setSlipPlaneNormalsArrayPath)
     PYB11_PROPERTY(FloatVec3_t CellSize READ getCellSize WRITE setCellSize)
-    PYB11_PROPERTY(QString OutputDataContainerName READ getOutputDataContainerName WRITE setOutputDataContainerName)
+    PYB11_PROPERTY(DataArrayPath OutputDataContainerName READ getOutputDataContainerName WRITE setOutputDataContainerName)
     PYB11_PROPERTY(QString OutputAttributeMatrixName READ getOutputAttributeMatrixName WRITE setOutputAttributeMatrixName)
     PYB11_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
     PYB11_PROPERTY(QString DominantSystemArrayName READ getDominantSystemArrayName WRITE setDominantSystemArrayName)
@@ -77,8 +77,8 @@ class DDDAnalysisToolbox_EXPORT LocalDislocationDensityCalculator : public Abstr
     SIMPL_TYPE_MACRO_SUPER_OVERRIDE(LocalDislocationDensityCalculator, AbstractFilter)
 
     ~LocalDislocationDensityCalculator() override;
-    SIMPL_FILTER_PARAMETER(QString, EdgeDataContainerName)
-    Q_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
+    SIMPL_FILTER_PARAMETER(DataArrayPath, EdgeDataContainerName)
+    Q_PROPERTY(DataArrayPath EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
 
     SIMPL_FILTER_PARAMETER(DataArrayPath, BurgersVectorsArrayPath)
     Q_PROPERTY(DataArrayPath BurgersVectorsArrayPath READ getBurgersVectorsArrayPath WRITE setBurgersVectorsArrayPath)
@@ -90,8 +90,8 @@ class DDDAnalysisToolbox_EXPORT LocalDislocationDensityCalculator : public Abstr
     Q_PROPERTY(FloatVec3_t CellSize READ getCellSize WRITE setCellSize)
 
     // The user selects a new DataContainerName
-    SIMPL_FILTER_PARAMETER(QString, OutputDataContainerName)
-    Q_PROPERTY(QString OutputDataContainerName READ getOutputDataContainerName WRITE setOutputDataContainerName)
+    SIMPL_FILTER_PARAMETER(DataArrayPath, OutputDataContainerName)
+    Q_PROPERTY(DataArrayPath OutputDataContainerName READ getOutputDataContainerName WRITE setOutputDataContainerName)
     // Name the new AttributeMatrix that will get created
     SIMPL_FILTER_PARAMETER(QString, OutputAttributeMatrixName)
     Q_PROPERTY(QString OutputAttributeMatrixName READ getOutputAttributeMatrixName WRITE setOutputAttributeMatrixName)

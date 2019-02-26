@@ -95,7 +95,7 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
     parameters.push_back(SIMPL_NEW_DA_SELECTION_FP("Slip Plane Normals Array", SlipPlaneNormalsArrayPath, FilterParameter::RequiredArray, LocalDislocationDensityCalculator, req));
   }
 //  parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Volume Data Container", OutputDataContainerName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
+  parameters.push_back(SIMPL_NEW_DC_CREATION_FP("Volume Data Container", OutputDataContainerName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
   parameters.push_back(SIMPL_NEW_STRING_FP("Cell AttributeMatrix", OutputAttributeMatrixName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
   parameters.push_back(SIMPL_NEW_STRING_FP("Dislocation Line Density Array Name", OutputArrayName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
   parameters.push_back(SIMPL_NEW_STRING_FP("Dominant System Array Name", DominantSystemArrayName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
@@ -111,7 +111,7 @@ void LocalDislocationDensityCalculator::readFilterParameters(AbstractFilterParam
   setEdgeDataContainerName( reader->readString( "EdgeDataContainerName", getEdgeDataContainerName() ) );
   setSlipPlaneNormalsArrayPath(reader->readDataArrayPath("SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath()));
   setBurgersVectorsArrayPath(reader->readDataArrayPath("BurgersVectorsArrayPath", getBurgersVectorsArrayPath()));
-  setOutputDataContainerName(reader->readString("OutputDataContainerName", getOutputDataContainerName()));
+  setOutputDataContainerName(reader->readDataArrayPath("OutputDataContainerName", getOutputDataContainerName()));
   setOutputAttributeMatrixName( reader->readString( "OutputAttributeMatrixName", getOutputAttributeMatrixName() ) );
   setOutputArrayName(reader->readString("OutputArrayName", getOutputArrayName()));
   setDominantSystemArrayName(reader->readString("DominantSystemArrayName", getDominantSystemArrayName()));
