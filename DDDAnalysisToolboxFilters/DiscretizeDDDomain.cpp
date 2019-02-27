@@ -38,6 +38,7 @@
 
 #include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "SIMPLib/FilterParameters/FloatVec3FilterParameter.h"
+#include "SIMPLib/FilterParameters/DataContainerCreationFilterParameter.h"
 #include "SIMPLib/FilterParameters/DataContainerSelectionFilterParameter.h"
 #include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
@@ -95,7 +96,7 @@ void DiscretizeDDDomain::setupFilterParameters()
 void DiscretizeDDDomain::readFilterParameters(AbstractFilterParametersReader* reader, int index)
 {
   reader->openFilterGroup(this, index);
-  setEdgeDataContainerName( reader->readString( "EdgeDataContainerName", getEdgeDataContainerName() ) );
+  setEdgeDataContainerName( reader->readDataArrayPath( "EdgeDataContainerName", getEdgeDataContainerName() ) );
   setOutputDataContainerName(reader->readDataArrayPath("OutputDataContainerName", getOutputDataContainerName()));
   setOutputAttributeMatrixName( reader->readString( "OutputAttributeMatrixName", getOutputAttributeMatrixName() ) );
   setOutputArrayName(reader->readString("OutputArrayName", getOutputArrayName()));
@@ -180,7 +181,7 @@ void DiscretizeDDDomain::dataCheck()
 
   //Get the name and create the array in the new data attrMat
   QVector<size_t> dims(1, 1);
-  tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
+  tempPath.update(getOutputDataContainerName().getDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
   m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
   if(nullptr != m_OutputArrayPtr.lock())                    /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
