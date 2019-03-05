@@ -64,7 +64,7 @@ class DDDAnalysisToolbox_EXPORT DiscretizeDDDomain : public AbstractFilter
     Q_OBJECT
     PYB11_CREATE_BINDINGS(DiscretizeDDDomain SUPERCLASS AbstractFilter)
     PYB11_PROPERTY(DataArrayPath EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
-    PYB11_PROPERTY(FloatVec3_t CellSize READ getCellSize WRITE setCellSize)
+    PYB11_PROPERTY(FloatVec3Type CellSize READ getCellSize WRITE setCellSize)
     PYB11_PROPERTY(DataArrayPath OutputDataContainerName READ getOutputDataContainerName WRITE setOutputDataContainerName)
     PYB11_PROPERTY(QString OutputAttributeMatrixName READ getOutputAttributeMatrixName WRITE setOutputAttributeMatrixName)
     PYB11_PROPERTY(QString OutputArrayName READ getOutputArrayName WRITE setOutputArrayName)
@@ -77,8 +77,8 @@ class DDDAnalysisToolbox_EXPORT DiscretizeDDDomain : public AbstractFilter
     SIMPL_FILTER_PARAMETER(DataArrayPath, EdgeDataContainerName)
     Q_PROPERTY(DataArrayPath EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
 
-    SIMPL_FILTER_PARAMETER(FloatVec3_t, CellSize)
-    Q_PROPERTY(FloatVec3_t CellSize READ getCellSize WRITE setCellSize)
+    SIMPL_FILTER_PARAMETER(FloatVec3Type, CellSize)
+    Q_PROPERTY(FloatVec3Type CellSize READ getCellSize WRITE setCellSize)
 
     // The user selects a new DataContainerName
     SIMPL_FILTER_PARAMETER(DataArrayPath, OutputDataContainerName)

@@ -59,10 +59,9 @@ DiscretizeDDDomain::DiscretizeDDDomain()
 , m_OutputAttributeMatrixName(SIMPL::Defaults::CellAttributeMatrixName)
 , m_OutputArrayName("DislocationLineDensity")
 {
-  m_CellSize.x = 2.0;
-  m_CellSize.y = 2.0;
-  m_CellSize.z = 2.0;
-
+  m_CellSize[0] = 2.0;
+  m_CellSize[1] = 2.0;
+  m_CellSize[2] = 2.0;
 }
 
 // -----------------------------------------------------------------------------
@@ -241,22 +240,22 @@ void DiscretizeDDDomain::execute()
     if(z > zMax) { zMax = z; }
   }
 
-  FloatVec3_t halfCellSize;
-  halfCellSize.x = (m_CellSize.x / 2.0);
-  halfCellSize.y = (m_CellSize.y / 2.0);
-  halfCellSize.z = (m_CellSize.z / 2.0);
-  FloatVec3_t quarterCellSize;
-  quarterCellSize.x = (m_CellSize.x / 4.0);
-  quarterCellSize.y = (m_CellSize.y / 4.0);
-  quarterCellSize.z = (m_CellSize.z / 4.0);
+  FloatVec3Type halfCellSize;
+  halfCellSize[0] = (m_CellSize[0] / 2.0);
+  halfCellSize[1] = (m_CellSize[1] / 2.0);
+  halfCellSize[2] = (m_CellSize[2] / 2.0);
+  FloatVec3Type quarterCellSize;
+  quarterCellSize[0] = (m_CellSize[0] / 4.0);
+  quarterCellSize[1] = (m_CellSize[1] / 4.0);
+  quarterCellSize[2] = (m_CellSize[2] / 4.0);
 
-  vdc->getGeometryAs<ImageGeom>()->setOrigin(xMin, yMin, zMin);
+  vdc->getGeometryAs<ImageGeom>()->setOrigin(FloatVec3Type(xMin, yMin, zMin));
   size_t dcDims[3];
-  dcDims[0] = size_t((xMax - xMin) / halfCellSize.x);
-  dcDims[1] = size_t((yMax - yMin) / halfCellSize.y);
-  dcDims[2] = size_t((zMax - zMin) / halfCellSize.z);
-  vdc->getGeometryAs<ImageGeom>()->setDimensions(dcDims[0], dcDims[1], dcDims[2]);
-  vdc->getGeometryAs<ImageGeom>()->setResolution(m_CellSize.x / 2.0, m_CellSize.y / 2.0, m_CellSize.z / 2.0);
+  dcDims[0] = size_t((xMax - xMin) / halfCellSize[0]);
+  dcDims[1] = size_t((yMax - yMin) / halfCellSize[1]);
+  dcDims[2] = size_t((zMax - zMin) / halfCellSize[2]);
+  vdc->getGeometryAs<ImageGeom>()->setDimensions(SizeVec3Type(dcDims[0], dcDims[1], dcDims[2]));
+  vdc->getGeometryAs<ImageGeom>()->setSpacing(FloatVec3Type(m_CellSize[0] / 2.0, m_CellSize[1] / 2.0, m_CellSize[2] / 2.0));
 
   QVector<size_t> tDims(3, 0);
   tDims[0] = dcDims[0];
@@ -286,12 +285,30 @@ void DiscretizeDDDomain::execute()
     x2 = (point2[0] - xMin);
     y2 = (point2[1] - yMin);
     z2 = (point2[2] - zMin);
-    if(x1 > x2) { xCellMin = size_t(x2 / quarterCellSize.x), xCellMax = size_t(x1 / quarterCellSize.x); }
-    else { xCellMin = size_t(x1 / quarterCellSize.x), xCellMax = size_t(x2 / quarterCellSize.x); }
-    if(y1 > y2) { yCellMin = size_t(y2 / quarterCellSize.y), yCellMax = size_t(y1 / quarterCellSize.y); }
-    else { yCellMin = size_t(y1 / quarterCellSize.y), yCellMax = size_t(y2 / quarterCellSize.y); }
-    if(z1 > z2) { zCellMin = size_t(z2 / quarterCellSize.z), zCellMax = size_t(z1 / quarterCellSize.z); }
-    else { zCellMin = size_t(z1 / quarterCellSize.z), zCellMax = size_t(z2 / quarterCellSize.z); }
+    if(x1 > x2)
+    {
+      xCellMin = size_t(x2 / quarterCellSize[0]), xCellMax = size_t(x1 / quarterCellSize[0]);
+    }
+    else
+    {
+      xCellMin = size_t(x1 / quarterCellSize[0]), xCellMax = size_t(x2 / quarterCellSize[0]);
+    }
+    if(y1 > y2)
+    {
+      yCellMin = size_t(y2 / quarterCellSize[1]), yCellMax = size_t(y1 / quarterCellSize[1]);
+    }
+    else
+    {
+      yCellMin = size_t(y1 / quarterCellSize[1]), yCellMax = size_t(y2 / quarterCellSize[1]);
+    }
+    if(z1 > z2)
+    {
+      zCellMin = size_t(z2 / quarterCellSize[2]), zCellMax = size_t(z1 / quarterCellSize[2]);
+    }
+    else
+    {
+      zCellMin = size_t(z1 / quarterCellSize[2]), zCellMax = size_t(z2 / quarterCellSize[2]);
+    }
     xCellMin = (xCellMin - 1) / 2;
     yCellMin = (yCellMin - 1) / 2;
     zCellMin = (zCellMin - 1) / 2;
@@ -304,17 +321,17 @@ void DiscretizeDDDomain::execute()
     for (size_t j = zCellMin; j <= zCellMax; j++)
     {
       zStride = j * tDims[0] * tDims[1];
-      corner1[2] = (j * halfCellSize.z) - halfCellSize.z + quarterCellSize.z + zMin;
-      corner2[2] = (j * halfCellSize.z) + halfCellSize.z + quarterCellSize.z + zMin;
+      corner1[2] = (j * halfCellSize[2]) - halfCellSize[2] + quarterCellSize[2] + zMin;
+      corner2[2] = (j * halfCellSize[2]) + halfCellSize[2] + quarterCellSize[2] + zMin;
       for(size_t k = yCellMin; k <= yCellMax; k++)
       {
         yStride = k * tDims[0];
-        corner1[1] = (k * halfCellSize.y) - halfCellSize.y + quarterCellSize.y + yMin;
-        corner2[1] = (k * halfCellSize.y) + halfCellSize.y + quarterCellSize.y + yMin;
+        corner1[1] = (k * halfCellSize[1]) - halfCellSize[1] + quarterCellSize[1] + yMin;
+        corner2[1] = (k * halfCellSize[1]) + halfCellSize[1] + quarterCellSize[1] + yMin;
         for(size_t l = xCellMin; l <= xCellMax; l++)
         {
-          corner1[0] = (l * halfCellSize.x) - halfCellSize.x + quarterCellSize.x + xMin;
-          corner2[0] = (l * halfCellSize.x) + halfCellSize.x + quarterCellSize.x + xMin;
+          corner1[0] = (l * halfCellSize[0]) - halfCellSize[0] + quarterCellSize[0] + xMin;
+          corner2[0] = (l * halfCellSize[0]) + halfCellSize[0] + quarterCellSize[0] + xMin;
           length = GeometryMath::LengthOfRayInBox(point1, point2, corner1, corner2);
           point = (zStride + yStride + l);
           m_OutputArray[14 * point + 0] += length;
@@ -325,7 +342,7 @@ void DiscretizeDDDomain::execute()
   }
 
   float max = 0.0;
-  float cellVolume = m_CellSize.x * m_CellSize.y * m_CellSize.z;
+  float cellVolume = m_CellSize[0] * m_CellSize[1] * m_CellSize[2];
   for(size_t j = 0; j < tDims[2]; j++)
   {
     zStride = j * tDims[0] * tDims[1];
