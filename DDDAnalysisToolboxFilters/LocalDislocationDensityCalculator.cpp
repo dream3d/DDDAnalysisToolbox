@@ -51,6 +51,11 @@
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 
+enum createdPathID : RenameDataPath::DataID_t
+{
+  DataContainerID = 1
+};
+
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -206,7 +211,7 @@ void LocalDislocationDensityCalculator::dataCheck()
   { m_DomainBounds = m_DomainBoundsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 
   // Create a new DataContainer
-  DataContainer::Pointer m2 = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getOutputDataContainerName());
+  DataContainer::Pointer m2 = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getOutputDataContainerName(), DataContainerID);
   if(getErrorCondition() < 0) { return; }
 
   //Create the voxel geometry to hold the local densities

@@ -50,6 +50,11 @@
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 
+enum createdPathID : RenameDataPath::DataID_t
+{
+  DataContainerID = 1
+};
+
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -166,7 +171,7 @@ void DiscretizeDDDomain::dataCheck()
   }
 
   // Create a new DataContainer
-  DataContainer::Pointer m2 = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getOutputDataContainerName());
+  DataContainer::Pointer m2 = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getOutputDataContainerName(), DataContainerID);
   if(getErrorCondition() < 0) { return; }
 
   //Create the voxel geometry to hold the local densities
