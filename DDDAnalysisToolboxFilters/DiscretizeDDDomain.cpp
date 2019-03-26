@@ -124,22 +124,19 @@ void DiscretizeDDDomain::dataCheck()
   if(getOutputDataContainerName().isEmpty())
   {
     QString ss = QObject::tr("The output DataContainer name is empty. Please assign a name for the created DataContainer");
-    setErrorCondition(-11001);
-    notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
+    notifyErrorMessage("", ss, -11001);
   }
 
   if(getOutputAttributeMatrixName().isEmpty())
   {
     QString ss = QObject::tr("The output AttributeMatrix name is empty. Please assign a name for the created AttributeMatrix");
-    setErrorCondition(-11002);
-    notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
+    notifyErrorMessage("", ss, -11002);
   }
 
   if(getOutputArrayName().isEmpty())
   {
     QString ss = QObject::tr("The output array name is empty. Please assign a name for the created array");
-    setErrorCondition(-11003);
-    notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
+    notifyErrorMessage("", ss, -11003);
   }
 
   // we can not go any further until all of the names are set.
@@ -155,14 +152,12 @@ void DiscretizeDDDomain::dataCheck()
   // We MUST have Vertices defined.
   if(edges->getVertices().get() == nullptr)
   {
-    setErrorCondition(-384);
-    notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Vertices", getErrorCondition());
+    notifyErrorMessage("", "DataContainer geometry missing Vertices", -384);
   }
   // We MUST have Edges defined also.
   if(edges->getEdges().get() == nullptr)
   {
-    setErrorCondition(-384);
-    notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Edges", getErrorCondition());
+    notifyErrorMessage("", "DataContainer geometry missing Edges", -384);
   }
 
   // Create a new DataContainer
