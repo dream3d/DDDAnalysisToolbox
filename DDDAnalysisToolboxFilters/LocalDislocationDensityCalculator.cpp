@@ -53,6 +53,9 @@
 
 enum createdPathID : RenameDataPath::DataID_t
 {
+  DataArrayID31 = 31,
+  DataArrayID32 = 32,
+
   DataContainerID = 1
 };
 
@@ -233,12 +236,12 @@ void LocalDislocationDensityCalculator::dataCheck()
   {m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 1;
   tempPath.update(getOutputDataContainerName().getDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
-  m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims, "", DataArrayID31); /* @ADD_DATAARRAY_ID@ */
   if(nullptr != m_OutputArrayPtr.lock())                    /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 1;
   tempPath.update(getOutputDataContainerName().getDataContainerName(), getOutputAttributeMatrixName(), getDominantSystemArrayName());
-  m_DominantSystemArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  m_DominantSystemArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims, "", DataArrayID32); /* @ADD_DATAARRAY_ID@ */
   if(nullptr != m_DominantSystemArrayPtr.lock())                            /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_DominantSystemArray = m_DominantSystemArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
 }

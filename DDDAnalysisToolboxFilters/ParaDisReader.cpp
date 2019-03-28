@@ -53,6 +53,12 @@
 
 enum createdPathID : RenameDataPath::DataID_t
 {
+  DataArrayID31 = 31,
+  DataArrayID32 = 32,
+  DataArrayID33 = 33,
+  DataArrayID34 = 34,
+  DataArrayID35 = 35,
+
   DataContainerID = 1
 };
 
@@ -191,25 +197,25 @@ void ParaDisReader::dataCheck()
   }
   QVector<size_t> dims(1, 1);
   tempPath.update(getEdgeDataContainerName().getDataContainerName(), getVertexAttributeMatrixName(), getNumberOfArmsArrayName() );
-  m_NumberOfArmsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this,  tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  m_NumberOfArmsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this, tempPath, 0, dims); /* @ADD_DATAARRAY_ID@ */
   if(nullptr != m_NumberOfArmsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_NumberOfArms = m_NumberOfArmsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   tempPath.update(getEdgeDataContainerName().getDataContainerName(), getVertexAttributeMatrixName(), getNodeConstraintsArrayName() );
-  m_NodeConstraintsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this,  tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  m_NodeConstraintsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this, tempPath, 0, dims); /* @ADD_DATAARRAY_ID@ */
   if(nullptr != m_NodeConstraintsPtr.lock())                          /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_NodeConstraints = m_NodeConstraintsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 3;
   tempPath.update(getEdgeDataContainerName().getDataContainerName(), getEdgeAttributeMatrixName(), getBurgersVectorsArrayName() );
-  m_BurgersVectorsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this,  tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  m_BurgersVectorsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0.0, dims); /* @ADD_DATAARRAY_ID@ */
   if(nullptr != m_BurgersVectorsPtr.lock())                         /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_BurgersVectors = m_BurgersVectorsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   tempPath.update(getEdgeDataContainerName().getDataContainerName(), getEdgeAttributeMatrixName(), getSlipPlaneNormalsArrayName() );
-  m_SlipPlaneNormalsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this,  tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  m_SlipPlaneNormalsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0.0, dims); /* @ADD_DATAARRAY_ID@ */
   if(nullptr != m_SlipPlaneNormalsPtr.lock())                           /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 6;
   tempPath.update(getEdgeDataContainerName().getDataContainerName(), "_MetaData", getDomainBoundsArrayName());
-  m_DomainBoundsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  m_DomainBoundsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0.0, dims); /* @ADD_DATAARRAY_ID@ */
   if(nullptr != m_DomainBoundsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_DomainBounds = m_DomainBoundsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 
