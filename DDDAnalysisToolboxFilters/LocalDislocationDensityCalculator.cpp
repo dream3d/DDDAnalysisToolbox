@@ -158,19 +158,22 @@ void LocalDislocationDensityCalculator::dataCheck()
   if(getOutputDataContainerName().isEmpty())
   {
     QString ss = QObject::tr("The output DataContainer name is empty. Please assign a name for the created DataContainer");
-    notifyErrorMessage("", ss, -11001);
+    setErrorCondition(-11001);
+    notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
   }
 
   if(getOutputAttributeMatrixName().isEmpty())
   {
     QString ss = QObject::tr("The output AttributeMatrix name is empty. Please assign a name for the created AttributeMatrix");
-    notifyErrorMessage("", ss, -11002);
+    setErrorCondition(-11002);
+    notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
   }
 
   if(getOutputArrayName().isEmpty())
   {
     QString ss = QObject::tr("The output array name is empty. Please assign a name for the created array");
-    notifyErrorMessage("", ss, -11003);
+    setErrorCondition(-11003);
+    notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
   }
 
   // we can not go any further until all of the names are set.
@@ -186,12 +189,14 @@ void LocalDislocationDensityCalculator::dataCheck()
   // We MUST have Vertices defined.
   if(edges->getVertices().get() == nullptr)
   {
-    notifyErrorMessage("", "DataContainer geometry missing Vertices", -384);
+    setErrorCondition(-384);
+    notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Vertices", getErrorCondition());
   }
   // We MUST have Edges defined also.
   if(edges->getEdges().get() == nullptr)
   {
-    notifyErrorMessage("", "DataContainer geometry missing Edges", -384);
+    setErrorCondition(-384);
+    notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Edges", getErrorCondition());
   }
   //We MUST also have the domain bounds of the edge data container
   QVector<size_t> dims(1, 6);
