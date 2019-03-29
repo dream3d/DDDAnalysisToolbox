@@ -175,13 +175,13 @@ void ParaDisReader::dataCheck()
   {
     QString ss = QObject::tr("%1 needs the Input File Set and it was not.").arg(ClassName());
     setErrorCondition(-387);
-    notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
+    notifyErrorMessage(ss, getErrorCondition());
   }
   else if(!fi.exists())
   {
     QString ss = QObject::tr("The input file does not exist.");
     setErrorCondition(-388);
-    notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
+    notifyErrorMessage(ss, getErrorCondition());
   }
   QVector<size_t> dims(1, 1);
   tempPath.update(getEdgeDataContainerName(), getVertexAttributeMatrixName(), getNumberOfArmsArrayName() );
@@ -220,7 +220,7 @@ void ParaDisReader::dataCheck()
     {
       QString ss = QObject::tr("ParaDisReader Input file could not be opened: %1").arg(getInputFile());
       setErrorCondition(-100);
-      notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
+      notifyErrorMessage(ss, getErrorCondition());
       return;
     }
 
@@ -230,12 +230,12 @@ void ParaDisReader::dataCheck()
     EdgeGeom::Pointer edgeGeom = EdgeGeom::CreateGeometry(0, vertices, SIMPL::Geometry::EdgeGeometry, !getInPreflight());
     m->setGeometry(edgeGeom);
 
-    //m_InStream.close();
-    //if (error < 0)
+    // m_InStream.close();
+    // if (error < 0)
     //{
     //  setErrorCondition(error);
     //  QString ss = QObject::tr("Error occurred trying to parse the dimensions from the input file. Is the input file a Dx file?");
-    //  notifyErrorMessage(getHumanLabel(), ss, -11000);
+    //  notifyErrorMessage(ss, -11000);
     //}
   }
 }
@@ -268,7 +268,7 @@ void ParaDisReader::execute()
   {
     QString ss = QObject::tr("ParaDisReader Input file could not be opened: %1").arg(getInputFile());
     setErrorCondition(-100);
-    notifyErrorMessage(getHumanLabel(), ss, getErrorCondition());
+    notifyErrorMessage(ss, getErrorCondition());
     return;
   }
 

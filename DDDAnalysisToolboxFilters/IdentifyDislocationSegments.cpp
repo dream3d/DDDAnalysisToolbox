@@ -148,13 +148,13 @@ void IdentifyDislocationSegments::dataCheck()
   if(edges->getVertices().get() == nullptr)
   {
     setErrorCondition(-384);
-    notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Vertices", getErrorCondition());
+    notifyErrorMessage("DataContainer geometry missing Vertices", getErrorCondition());
   }
   // We MUST have Edges defined also.
   if(edges->getEdges().get() == nullptr)
   {
     setErrorCondition(-384);
-    notifyErrorMessage(getHumanLabel(), "DataContainer geometry missing Edges", getErrorCondition());
+    notifyErrorMessage("DataContainer geometry missing Edges", getErrorCondition());
   }
 
   //Get the name and create the array in the new data attrMat
