@@ -136,25 +136,32 @@ void IdentifyDislocationSegments::dataCheck()
 
   // Next check the existing DataContainer/AttributeMatrix
   DataContainer::Pointer m = getDataContainerArray()->getPrereqDataContainer(this, getBurgersVectorsArrayPath().getDataContainerName());
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
   QVector<size_t> tDims(1, 0);
   AttributeMatrix::Pointer edgeFeatureAttrMat = m->createNonPrereqAttributeMatrix(this, getEdgeFeatureAttributeMatrixName(), tDims, AttributeMatrix::Type::EdgeFeature);
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   EdgeGeom::Pointer edges = m->getPrereqGeometry<EdgeGeom, AbstractFilter>(this);
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   // We MUST have Vertices defined.
   if(edges->getVertices().get() == nullptr)
   {
-    setErrorCondition(-384);
-    notifyErrorMessage("DataContainer geometry missing Vertices", getErrorCondition());
+    setErrorCondition(-384, "DataContainer geometry missing Vertices");
   }
   // We MUST have Edges defined also.
   if(edges->getEdges().get() == nullptr)
   {
-    setErrorCondition(-384);
-    notifyErrorMessage("DataContainer geometry missing Edges", getErrorCondition());
+    setErrorCondition(-384, "DataContainer geometry missing Edges");
   }
 
   //Get the name and create the array in the new data attrMat
@@ -198,7 +205,10 @@ void IdentifyDislocationSegments::execute()
   clearErrorCondition();
   clearWarningCondition();
   dataCheck();
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   DataContainer::Pointer m = getDataContainerArray()->getDataContainer(getBurgersVectorsArrayPath().getDataContainerName());
   AttributeMatrix::Pointer edgeFeatureAttrMat = m->getAttributeMatrix(getEdgeFeatureAttributeMatrixName());

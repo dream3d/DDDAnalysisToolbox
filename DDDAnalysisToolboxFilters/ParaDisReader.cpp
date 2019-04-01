@@ -159,29 +159,39 @@ void ParaDisReader::dataCheck()
   clearErrorCondition();
   clearWarningCondition();
   DataContainer::Pointer m = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getEdgeDataContainerName());
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
   QVector<size_t> tDims(1, 0);
   AttributeMatrix::Pointer amV = m->createNonPrereqAttributeMatrix(this, getVertexAttributeMatrixName(), tDims, AttributeMatrix::Type::Vertex);
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
   AttributeMatrix::Pointer amE = m->createNonPrereqAttributeMatrix(this, getEdgeAttributeMatrixName(), tDims, AttributeMatrix::Type::Edge);
-  if (getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
   tDims[0] = 1;
   AttributeMatrix::Pointer amMeta = m->createNonPrereqAttributeMatrix(this, "_MetaData", tDims, AttributeMatrix::Type::MetaData);
-  if (getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   QFileInfo fi(getInputFile());
 
   if(getInputFile().isEmpty())
   {
     QString ss = QObject::tr("%1 needs the Input File Set and it was not.").arg(ClassName());
-    setErrorCondition(-387);
-    notifyErrorMessage(ss, getErrorCondition());
+    setErrorCondition(-387, ss);
   }
   else if(!fi.exists())
   {
     QString ss = QObject::tr("The input file does not exist.");
-    setErrorCondition(-388);
-    notifyErrorMessage(ss, getErrorCondition());
+    setErrorCondition(-388, ss);
   }
   QVector<size_t> dims(1, 1);
   tempPath.update(getEdgeDataContainerName(), getVertexAttributeMatrixName(), getNumberOfArmsArrayName() );
@@ -219,8 +229,7 @@ void ParaDisReader::dataCheck()
     if (!m_InStream.open(QIODevice::ReadOnly | QIODevice::Text))
     {
       QString ss = QObject::tr("ParaDisReader Input file could not be opened: %1").arg(getInputFile());
-      setErrorCondition(-100);
-      notifyErrorMessage(ss, getErrorCondition());
+      setErrorCondition(-100, ss);
       return;
     }
 
@@ -233,9 +242,8 @@ void ParaDisReader::dataCheck()
     // m_InStream.close();
     // if (error < 0)
     //{
-    //  setErrorCondition(error);
     //  QString ss = QObject::tr("Error occurred trying to parse the dimensions from the input file. Is the input file a Dx file?");
-    //  notifyErrorMessage(ss, -11000);
+    //  setErrorCondition(error, ss);
     //}
   }
 }
@@ -261,14 +269,16 @@ void ParaDisReader::execute()
   int err = 0;
 
   dataCheck();
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   m_InStream.setFileName(getInputFile());
   if (!m_InStream.open(QIODevice::ReadOnly | QIODevice::Text))
   {
     QString ss = QObject::tr("ParaDisReader Input file could not be opened: %1").arg(getInputFile());
-    setErrorCondition(-100);
-    notifyErrorMessage(ss, getErrorCondition());
+    setErrorCondition(-100, ss);
     return;
   }
 

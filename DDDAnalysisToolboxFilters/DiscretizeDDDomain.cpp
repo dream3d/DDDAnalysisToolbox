@@ -124,50 +124,57 @@ void DiscretizeDDDomain::dataCheck()
   if(getOutputDataContainerName().isEmpty())
   {
     QString ss = QObject::tr("The output DataContainer name is empty. Please assign a name for the created DataContainer");
-    setErrorCondition(-11001);
-    notifyErrorMessage(ss, getErrorCondition());
+    setErrorCondition(-11001, ss);
   }
 
   if(getOutputAttributeMatrixName().isEmpty())
   {
     QString ss = QObject::tr("The output AttributeMatrix name is empty. Please assign a name for the created AttributeMatrix");
-    setErrorCondition(-11002);
-    notifyErrorMessage(ss, getErrorCondition());
+    setErrorCondition(-11002, ss);
   }
 
   if(getOutputArrayName().isEmpty())
   {
     QString ss = QObject::tr("The output array name is empty. Please assign a name for the created array");
-    setErrorCondition(-11003);
-    notifyErrorMessage(ss, getErrorCondition());
+    setErrorCondition(-11003, ss);
   }
 
   // we can not go any further until all of the names are set.
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   // Next check the existing DataContainer/AttributeMatrix
   DataContainer::Pointer m = getDataContainerArray()->getPrereqDataContainer(this, getEdgeDataContainerName());
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   EdgeGeom::Pointer edges = m->getPrereqGeometry<EdgeGeom, AbstractFilter>(this);
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   // We MUST have Vertices defined.
   if(edges->getVertices().get() == nullptr)
   {
-    setErrorCondition(-384);
-    notifyErrorMessage("DataContainer geometry missing Vertices", getErrorCondition());
+    setErrorCondition(-384, "DataContainer geometry missing Vertices");
   }
   // We MUST have Edges defined also.
   if(edges->getEdges().get() == nullptr)
   {
-    setErrorCondition(-384);
-    notifyErrorMessage("DataContainer geometry missing Edges", getErrorCondition());
+    setErrorCondition(-384, "DataContainer geometry missing Edges");
   }
 
   // Create a new DataContainer
   DataContainer::Pointer m2 = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getOutputDataContainerName());
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   //Create the voxel geometry to hold the local densities
   ImageGeom::Pointer image = ImageGeom::CreateGeometry(SIMPL::Geometry::ImageGeometry);
@@ -176,7 +183,10 @@ void DiscretizeDDDomain::dataCheck()
   //Create the cell attrMat in the new data container
   QVector<size_t> tDims(3, 0);
   AttributeMatrix::Pointer newCellAttrMat = m2->createNonPrereqAttributeMatrix(this, getOutputAttributeMatrixName(), tDims, AttributeMatrix::Type::Cell);
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   //Get the name and create the array in the new data attrMat
   QVector<size_t> dims(1, 1);
@@ -208,7 +218,10 @@ void DiscretizeDDDomain::execute()
   clearErrorCondition();
   clearWarningCondition();
   dataCheck();
-  if(getErrorCondition() < 0) { return; }
+  if(getErrorCode() < 0)
+  {
+    return;
+  }
 
   DataContainer::Pointer edc = getDataContainerArray()->getDataContainer(getEdgeDataContainerName());
   DataContainer::Pointer vdc = getDataContainerArray()->getDataContainer(getOutputDataContainerName());
