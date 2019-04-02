@@ -121,8 +121,8 @@ void IdentifyDislocationSegments::readFilterParameters(AbstractFilterParametersR
 // -----------------------------------------------------------------------------
 void IdentifyDislocationSegments::updateEdgeFeatureInstancePointers()
 {
-  clearErrorCondition();
-  clearWarningCondition();
+  clearErrorCode();
+  clearWarningCode();
 
   if(nullptr != m_ActivePtr.lock())                 /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_Active = m_ActivePtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
@@ -141,8 +141,8 @@ void IdentifyDislocationSegments::initialize()
 void IdentifyDislocationSegments::dataCheck()
 {
   DataArrayPath tempPath;
-  clearErrorCondition();
-  clearWarningCondition();
+  clearErrorCode();
+  clearWarningCode();
 
   // Next check the existing DataContainer/AttributeMatrix
   DataContainer::Pointer m = getDataContainerArray()->getPrereqDataContainer(this, getBurgersVectorsArrayPath().getDataContainerName());
@@ -209,8 +209,8 @@ void IdentifyDislocationSegments::preflight()
 void IdentifyDislocationSegments::execute()
 {
   QString ss;
-  clearErrorCondition();
-  clearWarningCondition();
+  clearErrorCode();
+  clearWarningCode();
   dataCheck();
   if(getErrorCode() < 0)
   {

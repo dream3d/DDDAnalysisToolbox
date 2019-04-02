@@ -125,8 +125,8 @@ void DiscretizeDDDomain::initialize()
 void DiscretizeDDDomain::dataCheck()
 {
   DataArrayPath tempPath;
-  clearErrorCondition();
-  clearWarningCondition();
+  clearErrorCode();
+  clearWarningCode();
 
   // First sanity check the inputs and output names. All must be filled in
 
@@ -218,8 +218,8 @@ void DiscretizeDDDomain::preflight()
 void DiscretizeDDDomain::execute()
 {
   QString ss;
-  clearErrorCondition();
-  clearWarningCondition();
+  clearErrorCode();
+  clearWarningCode();
   dataCheck();
   if(getErrorCode() < 0)
   {

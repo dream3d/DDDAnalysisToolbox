@@ -134,8 +134,8 @@ void LocalDislocationDensityCalculator::readFilterParameters(AbstractFilterParam
 // -----------------------------------------------------------------------------
 void LocalDislocationDensityCalculator::updateCellInstancePointers()
 {
-  clearErrorCondition();
-  clearWarningCondition();
+  clearErrorCode();
+  clearWarningCode();
 
   if(nullptr != m_OutputArrayPtr.lock()) /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {
@@ -160,8 +160,8 @@ void LocalDislocationDensityCalculator::initialize()
 void LocalDislocationDensityCalculator::dataCheck()
 {
   DataArrayPath tempPath;
-  clearErrorCondition();
-  clearWarningCondition();
+  clearErrorCode();
+  clearWarningCode();
 
   // First sanity check the inputs and output names. All must be filled in
 
@@ -271,8 +271,8 @@ void LocalDislocationDensityCalculator::preflight()
 void LocalDislocationDensityCalculator::execute()
 {
   QString ss;
-  clearErrorCondition();
-  clearWarningCondition();
+  clearErrorCode();
+  clearWarningCode();
   dataCheck();
   if(getErrorCode() < 0)
   {
