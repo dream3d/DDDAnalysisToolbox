@@ -41,6 +41,7 @@
 #include <QtCore/QFileInfo>
 
 #include "SIMPLib/Math/MatrixMath.h"
+#include "SIMPLib/FilterParameters/DataContainerCreationFilterParameter.h"
 #include "SIMPLib/FilterParameters/InputFileFilterParameter.h"
 #include "SIMPLib/FilterParameters/FloatFilterParameter.h"
 #include "SIMPLib/FilterParameters/StringFilterParameter.h"
@@ -49,6 +50,21 @@
 #include "SIMPLib/Geometry/EdgeGeom.h"
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
+
+enum createdPathID : RenameDataPath::DataID_t
+{
+  AttributeMatrixID21 = 21,
+  AttributeMatrixID22 = 22,
+  AttributeMatrixID23 = 23,
+
+  DataArrayID31 = 31,
+  DataArrayID32 = 32,
+  DataArrayID33 = 33,
+  DataArrayID34 = 34,
+  DataArrayID35 = 35,
+
+  DataContainerID = 1
+};
 
 // -----------------------------------------------------------------------------
 //
@@ -78,11 +94,11 @@ ParaDisReader::~ParaDisReader() = default;
 void ParaDisReader::setupFilterParameters()
 {
   FileReader::setupFilterParameters();
-  FilterParameterVector parameters;
+  FilterParameterVectorType parameters;
   parameters.push_back(SIMPL_NEW_INPUT_FILE_FP("Input File", InputFile, FilterParameter::Parameter, ParaDisReader, "*"));
   parameters.push_back(SIMPL_NEW_FLOAT_FP("Burgers Vector Length (Angstroms)", BurgersVector, FilterParameter::Parameter, ParaDisReader));
 // parameters.push_back(SeparatorFilterParameter::New("Created Information", FilterParameter::Uncategorized));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Edge DataContainer Name", EdgeDataContainerName, FilterParameter::CreatedArray, ParaDisReader));
+  parameters.push_back(SIMPL_NEW_DC_CREATION_FP("Edge DataContainer Name", EdgeDataContainerName, FilterParameter::CreatedArray, ParaDisReader));
   parameters.push_back(SIMPL_NEW_STRING_FP("Vertex AttributeMatrix Name", VertexAttributeMatrixName, FilterParameter::CreatedArray, ParaDisReader));
   parameters.push_back(SIMPL_NEW_STRING_FP("Edge AttributeMatrix Name", EdgeAttributeMatrixName, FilterParameter::CreatedArray, ParaDisReader));
   parameters.push_back(SIMPL_NEW_STRING_FP("Number Of Arms Array Name", NumberOfArmsArrayName, FilterParameter::CreatedArray, ParaDisReader));
@@ -96,7 +112,7 @@ void ParaDisReader::setupFilterParameters()
 void ParaDisReader::readFilterParameters(AbstractFilterParametersReader* reader, int index)
 {
   reader->openFilterGroup(this, index);
-  setEdgeDataContainerName(reader->readString("EdgeDataContainerName", getEdgeDataContainerName() ) );
+  setEdgeDataContainerName(reader->readDataArrayPath("EdgeDataContainerName", getEdgeDataContainerName() ) );
   setVertexAttributeMatrixName(reader->readString("VertexAttributeMatrixName", getVertexAttributeMatrixName() ) );
   setEdgeAttributeMatrixName(reader->readString("EdgeAttributeMatrixName", getEdgeAttributeMatrixName() ) );
   setSlipPlaneNormalsArrayName(reader->readString("SlipPlaneNormalsArrayName", getSlipPlaneNormalsArrayName() ) );
@@ -156,30 +172,19 @@ void ParaDisReader::initialize()
 void ParaDisReader::dataCheck()
 {
   DataArrayPath tempPath;
+
   clearErrorCondition();
   clearWarningCondition();
-  DataContainer::Pointer m = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getEdgeDataContainerName());
-  if(getErrorCode() < 0)
-  {
-    return;
-  }
+  DataContainer::Pointer m = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getEdgeDataContainerName(), DataContainerID);
+  if(getErrorCode() < 0) { return; }
   QVector<size_t> tDims(1, 0);
-  AttributeMatrix::Pointer amV = m->createNonPrereqAttributeMatrix(this, getVertexAttributeMatrixName(), tDims, AttributeMatrix::Type::Vertex);
-  if(getErrorCode() < 0)
-  {
-    return;
-  }
-  AttributeMatrix::Pointer amE = m->createNonPrereqAttributeMatrix(this, getEdgeAttributeMatrixName(), tDims, AttributeMatrix::Type::Edge);
-  if(getErrorCode() < 0)
-  {
-    return;
-  }
+  AttributeMatrix::Pointer amV = m->createNonPrereqAttributeMatrix(this, getVertexAttributeMatrixName(), tDims, AttributeMatrix::Type::Vertex, AttributeMatrixID21);
+  if(getErrorCode() < 0) { return; }
+  AttributeMatrix::Pointer amE = m->createNonPrereqAttributeMatrix(this, getEdgeAttributeMatrixName(), tDims, AttributeMatrix::Type::Edge, AttributeMatrixID22);
+  if (getErrorCode() < 0) { return; }
   tDims[0] = 1;
-  AttributeMatrix::Pointer amMeta = m->createNonPrereqAttributeMatrix(this, "_MetaData", tDims, AttributeMatrix::Type::MetaData);
-  if(getErrorCode() < 0)
-  {
-    return;
-  }
+  AttributeMatrix::Pointer amMeta = m->createNonPrereqAttributeMatrix(this, "_MetaData", tDims, AttributeMatrix::Type::MetaData, AttributeMatrixID23);
+  if (getErrorCode() < 0) { return; }
 
   QFileInfo fi(getInputFile());
 
@@ -194,26 +199,26 @@ void ParaDisReader::dataCheck()
     setErrorCondition(-388, ss);
   }
   QVector<size_t> dims(1, 1);
-  tempPath.update(getEdgeDataContainerName(), getVertexAttributeMatrixName(), getNumberOfArmsArrayName() );
-  m_NumberOfArmsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this,  tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  tempPath.update(getEdgeDataContainerName().getDataContainerName(), getVertexAttributeMatrixName(), getNumberOfArmsArrayName() );
+  m_NumberOfArmsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this, tempPath, 0, dims);
   if(nullptr != m_NumberOfArmsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_NumberOfArms = m_NumberOfArmsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
-  tempPath.update(getEdgeDataContainerName(), getVertexAttributeMatrixName(), getNodeConstraintsArrayName() );
-  m_NodeConstraintsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this,  tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  tempPath.update(getEdgeDataContainerName().getDataContainerName(), getVertexAttributeMatrixName(), getNodeConstraintsArrayName() );
+  m_NodeConstraintsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this, tempPath, 0, dims);
   if(nullptr != m_NodeConstraintsPtr.lock())                          /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_NodeConstraints = m_NodeConstraintsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 3;
-  tempPath.update(getEdgeDataContainerName(), getEdgeAttributeMatrixName(), getBurgersVectorsArrayName() );
-  m_BurgersVectorsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this,  tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  tempPath.update(getEdgeDataContainerName().getDataContainerName(), getEdgeAttributeMatrixName(), getBurgersVectorsArrayName() );
+  m_BurgersVectorsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0.0, dims);
   if(nullptr != m_BurgersVectorsPtr.lock())                         /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_BurgersVectors = m_BurgersVectorsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
-  tempPath.update(getEdgeDataContainerName(), getEdgeAttributeMatrixName(), getSlipPlaneNormalsArrayName() );
-  m_SlipPlaneNormalsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this,  tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  tempPath.update(getEdgeDataContainerName().getDataContainerName(), getEdgeAttributeMatrixName(), getSlipPlaneNormalsArrayName() );
+  m_SlipPlaneNormalsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0.0, dims);
   if(nullptr != m_SlipPlaneNormalsPtr.lock())                           /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 6;
-  tempPath.update(getEdgeDataContainerName(), "_MetaData", getDomainBoundsArrayName());
-  m_DomainBoundsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0.0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  tempPath.update(getEdgeDataContainerName().getDataContainerName(), "_MetaData", getDomainBoundsArrayName());
+  m_DomainBoundsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0.0, dims);
   if(nullptr != m_DomainBoundsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_DomainBounds = m_DomainBoundsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 

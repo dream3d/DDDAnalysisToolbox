@@ -50,6 +50,16 @@
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
 
+/* Create Enumerations to allow the created Attribute Arrays to take part in renaming */
+enum createdPathID : RenameDataPath::DataID_t
+{
+  AttributeMatrixID21 = 21,
+
+  DataArrayID30 = 30,
+  DataArrayID31 = 31,
+  DataArrayID32 = 32,
+};
+
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -72,7 +82,7 @@ IdentifyDislocationSegments::~IdentifyDislocationSegments() = default;
 // -----------------------------------------------------------------------------
 void IdentifyDislocationSegments::setupFilterParameters()
 {
-  FilterParameterVector parameters;
+  FilterParameterVectorType parameters;
   parameters.push_back(SeparatorFilterParameter::New("Edge Data", FilterParameter::RequiredArray));
   {
     DataArraySelectionFilterParameter::RequirementType req;
@@ -141,11 +151,8 @@ void IdentifyDislocationSegments::dataCheck()
     return;
   }
   QVector<size_t> tDims(1, 0);
-  AttributeMatrix::Pointer edgeFeatureAttrMat = m->createNonPrereqAttributeMatrix(this, getEdgeFeatureAttributeMatrixName(), tDims, AttributeMatrix::Type::EdgeFeature);
-  if(getErrorCode() < 0)
-  {
-    return;
-  }
+  AttributeMatrix::Pointer edgeFeatureAttrMat = m->createNonPrereqAttributeMatrix(this, getEdgeFeatureAttributeMatrixName(), tDims, AttributeMatrix::Type::EdgeFeature, AttributeMatrixID21);
+  if(getErrorCode() < 0) { return; }
 
   EdgeGeom::Pointer edges = m->getPrereqGeometry<EdgeGeom, AbstractFilter>(this);
   if(getErrorCode() < 0)
@@ -174,11 +181,11 @@ void IdentifyDislocationSegments::dataCheck()
   { m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 1;
   tempPath.update(getBurgersVectorsArrayPath().getDataContainerName(), getBurgersVectorsArrayPath().getAttributeMatrixName(), getDislocationIdsArrayName() );
-  m_DislocationIdsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  m_DislocationIdsPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<int32_t>, AbstractFilter, int32_t>(this, tempPath, 0, dims, "", DataArrayID31);
   if(nullptr != m_DislocationIdsPtr.lock())                         /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_DislocationIds = m_DislocationIdsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
   tempPath.update(getBurgersVectorsArrayPath().getDataContainerName(), getEdgeFeatureAttributeMatrixName(), getActiveArrayName() );
-  m_ActivePtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<bool>, AbstractFilter, bool>(this, tempPath, true, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  m_ActivePtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<bool>, AbstractFilter, bool>(this, tempPath, true, dims, "", DataArrayID32);
   if(nullptr != m_ActivePtr.lock())                 /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_Active = m_ActivePtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 }

@@ -63,7 +63,7 @@ class DDDAnalysisToolbox_EXPORT ParaDisReader : public FileReader
 {
     Q_OBJECT
     PYB11_CREATE_BINDINGS(ParaDisReader SUPERCLASS AbstractFilter)
-    PYB11_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
+    PYB11_PROPERTY(DataArrayPath EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
     PYB11_PROPERTY(QString VertexAttributeMatrixName READ getVertexAttributeMatrixName WRITE setVertexAttributeMatrixName)
     PYB11_PROPERTY(QString EdgeAttributeMatrixName READ getEdgeAttributeMatrixName WRITE setEdgeAttributeMatrixName)
     PYB11_PROPERTY(QString InputFile READ getInputFile WRITE setInputFile)
@@ -79,8 +79,8 @@ class DDDAnalysisToolbox_EXPORT ParaDisReader : public FileReader
     SIMPL_TYPE_MACRO_SUPER_OVERRIDE(ParaDisReader, FileReader)
 
     virtual ~ParaDisReader();
-    SIMPL_FILTER_PARAMETER(QString, EdgeDataContainerName)
-    Q_PROPERTY(QString EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
+    SIMPL_FILTER_PARAMETER(DataArrayPath, EdgeDataContainerName)
+    Q_PROPERTY(DataArrayPath EdgeDataContainerName READ getEdgeDataContainerName WRITE setEdgeDataContainerName)
     SIMPL_FILTER_PARAMETER(QString, VertexAttributeMatrixName)
     Q_PROPERTY(QString VertexAttributeMatrixName READ getVertexAttributeMatrixName WRITE setVertexAttributeMatrixName)
     SIMPL_FILTER_PARAMETER(QString, EdgeAttributeMatrixName)

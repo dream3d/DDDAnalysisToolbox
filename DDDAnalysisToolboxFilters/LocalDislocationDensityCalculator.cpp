@@ -41,6 +41,7 @@
 #include "SIMPLib/FilterParameters/FloatVec3FilterParameter.h"
 #include "SIMPLib/FilterParameters/DataContainerSelectionFilterParameter.h"
 #include "SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h"
+#include "SIMPLib/FilterParameters/DataContainerCreationFilterParameter.h"
 #include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
@@ -49,6 +50,16 @@
 #include "SIMPLib/Geometry/EdgeGeom.h"
 
 #include "DDDAnalysisToolbox/DDDAnalysisToolboxVersion.h"
+
+enum createdPathID : RenameDataPath::DataID_t
+{
+  AttributeMatrixID21 = 21,
+
+  DataArrayID31 = 31,
+  DataArrayID32 = 32,
+
+  DataContainerID = 1
+};
 
 // -----------------------------------------------------------------------------
 //
@@ -62,10 +73,9 @@ LocalDislocationDensityCalculator::LocalDislocationDensityCalculator()
 , m_OutputArrayName("DislocationLineDensity")
 , m_DominantSystemArrayName("DominantSystem")
 {
-  m_CellSize.x = 2.0;
-  m_CellSize.y = 2.0;
-  m_CellSize.z = 2.0;
-
+  m_CellSize[0] = 2.0;
+  m_CellSize[1] = 2.0;
+  m_CellSize[2] = 2.0;
 }
 
 // -----------------------------------------------------------------------------
@@ -78,7 +88,7 @@ LocalDislocationDensityCalculator::~LocalDislocationDensityCalculator() = defaul
 // -----------------------------------------------------------------------------
 void LocalDislocationDensityCalculator::setupFilterParameters()
 {
-  FilterParameterVector parameters;
+  FilterParameterVectorType parameters;
 
   parameters.push_back(SIMPL_NEW_FLOAT_VEC3_FP("Cell Size (Microns)", CellSize, FilterParameter::Parameter, LocalDislocationDensityCalculator));
 // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
@@ -95,7 +105,7 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
     parameters.push_back(SIMPL_NEW_DA_SELECTION_FP("Slip Plane Normals Array", SlipPlaneNormalsArrayPath, FilterParameter::RequiredArray, LocalDislocationDensityCalculator, req));
   }
 //  parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Volume Data Container", OutputDataContainerName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
+  parameters.push_back(SIMPL_NEW_DC_CREATION_FP("Volume Data Container", OutputDataContainerName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
   parameters.push_back(SIMPL_NEW_STRING_FP("Cell AttributeMatrix", OutputAttributeMatrixName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
   parameters.push_back(SIMPL_NEW_STRING_FP("Dislocation Line Density Array Name", OutputArrayName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
   parameters.push_back(SIMPL_NEW_STRING_FP("Dominant System Array Name", DominantSystemArrayName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
@@ -108,10 +118,10 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
 void LocalDislocationDensityCalculator::readFilterParameters(AbstractFilterParametersReader* reader, int index)
 {
   reader->openFilterGroup(this, index);
-  setEdgeDataContainerName( reader->readString( "EdgeDataContainerName", getEdgeDataContainerName() ) );
+  setEdgeDataContainerName( reader->readDataArrayPath( "EdgeDataContainerName", getEdgeDataContainerName() ) );
   setSlipPlaneNormalsArrayPath(reader->readDataArrayPath("SlipPlaneNormalsArrayPath", getSlipPlaneNormalsArrayPath()));
   setBurgersVectorsArrayPath(reader->readDataArrayPath("BurgersVectorsArrayPath", getBurgersVectorsArrayPath()));
-  setOutputDataContainerName(reader->readString("OutputDataContainerName", getOutputDataContainerName()));
+  setOutputDataContainerName(reader->readDataArrayPath("OutputDataContainerName", getOutputDataContainerName()));
   setOutputAttributeMatrixName( reader->readString( "OutputAttributeMatrixName", getOutputAttributeMatrixName() ) );
   setOutputArrayName(reader->readString("OutputArrayName", getOutputArrayName()));
   setDominantSystemArrayName(reader->readString("DominantSystemArrayName", getDominantSystemArrayName()));
@@ -204,17 +214,14 @@ void LocalDislocationDensityCalculator::dataCheck()
   }
   //We MUST also have the domain bounds of the edge data container
   QVector<size_t> dims(1, 6);
-  tempPath.update(getEdgeDataContainerName(), "_MetaData", "DomainBounds");
+  tempPath.update(getEdgeDataContainerName().getDataContainerName(), "_MetaData", "DomainBounds");
   m_DomainBoundsPtr = getDataContainerArray()->getPrereqArrayFromPath<DataArray<float>, AbstractFilter>(this, tempPath, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
   if(nullptr != m_DomainBoundsPtr.lock())                       /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   { m_DomainBounds = m_DomainBoundsPtr.lock()->getPointer(0); } /* Now assign the raw pointer to data from the DataArray<T> object */
 
   // Create a new DataContainer
-  DataContainer::Pointer m2 = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getOutputDataContainerName());
-  if(getErrorCode() < 0)
-  {
-    return;
-  }
+  DataContainer::Pointer m2 = getDataContainerArray()->createNonPrereqDataContainer<AbstractFilter>(this, getOutputDataContainerName(), DataContainerID);
+  if(getErrorCode() < 0) { return; }
 
   //Create the voxel geometry to hold the local densities
   ImageGeom::Pointer image = ImageGeom::CreateGeometry(SIMPL::Geometry::ImageGeometry);
@@ -222,11 +229,8 @@ void LocalDislocationDensityCalculator::dataCheck()
 
   //Create the cell attrMat in the new data container
   QVector<size_t> tDims(3, 0);
-  AttributeMatrix::Pointer newCellAttrMat = m2->createNonPrereqAttributeMatrix(this, getOutputAttributeMatrixName(), tDims, AttributeMatrix::Type::Cell);
-  if(getErrorCode() < 0)
-  {
-    return;
-  }
+  AttributeMatrix::Pointer newCellAttrMat = m2->createNonPrereqAttributeMatrix(this, getOutputAttributeMatrixName(), tDims, AttributeMatrix::Type::Cell, AttributeMatrixID21);
+  if(getErrorCode() < 0) { return; }
 
   //Get the name and create the array in the new data attrMat
   dims[0] = 3;
@@ -237,13 +241,13 @@ void LocalDislocationDensityCalculator::dataCheck()
   if(nullptr != m_SlipPlaneNormalsPtr.lock())                         /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_SlipPlaneNormals = m_SlipPlaneNormalsPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 1;
-  tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
-  m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  tempPath.update(getOutputDataContainerName().getDataContainerName(), getOutputAttributeMatrixName(), getOutputArrayName());
+  m_OutputArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims, "", DataArrayID31);
   if(nullptr != m_OutputArrayPtr.lock())                    /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_OutputArray = m_OutputArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
   dims[0] = 1;
-  tempPath.update(getOutputDataContainerName(), getOutputAttributeMatrixName(), getDominantSystemArrayName());
-  m_DominantSystemArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims); /* Assigns the shared_ptr<> to an instance variable that is a weak_ptr<> */
+  tempPath.update(getOutputDataContainerName().getDataContainerName(), getOutputAttributeMatrixName(), getDominantSystemArrayName());
+  m_DominantSystemArrayPtr = getDataContainerArray()->createNonPrereqArrayFromPath<DataArray<float>, AbstractFilter, float>(this, tempPath, 0, dims, "", DataArrayID32);
   if(nullptr != m_DominantSystemArrayPtr.lock())                            /* Validate the Weak Pointer wraps a non-nullptr pointer to a DataArray<T> object */
   {m_DominantSystemArray = m_DominantSystemArrayPtr.lock()->getPointer(0);} /* Now assign the raw pointer to data from the DataArray<T> object */
 }
@@ -291,22 +295,22 @@ void LocalDislocationDensityCalculator::execute()
   float yMax = m_DomainBounds[4];
   float zMax = m_DomainBounds[5];
 
-  FloatVec3_t halfCellSize;
-  halfCellSize.x = (m_CellSize.x / 2.0f);
-  halfCellSize.y = (m_CellSize.y / 2.0f);
-  halfCellSize.z = (m_CellSize.z / 2.0f);
-  FloatVec3_t quarterCellSize;
-  quarterCellSize.x = (m_CellSize.x / 4.0f);
-  quarterCellSize.y = (m_CellSize.y / 4.0f);
-  quarterCellSize.z = (m_CellSize.z / 4.0f);
+  FloatVec3Type halfCellSize;
+  halfCellSize[0] = (m_CellSize[0] / 2.0f);
+  halfCellSize[1] = (m_CellSize[1] / 2.0f);
+  halfCellSize[2] = (m_CellSize[2] / 2.0f);
+  FloatVec3Type quarterCellSize;
+  quarterCellSize[0] = (m_CellSize[0] / 4.0f);
+  quarterCellSize[1] = (m_CellSize[1] / 4.0f);
+  quarterCellSize[2] = (m_CellSize[2] / 4.0f);
 
   vdc->getGeometryAs<ImageGeom>()->setOrigin(std::make_tuple(xMin, yMin, zMin));
   size_t dcDims[3];
-  dcDims[0] = size_t((xMax - xMin) / halfCellSize.x);
-  dcDims[1] = size_t((yMax - yMin) / halfCellSize.y);
-  dcDims[2] = size_t((zMax - zMin) / halfCellSize.z);
-  vdc->getGeometryAs<ImageGeom>()->setDimensions(std::make_tuple(dcDims[0], dcDims[1], dcDims[2]));
-  vdc->getGeometryAs<ImageGeom>()->setResolution(std::make_tuple(m_CellSize.x / 2.0, m_CellSize.y / 2.0, m_CellSize.z / 2.0));
+  dcDims[0] = size_t((xMax - xMin) / halfCellSize[0]);
+  dcDims[1] = size_t((yMax - yMin) / halfCellSize[1]);
+  dcDims[2] = size_t((zMax - zMin) / halfCellSize[2]);
+  vdc->getGeometryAs<ImageGeom>()->setDimensions(SizeVec3Type(dcDims[0], dcDims[1], dcDims[2]));
+  vdc->getGeometryAs<ImageGeom>()->setSpacing(FloatVec3Type(m_CellSize[0] / 2.0, m_CellSize[1] / 2.0, m_CellSize[2] / 2.0));
 
   QVector<size_t> tDims(3, 0);
   tDims[0] = dcDims[0];
@@ -341,12 +345,30 @@ void LocalDislocationDensityCalculator::execute()
     x2 = (point2[0] - xMin);
     y2 = (point2[1] - yMin);
     z2 = (point2[2] - zMin);
-    if(x1 > x2) { xCellMin = size_t(x2 / quarterCellSize.x), xCellMax = size_t(x1 / quarterCellSize.x); }
-    else { xCellMin = size_t(x1 / quarterCellSize.x), xCellMax = size_t(x2 / quarterCellSize.x); }
-    if(y1 > y2) { yCellMin = size_t(y2 / quarterCellSize.y), yCellMax = size_t(y1 / quarterCellSize.y); }
-    else { yCellMin = size_t(y1 / quarterCellSize.y), yCellMax = size_t(y2 / quarterCellSize.y); }
-    if(z1 > z2) { zCellMin = size_t(z2 / quarterCellSize.z), zCellMax = size_t(z1 / quarterCellSize.z); }
-    else { zCellMin = size_t(z1 / quarterCellSize.z), zCellMax = size_t(z2 / quarterCellSize.z); }
+    if(x1 > x2)
+    {
+      xCellMin = size_t(x2 / quarterCellSize[0]), xCellMax = size_t(x1 / quarterCellSize[0]);
+    }
+    else
+    {
+      xCellMin = size_t(x1 / quarterCellSize[0]), xCellMax = size_t(x2 / quarterCellSize[0]);
+    }
+    if(y1 > y2)
+    {
+      yCellMin = size_t(y2 / quarterCellSize[1]), yCellMax = size_t(y1 / quarterCellSize[1]);
+    }
+    else
+    {
+      yCellMin = size_t(y1 / quarterCellSize[1]), yCellMax = size_t(y2 / quarterCellSize[1]);
+    }
+    if(z1 > z2)
+    {
+      zCellMin = size_t(z2 / quarterCellSize[2]), zCellMax = size_t(z1 / quarterCellSize[2]);
+    }
+    else
+    {
+      zCellMin = size_t(z1 / quarterCellSize[2]), zCellMax = size_t(z2 / quarterCellSize[2]);
+    }
     xCellMin = (xCellMin - 1) / 2;
     yCellMin = (yCellMin - 1) / 2;
     zCellMin = (zCellMin - 1) / 2;
@@ -359,17 +381,17 @@ void LocalDislocationDensityCalculator::execute()
     for (size_t j = zCellMin; j <= zCellMax; j++)
     {
       zStride = j * tDims[0] * tDims[1];
-      corner1[2] = (j * halfCellSize.z) - halfCellSize.z + quarterCellSize.z + zMin;
-      corner2[2] = (j * halfCellSize.z) + halfCellSize.z + quarterCellSize.z + zMin;
+      corner1[2] = (j * halfCellSize[2]) - halfCellSize[2] + quarterCellSize[2] + zMin;
+      corner2[2] = (j * halfCellSize[2]) + halfCellSize[2] + quarterCellSize[2] + zMin;
       for(size_t k = yCellMin; k <= yCellMax; k++)
       {
         yStride = k * tDims[0];
-        corner1[1] = (k * halfCellSize.y) - halfCellSize.y + quarterCellSize.y + yMin;
-        corner2[1] = (k * halfCellSize.y) + halfCellSize.y + quarterCellSize.y + yMin;
+        corner1[1] = (k * halfCellSize[1]) - halfCellSize[1] + quarterCellSize[1] + yMin;
+        corner2[1] = (k * halfCellSize[1]) + halfCellSize[1] + quarterCellSize[1] + yMin;
         for(size_t l = xCellMin; l <= xCellMax; l++)
         {
-          corner1[0] = (l * halfCellSize.x) - halfCellSize.x + quarterCellSize.x + xMin;
-          corner2[0] = (l * halfCellSize.x) + halfCellSize.x + quarterCellSize.x + xMin;
+          corner1[0] = (l * halfCellSize[0]) - halfCellSize[0] + quarterCellSize[0] + xMin;
+          corner2[0] = (l * halfCellSize[0]) + halfCellSize[0] + quarterCellSize[0] + xMin;
           length = GeometryMath::LengthOfRayInBox(point1, point2, corner1, corner2);
           point = (zStride + yStride + l);
           m_OutputArray[point] += length;
@@ -380,7 +402,7 @@ void LocalDislocationDensityCalculator::execute()
     }
   }
 
-  float cellVolume = m_CellSize.x * m_CellSize.y * m_CellSize.z;
+  float cellVolume = m_CellSize[0] * m_CellSize[1] * m_CellSize[2];
   for(size_t j = 0; j < tDims[2]; j++)
   {
     zStride = j * tDims[0] * tDims[1];
