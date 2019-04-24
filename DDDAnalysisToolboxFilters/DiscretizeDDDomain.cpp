@@ -40,6 +40,7 @@
 #include "SIMPLib/FilterParameters/FloatVec3FilterParameter.h"
 #include "SIMPLib/FilterParameters/DataContainerCreationFilterParameter.h"
 #include "SIMPLib/FilterParameters/DataContainerSelectionFilterParameter.h"
+#include "SIMPLib/FilterParameters/LinkedPathCreationFilterParameter.h"
 #include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
 #include "SIMPLib/Common/Constants.h"
@@ -93,8 +94,8 @@ void DiscretizeDDDomain::setupFilterParameters()
   }
   // parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
   parameters.push_back(SIMPL_NEW_DC_CREATION_FP("Volume Data Container", OutputDataContainerName, FilterParameter::CreatedArray, DiscretizeDDDomain));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Cell Attribute Matrix", OutputAttributeMatrixName, FilterParameter::CreatedArray, DiscretizeDDDomain));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Dislocation Line Density Array Name", OutputArrayName, FilterParameter::CreatedArray, DiscretizeDDDomain));
+  parameters.push_back(SIMPL_NEW_AM_WITH_LINKED_DC_FP("Cell Attribute Matrix", OutputAttributeMatrixName, OutputDataContainerName, FilterParameter::CreatedArray, DiscretizeDDDomain));
+  parameters.push_back(SIMPL_NEW_DA_WITH_LINKED_AM_FP("Dislocation Line Density Array Name", OutputArrayName, OutputDataContainerName, OutputAttributeMatrixName, FilterParameter::CreatedArray, DiscretizeDDDomain));
   setFilterParameters(parameters);
 }
 

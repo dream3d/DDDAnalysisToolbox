@@ -41,6 +41,7 @@
 
 #include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h"
+#include "SIMPLib/FilterParameters/LinkedPathCreationFilterParameter.h"
 #include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
 #include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/Geometry/EdgeGeom.h"
@@ -94,10 +95,10 @@ void IdentifyDislocationSegments::setupFilterParameters()
   }
 
   parameters.push_back(SeparatorFilterParameter::New("Edge Data", FilterParameter::CreatedArray));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Dislocation Ids", DislocationIdsArrayName, FilterParameter::CreatedArray, IdentifyDislocationSegments));
+  parameters.push_back(SIMPL_NEW_DA_WITH_LINKED_AM_FP("Dislocation Ids", DislocationIdsArrayName, BurgersVectorsArrayPath, BurgersVectorsArrayPath, FilterParameter::CreatedArray, IdentifyDislocationSegments));
   parameters.push_back(SeparatorFilterParameter::New("Edge Feature Data", FilterParameter::CreatedArray));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Edge Feature Attribute Matrix", EdgeFeatureAttributeMatrixName, FilterParameter::CreatedArray, IdentifyDislocationSegments));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Active", ActiveArrayName, FilterParameter::CreatedArray, IdentifyDislocationSegments));
+  parameters.push_back(SIMPL_NEW_AM_WITH_LINKED_DC_FP("Edge Feature Attribute Matrix", EdgeFeatureAttributeMatrixName, BurgersVectorsArrayPath, FilterParameter::CreatedArray, IdentifyDislocationSegments));
+  parameters.push_back(SIMPL_NEW_DA_WITH_LINKED_AM_FP("Active", ActiveArrayName, BurgersVectorsArrayPath, EdgeFeatureAttributeMatrixName, FilterParameter::CreatedArray, IdentifyDislocationSegments));
   setFilterParameters(parameters);
 }
 

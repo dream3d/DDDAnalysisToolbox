@@ -42,6 +42,7 @@
 #include "SIMPLib/FilterParameters/DataContainerSelectionFilterParameter.h"
 #include "SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h"
 #include "SIMPLib/FilterParameters/DataContainerCreationFilterParameter.h"
+#include "SIMPLib/FilterParameters/LinkedPathCreationFilterParameter.h"
 #include "SIMPLib/FilterParameters/StringFilterParameter.h"
 #include "SIMPLib/FilterParameters/AbstractFilterParametersReader.h"
 #include "SIMPLib/FilterParameters/SeparatorFilterParameter.h"
@@ -106,9 +107,9 @@ void LocalDislocationDensityCalculator::setupFilterParameters()
   }
 //  parameters.push_back(SeparatorFilterParameter::New("", FilterParameter::Uncategorized));
   parameters.push_back(SIMPL_NEW_DC_CREATION_FP("Volume Data Container", OutputDataContainerName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Cell AttributeMatrix", OutputAttributeMatrixName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Dislocation Line Density Array Name", OutputArrayName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
-  parameters.push_back(SIMPL_NEW_STRING_FP("Dominant System Array Name", DominantSystemArrayName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
+  parameters.push_back(SIMPL_NEW_AM_WITH_LINKED_DC_FP("Cell AttributeMatrix", OutputAttributeMatrixName, OutputDataContainerName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
+  parameters.push_back(SIMPL_NEW_DA_WITH_LINKED_AM_FP("Dislocation Line Density Array Name", OutputArrayName, OutputDataContainerName, OutputAttributeMatrixName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
+  parameters.push_back(SIMPL_NEW_DA_WITH_LINKED_AM_FP("Dominant System Array Name", DominantSystemArrayName, OutputDataContainerName, OutputAttributeMatrixName, FilterParameter::CreatedArray, LocalDislocationDensityCalculator));
   setFilterParameters(parameters);
 }
 
