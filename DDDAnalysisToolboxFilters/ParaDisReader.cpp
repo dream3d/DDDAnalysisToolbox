@@ -549,7 +549,7 @@ int ParaDisReader::readFile()
   }
 
   edgeGeom->resizeEdgeList(m_NumEdges);
-  int64_t* edge = edgeGeom->getEdgePointer(0);
+  MeshIndexType* edge = edgeGeom->getEdgePointer(0);
 
   // Resize the edge attribute matrix to the number of vertices
   QVector<size_t> tDims (1, m_NumEdges);

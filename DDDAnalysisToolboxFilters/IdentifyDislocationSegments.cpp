@@ -223,12 +223,12 @@ void IdentifyDislocationSegments::execute()
   EdgeGeom::Pointer edgeGeom = m->getGeometryAs<EdgeGeom>();
 
   //float* vertex = edgeGeom->getVertexPointer(0);
-  int64_t* edge = edgeGeom->getEdgePointer(0);
-  size_t numEdges = edgeGeom->getNumberOfEdges();
+  MeshIndexType* edge = edgeGeom->getEdgePointer(0);
+  MeshIndexType numEdges = edgeGeom->getNumberOfEdges();
 
   edgeGeom->findElementsContainingVert();
 
-  DynamicListArray<uint16_t, int64_t>::Pointer edgesContainingVert = edgeGeom->getElementsContainingVert();
+  DynamicListArray<uint16_t, MeshIndexType>::Pointer edgesContainingVert = edgeGeom->getElementsContainingVert();
 
   int dnum = 0;
   qint32 size = 0;
@@ -265,7 +265,7 @@ void IdentifyDislocationSegments::execute()
         for(int iter = 0; iter < 2; iter++)
         {
           uint16_t eCount = edgesContainingVert->getNumberOfElements(edge[2 * currentEdge + iter]);
-          int64_t* data = edgesContainingVert->getElementListPointer(edge[2 * currentEdge + iter]);
+          MeshIndexType* data = edgesContainingVert->getElementListPointer(edge[2 * currentEdge + iter]);
           for(uint16_t j = 0; j < eCount; j++)
           {
             if(m_DislocationIds[data[j]] == 0)

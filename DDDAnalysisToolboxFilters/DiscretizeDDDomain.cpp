@@ -233,9 +233,9 @@ void DiscretizeDDDomain::execute()
   EdgeGeom::Pointer edgeGeom = edc->getGeometryAs<EdgeGeom>();
 
   float* nodes = edgeGeom->getVertexPointer(0);
-  int64_t* edge = edgeGeom->getEdgePointer(0);
-  size_t numNodes = edgeGeom->getNumberOfVertices();
-  size_t numEdges = edgeGeom->getNumberOfEdges();
+  MeshIndexType* edge = edgeGeom->getEdgePointer(0);
+  MeshIndexType numNodes = edgeGeom->getNumberOfVertices();
+  MeshIndexType numEdges = edgeGeom->getNumberOfEdges();
 
   float xMin = 1000000000.0;
   float yMin = 1000000000.0;

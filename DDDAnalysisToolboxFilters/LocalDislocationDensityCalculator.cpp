@@ -286,8 +286,8 @@ void LocalDislocationDensityCalculator::execute()
   EdgeGeom::Pointer edgeGeom = edc->getGeometryAs<EdgeGeom>();
 
   float* nodes = edgeGeom->getVertexPointer(0);
-  int64_t* edge = edgeGeom->getEdgePointer(0);
-  size_t numEdges = edgeGeom->getNumberOfEdges();
+  MeshIndexType* edge = edgeGeom->getEdgePointer(0);
+  MeshIndexType numEdges = edgeGeom->getNumberOfEdges();
 
   float xMin = m_DomainBounds[0];
   float yMin = m_DomainBounds[1];
