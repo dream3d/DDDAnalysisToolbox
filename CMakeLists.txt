@@ -1,6 +1,4 @@
-#--////////////////////////////////////////////////////////////////////////////
-#-- Your License or copyright can go here
-#--////////////////////////////////////////////////////////////////////////////
+message(FATAL_ERROR "DDDAnalysisToolbox is merged into DREAM3DReview. You don't need this plugin any more")
 
 set(PLUGIN_NAME DDDAnalysisToolbox)
 set(${PLUGIN_NAME}_VERSION "1.0")
