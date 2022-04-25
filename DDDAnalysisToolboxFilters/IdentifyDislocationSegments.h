@@ -160,7 +160,7 @@ class DDDAnalysisToolbox_EXPORT IdentifyDislocationSegments : public AbstractFil
     */
     void preflight() override;
 
-  signals:
+  Q_SIGNALS:
     void updateFilterParameters(AbstractFilter* filter);
     void parametersChanged();
     void preflightAboutToExecute();

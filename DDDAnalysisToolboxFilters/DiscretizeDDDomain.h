@@ -159,7 +159,7 @@ class DDDAnalysisToolbox_EXPORT DiscretizeDDDomain : public AbstractFilter
     */
     void preflight() override;
 
-  signals:
+  Q_SIGNALS:
     void updateFilterParameters(AbstractFilter* filter);
     void parametersChanged();
     void preflightAboutToExecute();

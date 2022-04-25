@@ -172,7 +172,7 @@ class DDDAnalysisToolbox_EXPORT LocalDislocationDensityCalculator : public Abstr
     */
     void preflight() override;
 
-  signals:
+  Q_SIGNALS:
     void updateFilterParameters(AbstractFilter* filter);
     void parametersChanged();
     void preflightAboutToExecute();
